@@ -20,8 +20,8 @@
 %    First version: a simple (ish) template for creating an MNRAS paper
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[fleqn,usenatbib]{mnras}
-\usepackage{newtxtext,newtxmath}
+\documentclass[usenatbib]{mnras}
+%\usepackage{newtxtext,newtxmath}
 \usepackage[T1]{fontenc}
 
 
@@ -75,7 +75,23 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 
 % Abstract of the paper
 \begin{abstract}
-We show how it is possible to infer the environments of the cosmic web of dark matter using the information of the spatial distribution of galaxies and a machine learning algorithm. Handled the set of galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm to extract geometrical information like the number of connections or the average distance by galaxy. Using this properties of the distribution of galaxies was probed the classification trees algorithm under different configurations to find the best set of parameters that makes a good prediction with the lowest confusion. The results show that the local average distance between galaxies on the $\beta$-skeleton is the most important feature for the prediction of the cosmic web environment. This is a good approximation that will allow us to use these algorithms to make predictions in observational data.
+We show how it is possible to infer the environments of the cosmic web
+of dark matter using the information of the spatial distribution of
+galaxies and a machine learning algorithm. 
+Handled the set of galaxies
+as a set of nodes, we applied the $\beta$-skeleton algorithm to
+extract geometrical information like the number of connections or the
+average distance by galaxy. 
+Using this properties of the distribution
+of galaxies was probed the classification trees algorithm under
+different configurations to find the best set of parameters that makes
+a good prediction with the lowest confusion. 
+The results show that the
+local average distance between galaxies on the $\beta$-skeleton is the
+most important feature for the prediction of the cosmic web
+environment. 
+This is a good approximation that will allow us to use
+these algorithms to make predictions in observational data. 
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -89,11 +105,22 @@ cosmic web -- $\beta$-skeleton -- machine learning
 %%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-The distribution of galaxies in the large-scale of the Universe is described by a set of structured patterns. This large-scale structure is commonly know as the cosmic web. The cosmic web consists of dense peaks of galaxies connected by filaments. These filaments are generally located over planar structures called sheets which are separated by vast and empty regions or voids \cite{1996Bond}. This description asserted the connection between the initial fluctuations and the final large-scale structure whitin $\Lambda$CDM \cite{1987White}. Some methods to make this classification by environments are based in the distribution of the dark matter over-density like the tidal web classification (T-Web) \cite{2007Hahn,2009Forero-Romero}. 
+The galaxy distribution on large spatial scales follows a structured 
+pattern commonly know as the cosmic web. 
+This web consists of dense peaks of galaxies connected by
+anisotropic filaments and walls woven across vast underdense voids. 
+\citep{1996Bond}. 
+This description asserted the connection between the initial
+fluctuations and the final large-scale structure whitin $\Lambda$CDM
+\citep{1987White}. 
+Some methods to make this classification by environments are based in
+the distribution of the dark matter over-density like the tidal web
+classification (T-Web) \cite{2007Hahn,2009Forero-Romero}. 
+
 
 Different mechanisms to reconstruct the cosmic web are based on the inference of the over-density field using Bayesian algorithms \cite{2015LeclercqJasche,2018Simola}, Markov Chain Monte Carlo (MCMC) \cite{2016Wang}, Monte Carlo Physarum Machine (MCPM) \cite{2020Burchett} or convolutional networks \cite{2019Zhang}. Our purpose is to use directly the location of the galaxies and some physical properties like the luminosity to make a reconstruction of the cosmic web without make any inference of the density field. To solve this task we will show how machine learning methods can help us.
 
-In the same direction recent jobs find establish a link between the halos of galaxies and the environments of the cosmic web. In \cite{2019Luber} was used the Discrete Persistent Source Extractor (DisPerSE \cite{2010Sousbie})  using the spectroscopic red-shifts information to define the cosmic web. Their results show that can be define the cosmic web in deepfields of a small angular area. Other interesting job is \cite{2019Tsizh}, there is computed a set of 10 metrics to classify halos of galaxies into the cosmic web, their results shows that the most difficult cosmic web to classify is the T-Web. In comparison with these jobs our methodology are based on compute fully the cosmic web for any set of galaxies in any region making use mainly of the location of the galaxies.
+In the same direction recent jobs find establish a link between the halos of galaxies and the environments of the cosmic web. In \cite{2019Luber} was used the Discrete Persistent Source Extractor (DisPerSE \cite{2010Sousbie})  using the spectroscopic red-shifts information to define the cosmic web. Their results show that can be define the cosmic web in deepfields of a small angular area. Other interesting job is 2019Tsizh, there is computed a set of 10 metrics to classify halos of galaxies into the cosmic web, their results shows that the most difficult cosmic web to classify is the T-Web. In comparison with these jobs our methodology are based on compute fully the cosmic web for any set of galaxies in any region making use mainly of the location of the galaxies.
 
 In this work, we combine the $\beta$-skeleton algorithm to construct our feature space and then probe three supervised machine learning algorithms (SVM, Tree Classification, Random Forest) to make the reconstruction of the T-Web, thereby we can establish the most important features that allow define the environment of a set of galaxies. To probe our methodology we use as data-set the TNG project, a set of hydro-dynamical and semi-analytical simulations. We select  the TNG-300 simulation which is a simulation of the universe with a volume of 300 $Mpc^3$ in a red-shift $z=0$.
 
