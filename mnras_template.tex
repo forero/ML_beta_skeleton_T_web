@@ -45,7 +45,7 @@
 \newcommand{\kpc}{\,{\rm kpc}\,}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title[The $\beta$-skeleton and the T-web]{Cosmic web classification of galaxies using the $\beta$-skeleton}
+\title[The $\beta$-skeleton and the T-web]{Cosmic web classification of galaxies from the $\beta$-skeleton graph}
 
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
@@ -75,7 +75,7 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 
 % Abstract of the paper
 \begin{abstract}
-We show how it is possible to infer the environments of the cosmic web of dark matter using the information of the spatial distribution of galaxies and a machine learning algorithm. Handled the set of galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm to extract geometrical information like the number of connections or the average distance by galaxy. Using this properties of the distribution of galaxies was probed the classification trees algorithm under different configurations to find the best set of parameters that makes a good prediction with the lowest confusion. The results show that the local average distance between galaxies on the $\beta$-skeleton is the most important feature for the prediction of the cosmic web environment. This is a good approximation that will allow us to use these algorithms to make predictions in observational data, like SDSS and DESI.
+We show how it is possible to infer the environments of the cosmic web of dark matter using the information of the spatial distribution of galaxies and a machine learning algorithm. Handled the set of galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm to extract geometrical information like the number of connections or the average distance by galaxy. Using this properties of the distribution of galaxies was probed the classification trees algorithm under different configurations to find the best set of parameters that makes a good prediction with the lowest confusion. The results show that the local average distance between galaxies on the $\beta$-skeleton is the most important feature for the prediction of the cosmic web environment. This is a good approximation that will allow us to use these algorithms to make predictions in observational data.
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -89,11 +89,18 @@ cosmic web -- $\beta$-skeleton -- machine learning
 %%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
+The distribution of galaxies in the large-scale of the Universe is described by a set of structured patterns. This large-scale structure is commonly know as the cosmic web. The cosmic web consists of dense peaks of galaxies connected by filaments. These filaments are generally located over planar structures called sheets which are separated by vast and empty regions or voids \cite{1996Bond}. This description asserted the connection between the initial fluctuations and the final large-scale structure whitin $\Lambda$CDM \cite{1987White}. Some methods to make this classification by environments are based in the distribution of the dark matter over-density like the tidal web classification (T-Web) \cite{2007Hahn,2009Forero-Romero}. 
+
+Different mechanisms to reconstruct the cosmic web are based on the inference of the over-density field using Bayesian algorithms \cite{2015LeclercqJasche,2018Simola}, Markov Chain Monte Carlo (MCMC) \cite{2016Wang}, Monte Carlo Physarum Machine (MCPM) \cite{2020Burchett} or convolutional networks \cite{2019Zhang}. Our purpose is to use directly the location of the galaxies and some physical properties like the luminosity to make a reconstruction of the cosmic web without make any inference of the density field. To solve this task we will show how machine learning methods can help us.
+
+In the same direction recent jobs find establish a link between the halos of galaxies and the environments of the cosmic web. In \cite{2019Luber} was used the Discrete Persistent Source Extractor (DisPerSE \cite{2010Sousbie})  using the spectroscopic red-shifts information to define the cosmic web. Their results show that can be define the cosmic web in deepfields of a small angular area. Other interesting job is \cite{2019Tsizh}, there is computed a set of 10 metrics to classify halos of galaxies into the cosmic web, their results shows that the most difficult cosmic web to classify is the T-Web. In comparison with these jobs our methodology are based on compute fully the cosmic web for any set of galaxies in any region making use mainly of the location of the galaxies.
+
+In this work, we combine the $\beta$-skeleton algorithm to construct our feature space and then probe three supervised machine learning algorithms (SVM, Tree Classification, Random Forest) to make the reconstruction of the T-Web, thereby we can establish the most important features that allow define the environment of a set of galaxies. To probe our methodology we use as data-set the TNG project, a set of hydro-dynamical and semi-analytical simulations. We select  the TNG-300 simulation which is a simulation of the universe with a volume of 300 $Mpc^3$ in a red-shift $z=0$.
+
+This paper is organized as follows. In the section \ref{sec:init} we explain the initial conditions and algorithms, the classification of the T-Web described in \cite{2009Forero-Romero}, the $\beta$-skeleton algorithm  explained in \cite{1985Kirkpatrick} and the TNG project that we use to prove our methodology. In the section \ref{sec:link} we describe the mechanism to link the $\beta$-skeleton with the T-Web using machine learning algorithms. Finally in the section \ref{sec:results} we summarize our results and comments.
 
 
-
-\section{Initial Algorithms and Simulations}
-
+\section{Initial Algorithms and Simulations}\label{sec:init}
 
 \begin{figure*}
 \centering
@@ -192,7 +199,7 @@ that started at  $z=127$ and finalized at $z=0$.
 \end{figure}
 
 
-\section{Linking the $\beta$-skeleton to the T-Web}
+\section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
 We use machine learning algorithms to predict the DM T-Web environment from features derived
 from the $\beta$-skeleton.
@@ -271,7 +278,7 @@ We use the average F1 score across classes to select the best models and its met
 \end{figure*}
 
 
-\section{Results}
+\section{Results}\label{sec:results}
 
 A comparison between the best results for the machine learning methods used are resumed in the Table \ref{tab:methods}. Figure \ref{fig:prediction} shows the comparison between the ground truth environments (left) and the prediction by the best ML algorithm with the optimized parameters and meta-parameters (right). 
 The visual impression is that the sheets and filaments have good predictions, 
@@ -340,36 +347,38 @@ length, the pseudo-density and the difference of these quantities with
 respect to the average over first-neighbors.
 
 We find that the T-web environment that is best predicted has smoothing
-scale of $\approx1.2$ \Mpch and an threshold $\lambda_{th}=0.1$. 
+scale of $\approx1.5$ \Mpch and an threshold $\lambda_{th}=0.3$. 
 This turns out to be the ballpark range  favored in previous publications
 for T-web  studies for the resulting classification to match the visual impression of the cosmic web \citep{2009Forero-Romero}.
 We also find that the features computed with the $1$-skeleton 
 (Gabriel Graph) are enough to obtain good predictions. 
 The best classification results are not sensitive to the $r$-band
-magnitude cut, althout a cut of $M_r>-14$ gives the best results.
+magnitude cut, although a cut of $M_r>-14$ gives the best results.
 
-The two best algorithm to predict the environment are the classification
+The best algorithm to predict the environment are the classification
 trees followed closely by random forests. 
 Support Vector Machines provide the worst results.
 From the classification trees we are able to determine that the two most
 important features for the environment classification are the average
 connection length over the neighbors and the difference of this quantity
 with respect to the average over its first neighbors.
-The environments that are best predicted are in decreasing order: filaments, peaks, sheets and
-voids. 
-This ranking follows the number of galaxies found in each of these environments.
-Galaxies in voids represent less that $2\%$ of the total number of galaxies and are the
-hardest class to predict, with $F1$-scores of $\approx0.2$.
-Motivated by this limitation, in future work we will present a method to define voids 
-from the $\beta$-skeleton graph.
 
-All the results we reported here were obtained using a single snapshot at a redshift $z=0$.
-Our results provide the baseline for future work that will have to quantify the effect of
-redshift space distortions and survey incompleteness in order to predict 
-the DM T-Web form survey data.
-Nevertheless, the most appealing feature of our method is that its does not rely either on binning the galaxy data on a grid or computing a dark matter density reconstruction.
-It only requires the computation of the $1$-skeleton graph and the application of
-simple cuts on the features we have reported.
+The environments that are best predicted are in decreasing order: 
+filaments, peaks, sheets and voids. 
+This ranking follows the number of galaxies found in each of these environments.
+Galaxies in voids represent less that $2\%$ of the total number of galaxies and 
+are the hardest class to predict, with $F1$-scores of $\approx0.2$.
+Motivated by this limitation, in future work we will present a method to define
+voids from the $\beta$-skeleton graph.
+
+All the results we reported here were obtained using a single snapshot at a 
+redshift $z=0$.
+Our results provide the baseline for future work that will have to quantify 
+the effect of redshift space distortions and survey incompleteness in order to
+predict  the DM T-Web form survey data.
+Nevertheless, the two most interesting features of our method are: a) it does not
+rely either on binning the galaxy data on a grid and b) it does not require 
+a dark matter density reconstruction.
 
 
 
