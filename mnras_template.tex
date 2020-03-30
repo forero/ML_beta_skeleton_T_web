@@ -45,7 +45,7 @@
 \newcommand{\kpc}{\,{\rm kpc}\,}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title[The $\beta$-skeleton and the T-web]{Cosmic web classification of galaxies from the $\beta$-skeleton graph}
+\title[The $\beta$-skeleton and the T-web]{Cosmic web classification of galaxies from the $\beta$-skeleton}
 
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
@@ -119,12 +119,15 @@ There is a great variety of methods to detect and classify regions of
 space as belonging to a cluster, filament, sheet or void
 \citep{2018Libeskind}. 
 
-There are plenty of methods that can detect the cosmic web 
-in DM simulations 
-by environments are based in
-the distribution of the dark matter over-density like the tidal web
-classification (T-Web) \cite{2007Hahn,2009Forero-Romero}. 
 
+However, the cosmic web recognition algorithms that seek to work
+directly on the discrete galaxy distribution are less abundant.
+There are specific algorithms that can be used to find voids or
+filaments, but a generic approach to predict the cosmic web
+environment from the galaxy distribution relies either on 
+performing the reconstruction of the dark matter around the galaxies
+or estimating galaxies number densities over a grid to process them in
+the same way as dark matter densities.
 
 Different mechanisms to reconstruct the cosmic web are based on the
 inference of the over-density field using Bayesian algorithms
@@ -137,11 +140,37 @@ the cosmic web without make any inference of the density field. To
 solve this task we will show how machine learning methods can help
 us. 
 
-In the same direction recent jobs find establish a link between the halos of galaxies and the environments of the cosmic web. In \cite{2019Luber} was used the Discrete Persistent Source Extractor (DisPerSE \cite{2010Sousbie})  using the spectroscopic red-shifts information to define the cosmic web. Their results show that can be define the cosmic web in deepfields of a small angular area. Other interesting job is 2019Tsizh, there is computed a set of 10 metrics to classify halos of galaxies into the cosmic web, their results shows that the most difficult cosmic web to classify is the T-Web. In comparison with these jobs our methodology are based on compute fully the cosmic web for any set of galaxies in any region making use mainly of the location of the galaxies.
+In the same direction recent jobs find establish a link between the
+halos of galaxies and the environments of the cosmic web. In
+\cite{2019Luber} was used the Discrete Persistent Source Extractor
+(DisPerSE \cite{2010Sousbie})  using the spectroscopic red-shifts
+information to define the cosmic web. Their results show that can be
+define the cosmic web in deepfields of a small angular area. Other
+interesting job is 2019Tsizh, there is computed a set of 10 metrics to
+classify halos of galaxies into the cosmic web, their results shows
+that the most difficult cosmic web to classify is the T-Web. In
+comparison with these jobs our methodology are based on compute fully
+the cosmic web for any set of galaxies in any region making use mainly
+of the location of the galaxies. 
 
-In this work, we combine the $\beta$-skeleton algorithm to construct our feature space and then probe three supervised machine learning algorithms (SVM, Tree Classification, Random Forest) to make the reconstruction of the T-Web, thereby we can establish the most important features that allow define the environment of a set of galaxies. To probe our methodology we use as data-set the TNG project, a set of hydro-dynamical and semi-analytical simulations. We select  the TNG-300 simulation which is a simulation of the universe with a volume of 300 $Mpc^3$ in a red-shift $z=0$.
+In this work, we combine the $\beta$-skeleton algorithm to construct
+our feature space and then probe three supervised machine learning
+algorithms (SVM, Tree Classification, Random Forest) to make the
+reconstruction of the T-Web, thereby we can establish the most
+important features that allow define the environment of a set of
+galaxies. To probe our methodology we use as data-set the TNG project,
+a set of hydro-dynamical and semi-analytical simulations. We select
+the TNG-300 simulation which is a simulation of the universe with a
+volume of 300 $Mpc^3$ in a red-shift $z=0$. 
 
-This paper is organized as follows. In the section \ref{sec:init} we explain the initial conditions and algorithms, the classification of the T-Web described in \cite{2009Forero-Romero}, the $\beta$-skeleton algorithm  explained in \cite{1985Kirkpatrick} and the TNG project that we use to prove our methodology. In the section \ref{sec:link} we describe the mechanism to link the $\beta$-skeleton with the T-Web using machine learning algorithms. Finally in the section \ref{sec:results} we summarize our results and comments.
+This paper is organized as follows. In the section \ref{sec:init} we
+explain the initial conditions and algorithms, the classification of
+the T-Web described in \cite{2009Forero-Romero}, the $\beta$-skeleton
+algorithm  explained in \cite{1985Kirkpatrick} and the TNG project
+that we use to prove our methodology. In the section \ref{sec:link} we
+describe the mechanism to link the $\beta$-skeleton with the T-Web
+using machine learning algorithms. Finally in the section
+\ref{sec:results} we summarize our results and comments. 
 
 
 \section{Initial Algorithms and Simulations}\label{sec:init}
