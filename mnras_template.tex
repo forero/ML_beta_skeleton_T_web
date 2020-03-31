@@ -77,7 +77,7 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 \begin{abstract}
 We show how it is possible to infer the environments of the cosmic web
 of dark matter using the information of the spatial distribution of
-galaxies and a machine learning algorithm. 
+galaxies and a machine learning algorithm.
 Handled the set of galaxies
 as a set of nodes, we applied the $\beta$-skeleton algorithm to
 extract geometrical information like the number of connections or the
@@ -107,23 +107,21 @@ cosmic web -- $\beta$-skeleton -- machine learning
 
 The galaxy distribution on large spatial scales follows a structured 
 pattern commonly know as the cosmic web. 
-This web consisnts of dense spherical peaks connected by
-anisotropic filaments and walls woven across vast underdense voids. 
-\citep{1996Bond}. 
-Such a structure can also be interpreted in the contex of 
+This web consists of dense spherical peaks connected by
+anisotropic filaments and walls woven across vast underdense voids.
+\citep{Bond1996}. 
+Such a structure can also be interpreted in the context of 
 the evolution from initial density fluctuations to the present-day 
-large-scale structure within a $\Lambda$CDM cosmology \citep{1987White}. 
+large-scale structure within a $\Lambda$CDM cosmology \citep{ZelDovich1970,White1987}. 
 The cosmic web emergence can be followed in great detail by studying DM only
 cosmological simulations.
 There is a great variety of methods to detect and classify regions of
-space as belonging to a cluster, filament, sheet or void
-\citep{2018Libeskind}. 
-
+space as belonging to a peak, filament, sheet or void
+\citep{Libeskind2018}.
 
 However, the cosmic web recognition algorithms that seek to work
 directly on the discrete galaxy distribution are less abundant.
-There are specific algorithms that can be used to find voids or
-filaments \citep{2010Sousbie,2019Luber}, but a generic approach to predict the cosmic web
+There are specific algorithms that can be used to find voids, filaments or sheets \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019,Aragon-Calvo2019}, but a generic approach to predict the cosmic web
 environment from the galaxy distribution relies either on 
 performing the reconstruction of the dark matter around the galaxies
 or using an approximation where galaxies are interpolated over a 
@@ -131,15 +129,14 @@ grid to process them in the same way as dark matter densities.
 
 Many dark matter reconstruction methods use Bayesian statistics
 coupled with Monte Carlo sampling
-\citep{2015LeclercqJasche,2016Wang,2018Simola,2020Burchett} while some
-recent efforts use convolutional networks \citep{2019Zhang}. 
+\citep{Klypin2003,Kitaura2009,Bos2014,LeclercqJasche2015,Wang2016,Simola2018,Burchett2020}. 
 Either way, dark matter reconstruction remains computationally expensive task.
-{\textbf{Seguro hay mas referencias de reconstrucciones y red cosmica,
-hay que buscar un poco mas para extender este parrafo}}
 
-{\textbf{Hace falta un parrafo completo de los trabajos que usan
-    galaxies para hacer la descomposicion completa en peak, filament,
-    sheet y void.}}
+%{\textbf{Seguro hay mas referencias de reconstrucciones y red cósmica, hay que buscar un poco mas para extender este párrafo}}
+
+Some methods make the classification of the cosmic web directly using the distribution of halos or galaxies computing a relative density related to the amount galaxies on a grid, these methods commonly use the Delaunay tessellation field estimator (DTFE) \citep{Aragon-Calvo2007,Aragon-Calvo2010} or NEXUS \citep{Cautun2013} an evolution of DTFE. Recent efforts have used machine learning to make this reconstruction \citep{Hui2018}.
+
+%{\textbf{Hace falta un parrafo completo de los trabajos que usan galaxies para hacer la descomposicion completa en peak, filament, sheet y void.}}
 
 The goal of this paper is to avoid expensive reconstruction algorithms
 and binning of galaxy data to provide a new way to connect the galaxy
@@ -149,13 +146,13 @@ to build a set of features that can be used to predict the web
 environment.
 
 We demonstrate an specific implementation of this approach using 
-the $\beta$-skeleton graph \citep{2019Fang} and the 
-T-web \citep{2009Forero-Romero} cosmic web classification.
+the $\beta$-skeleton graph \citep{Fang2019} and the 
+T-web \citep{Forero-Romero2009} cosmic web classification.
 We test three different supervised machine learning
 algorithms (support vector machine, Tree Classifier, Random Forest) 
 to train from the features and predict the environment.
 We quantify the precision and accuracy of the algorithms using 
-the Illustris-TNG simulation at redshift $z=0$.
+the Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$.
 
 
 This paper is organized as follows. 
@@ -168,7 +165,7 @@ using machine learning algorithms.
 There we detail the features and meta-parameters we use, the
 classification algorithms and the metrics for model evaluation 
 In the section \ref{sec:results} we present our results
-fo finally summarize our conclusions in \ref{sec:conclusion}.
+to finally summarize our conclusions in \ref{sec:conclusions}.
 
 
 \section{Initial Algorithms and Simulations}\label{sec:init}
@@ -184,7 +181,7 @@ fo finally summarize our conclusions in \ref{sec:conclusion}.
 
 \subsection{T-Web Classification}
 
-The tidal web (T-Web) method \citep{2007Hahn,2009Forero-Romero} classifies the large scale
+The tidal web (T-Web) method \citep{Hahn2007,Forero-Romero2009} classifies the large scale
 structure into four web types: voids, sheets, filaments and peaks. 
 This classification is based on the eigenvalues of the deformation tensor $T_{\alpha\beta}$, the Hessian of the gravitational potential
 \begin{equation}
@@ -211,7 +208,7 @@ finally 7) count the number of eigenvalues larger than the threshold $\lambda_{t
 
 \subsection{The $\beta$-skeleton algorithm}
 The $\beta$-skeleton is an algorithm that computes a graph over a distribution of nodes
-\citep{1985Kirkpatrick, 2019Fang}. 
+\citep{Kirkpatrick1985, Fang2019}. 
 This algorithm depends on a positive and continuous parameter $\beta$ that defines an exclusion
 region between two nodes.
 If the exclusion region is empty then, the two nodes are connected by an edge. 
@@ -237,7 +234,7 @@ the $\beta$-skeleton built on the galaxies.
 
 \subsection{Illustris-TNG}
 
-The Next Generation (TNG) of the Illustris simulations, or the Illustris-TNG project, 
+The Next Generation (TNG) of the Illustris simulations, or the Illustris-TNG project \citep{Nelson2015}, 
 is a series of large, cosmological magnetohydrodynamical and semi-analytical simulations of
 galaxy formation. These simulations are based on the cosmological standard model $\Lambda$CDM.
 
@@ -396,12 +393,12 @@ The best model was evaluated including the information of the features extracted
     \label{fig:feature_importance}     
 \end{figure}
 
-\section{Conclusions}
+\section{Conclusions}\label{sec:conclusions}
 
 In this paper we presented a method to predict the dark matter cosmic web
 environment of a galaxy from its neighbor graph information.
-We used the T-web as the cosmic web definition \citep{2009Forero-Romero}
-and the $\beta$-skeleton graph \citep{2019Fang} 
+We used the T-web as the cosmic web definition \citep{Forero-Romero2009}
+and the $\beta$-skeleton graph \citep{Fang2019} 
 to describe the relative spatial distribution of the galaxies. 
 The link between the T-web and the graph is done through different
 machine learning algorithms: support vector machines, random forests and
@@ -420,7 +417,7 @@ respect to the average over first-neighbors.
 We find that the T-web environment that is best predicted has smoothing
 scale of $\approx1.5$ \Mpch and an threshold $\lambda_{th}=0.3$. 
 This turns out to be the ballpark range  favored in previous publications
-for T-web  studies for the resulting classification to match the visual impression of the cosmic web \citep{2009Forero-Romero}.
+for T-web  studies for the resulting classification to match the visual impression of the cosmic web \citep{Forero-Romero2009}.
 We also find that the features computed with the $1$-skeleton 
 (Gabriel Graph) are enough to obtain good predictions. 
 The best classification results are not sensitive to the $r$-band
