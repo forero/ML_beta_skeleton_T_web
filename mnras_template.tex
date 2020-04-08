@@ -121,7 +121,7 @@ space as belonging to a peak, filament, sheet or void
 
 However, the cosmic web recognition algorithms that seek to work
 directly on the discrete galaxy distribution are less abundant.
-There are specific algorithms that can be used to find voids, filaments or sheets \citep{Novikov2003,Platen2007,Zhang2009,Sousbie2010,Chen2015,Luber2019,Aragon-Calvo2019}, but a generic approach to predict the cosmic web
+There are specific algorithms that can be used to find voids, filaments or sheets \citep{Novikov2003,Platen2007,Zhang2009,Sousbie2010,Chen2015,Luber2019,Aragon-Calvo2019,Buncher2019}, but a generic approach to predict the cosmic web
 environment from the galaxy distribution relies either on 
 performing the reconstruction of the dark matter around the galaxies
 or using an approximation where galaxies are interpolated over a 
@@ -129,9 +129,14 @@ grid to process them in the same way as dark matter densities.
 
 Many dark matter reconstruction methods use Bayesian statistics
 coupled with Monte Carlo sampling
-\citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Burchett2020}. Other methods reconstruct the cosmic density field from the distribution of dark matter halos \cite{Wang2009}. A few use machine learning \citep{Hui2018}. Either way, dark matter reconstruction remains computationally expensive task.
+\citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Burchett2020}. Other methods reconstruct the cosmic density field from the distribution of dark matter halos \citep{Wang2009}. A few use machine learning \citep{Hui2018}. Either way, dark matter reconstruction remains computationally expensive task.
 
-A comparison between the dark matter density field and the galaxy density field is a way to recreate the cosmic web using only information of the distribution of galaxies \cite{Wang2016}. A variety of methods make the classification of the cosmic web directly using the distribution of halos by applying algorithms like the Delaunay Tessellation Field Estimator (DTFE) a reconstruction methodology to the sample particle or galaxy distribution \citep{Schaap2007, Platen2011, Aragon-Calvo2007,Cautun2013}. The use direct of the distribution of galaxies to predict the four environments of the cosmic web is applied jointly with methods like DTFE \citep{Cautun2014} or watershed \citep{Aragon-Calvo2010}.
+A comparison between the dark matter density field and the galaxy overdensity field is a way to recreate the cosmic web using only information of the distribution of galaxies \citep{Eardley2014}, the over-density of matter is used to computed the Tidal tensor and make classification using its spectral decomposition like \citep{Hahn2007,Forero-Romero2009}. 
+
+A variety of methods make the classification of the cosmic web directly using the distribution of halos by applying algorithms like the Delaunay Tessellation Field Estimator (DTFE) a reconstruction methodology to the sample particle or galaxy distribution \citep{Schaap2007,Platen2011,Aragon-Calvo2007,Cautun2013,Cautun2014}, watershed over the density field of galaxy distribution \citep{Aragon-Calvo2010} or computing some features directly over the galaxies like galaxy clustering and quenching quantified by the spherical overdensity $\delta_8$ and the tidal anisotropy $\simga_5$ and classifying in terms of these variables \citep{Shadab2019}
+
+
+.
 
 The goal of this paper is to avoid expensive reconstruction algorithms
 and binning of galaxy data to provide a new way to connect the galaxy
