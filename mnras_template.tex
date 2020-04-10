@@ -81,9 +81,9 @@ galaxies and a machine learning algorithm.
 Handled the set of galaxies
 as a set of nodes, we applied the $\beta$-skeleton algorithm to
 extract geometrical information like the number of connections or the
-average distance by galaxy. 
+average distance by galaxy.
 Using this properties of the distribution
-of galaxies was probed the classification trees algorithm under
+of galaxies was probed the classification trees, random forest and SVM algorithms under
 different configurations to find the best set of parameters that makes
 a good prediction with the lowest confusion. 
 The results show that the
@@ -104,11 +104,10 @@ cosmic web -- $\beta$-skeleton -- machine learning
 
 %%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
 \section{Introduction}
-
 The galaxy distribution on large spatial scales follows a structured 
 pattern commonly know as the cosmic web. 
 This web consists of dense spherical peaks connected by
-anisotropic filaments and walls woven across vast underdense voids.
+anisotropic filaments and walls woven across vast under-dense voids.
 \citep{Bond1996}. 
 Such a structure can also be interpreted in the context of 
 the evolution from initial density fluctuations to the present-day 
@@ -121,22 +120,24 @@ space as belonging to a peak, filament, sheet or void
 
 However, the cosmic web recognition algorithms that seek to work
 directly on the discrete galaxy distribution are less abundant.
-There are specific algorithms that can be used to find voids, filaments or sheets \citep{Novikov2003,Platen2007,Zhang2009,Sousbie2010,Chen2015,Luber2019,Aragon-Calvo2019,Buncher2019}, but a generic approach to predict the cosmic web
-environment from the galaxy distribution relies either on 
-performing the reconstruction of the dark matter around the galaxies
+There are specific algorithms that can be used to find voids \citep{Platen2007,Neyrinck2008,Ravoux2020}, filaments \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019,Malavasi2020}, filaments and sheets \citep{Zhang2009}, peaks,filaments and sheets \citep{Aragon-Calvo2019} or peaks,filaments and voids \citep{Buncher2019}, 
+but a generic approach to predict the full cosmic web environments 
+from the galaxy distribution relies either on performing 
+the reconstruction of the dark matter around the galaxies
 or using an approximation where galaxies are interpolated over a 
 grid to process them in the same way as dark matter densities.
 
 Many dark matter reconstruction methods use Bayesian statistics
 coupled with Monte Carlo sampling
-\citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Burchett2020}. Other methods reconstruct the cosmic density field from the distribution of dark matter halos \citep{Wang2009}. A few use machine learning \citep{Hui2018}. Either way, dark matter reconstruction remains computationally expensive task.
+\citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}. Other methods reconstruct the cosmic density field from the distribution of dark matter halos \citep{Wang2009}. In contrast some procedures emulate the dark matter density field with a matter 
+overdensity field reconstructed from the distribution of galaxies with 
+mechanism like the Delaunay Tessellation Field Estimator (DTFE),
+a reconstruction methodology to the sample particle or galaxy 
+distribution  \citep{Schaap2007,Platen2011,Aragon-Calvo2007,Aragon-Calvo2010,Cautun2013,Cautun2014}, 
+then this overdensity field is used jointly with other algorithms or methodologies to make the classification by environments of the cosmic web. Recently, other procedures compute different properties of dark matter halos and make the classification using these input with machine learning methods \citep{Hui2018}. 
+Either way, dark matter reconstruction remains computationally expensive task. 
 
-A comparison between the dark matter density field and the galaxy overdensity field is a way to recreate the cosmic web using only information of the distribution of galaxies \citep{Eardley2014}, the over-density of matter is used to computed the Tidal tensor and make classification using its spectral decomposition like \citep{Hahn2007,Forero-Romero2009}. 
-
-A variety of methods make the classification of the cosmic web directly using the distribution of halos by applying algorithms like the Delaunay Tessellation Field Estimator (DTFE) a reconstruction methodology to the sample particle or galaxy distribution \citep{Schaap2007,Platen2011,Aragon-Calvo2007,Cautun2013,Cautun2014}, watershed over the density field of galaxy distribution \citep{Aragon-Calvo2010} or computing some features directly over the galaxies like galaxy clustering and quenching quantified by the spherical overdensity $\delta_8$ and the tidal anisotropy $\simga_5$ and classifying in terms of these variables \citep{Shadab2019}
-
-
-.
+Other methodologies to make the environments classification compute some features directly on the galaxies. The galaxy clustering and quenching are quantified in terms of the spherical overdensity $\delta_8$ and the tidal anisotropy $\simga_5$ \citep{Shadab2019}. In \citep{Eardley2015} are estimated the  tidal  tensor  from  a smoothed galaxy overdensity field in order to determine the dimensionality of collapse of any region. Other works study the influence of some features of the galaxies like the colour, brightness, morhological properties, gas metallicity, and total spectral energy density in the large scale structure \citep{Alpaslan2016}. Also, some properties like the normalized stellar mass and the local overdensity $\delta_4$ are used to make the classification \citep{Tojeiro2017}. In \citep{Horowitz2019} is reconstructed the initial density field from Lyman-$\alpha$ datasets to infer the underlying matter density and make the classification by environments.
 
 The goal of this paper is to avoid expensive reconstruction algorithms
 and binning of galaxy data to provide a new way to connect the galaxy
@@ -153,7 +154,6 @@ algorithms (support vector machine, Tree Classifier, Random Forest)
 to train from the features and predict the environment.
 We quantify the precision and accuracy of the algorithms using 
 the Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$.
-
 
 This paper is organized as follows. 
 In section \ref{sec:init} we describe the T-web algorithm,
@@ -333,7 +333,7 @@ We use the average F1 score across classes to select the best models and its met
 
 \begin{figure*}
     \includegraphics[scale=0.45]{Figs/p_F1_EnvPredTreeClass.pdf}
-    \caption{The evaluation of the classification tree algorithm was computed with the F1 score. Here the evaluation of the F1$_{av}$ score was computed for $\lambda_{th}=0.1$, $\sigma=1$ and $M_r<-12$.  In the left figure was evaluated the F1$_{av}$ score for the prediction of all environments as a function of the Max Depth of the classification tree. The center figure show us the evaluation for the prediction by environment, here the best predicted environment are the filaments, for this, the maximum F1 score is near to 0.8. The right figure show the population by environment using to make the prediction with the Tree Classification ML algorithm.}
+    \caption{The evaluation of the classification tree algorithm was computed with the F1 score. Here the evaluation of the F1$_{av}$ score was computed for $\lambda_{th}=0.3$, $\sigma=1.5$ and $M_r<-14$.  In the left figure was evaluated the F1$_{av}$ score for the prediction of all environments as a function of the Max Depth of the classification tree. The center figure show us the evaluation for the prediction by environment, here the best predicted environment are the filaments, for this, the maximum F1 score is near to 0.8. The right figure show the population by environment using to make the prediction with the Tree Classification ML algorithm.}
     \label{fig:F1_curve}
 \end{figure*}
 
@@ -341,7 +341,7 @@ We use the average F1 score across classes to select the best models and its met
 \begin{figure*}
 \centering
     \includegraphics[scale=0.5]{Figs/p_FS_Tree.pdf}
-    \caption{Plots for the analysis of the features space. Here we found the best configuration of the features to maximize the Gain and the $F1$ average score. The values founded over the features that maximize both scores are $\lambda_{th}=0.1$ ,$\sigma=1$, $M_{r}<-12$ and Max Depth=10. The colors in the left bottom figure are the product between the Gain and the $F1$ average, this scale varies between 0 and 1.}
+    \caption{Plots for the analysis of the features space. Here we found the best configuration of the features to maximize the Gain and the $F1$ average score. The values founded over the features that maximize both scores are $\lambda_{th}=0.3$ ,$\sigma=1.5$, $M_{r}<-14$ and Max Depth=10. The colors in the left bottom figure are the product between the Gain and the $F1$ average, this scale varies between 0 and 1.}
     \label{fig:features_space}
 \end{figure*}
 
