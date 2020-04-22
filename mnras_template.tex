@@ -163,7 +163,7 @@ In the section \ref{sec:link} we
 describe the mechanism to link the $\beta$-skeleton to the T-Web
 using machine learning algorithms. 
 There we detail the features and meta-parameters we use, the
-classification algorithms and the metrics for model evaluation 
+classification algorithms and the metrics for model evaluation. 
 In the section \ref{sec:results} we present our results
 to finally summarize our conclusions in \ref{sec:conclusions}.
 
@@ -172,12 +172,16 @@ to finally summarize our conclusions in \ref{sec:conclusions}.
 
 \begin{figure*}
 \centering
- \includegraphics[scale=0.3]{Figs/Fig1_.png}
+ \includegraphics[scale=0.33]{Figs/Fig1_.png}%Figs/p_TWeb_bsk.pdf}
  \caption{Comparison between the T-Web of dark matter density field (left) and the $\beta$-skeleton (right) computed from the distribution of galaxies with $\beta$=1 for Illustris-TNG300.}
- \label{fig:Fig1}
+ \label{fig:TWebBsk}
 \end{figure*}
 
-
+\begin{figure*}
+        \includegraphics[scale=0.38]{Figs/p_all_features_correlations.pdf}
+    \caption{Histograms and correlations curves for the eight features used to train the classifiers.}
+    \label{fig:features}
+\end{figure*}
 
 \subsection{T-Web Classification}
 
@@ -227,7 +231,7 @@ for the classification task.
 These features include the number of connections $N_{c}$, the average distance $D_{av}$ of these connections and a pseudo-density $\rho$.
 
 We use these features together with the galaxy luminosity to predict the T-Web DM environment.
-Figure \ref{fig:Fig1} shows the correlation between DM overdensity and the $\beta$-skeleton 
+Figure \ref{fig:TWebBsk} shows the correlation between DM overdensity and the $\beta$-skeleton 
 graph computed over the corresponding galaxy distribution.
 This spatial correlation motivates the effort to predict the DM cosmic web starting from
 the $\beta$-skeleton built on the galaxies.
@@ -246,31 +250,15 @@ There are 18 different simulations in this project with boxes of sizes 50, 100 a
 that started at  $z=127$ and finalized at $z=0$. 
 
 \begin{figure*}
-        \includegraphics[scale=0.4]{Figs/p_all_features_correlations.pdf}
-    \caption{Histograms and correlations curves for the eight features used to train the classifiers.}
-    \label{fig:features}
-\end{figure*}
-
-\begin{figure*}
   \centering 
-    \includegraphics[scale=0.33]{Figs/Fig2.pdf}
+    \includegraphics[scale=0.3]{Figs/p_environment_predicted.pdf}
     \caption{Comparison between the DM T-Web from the Illustris-TNG simulation and the environments predicted by the Tree Classifier algorithm}
     \label{fig:prediction}
 \end{figure*}
 
-
-\begin{figure}
-\centering
-    \includegraphics[scale=0.36]{Figs/p_CM_EnvPredTreeClass.pdf}
-    \caption{Confusion Matrix for the best performing model with $\lambda_{th}$=0.3, $\sigma$=1.5 and $M_{r}<-14$. Columns represent the predictions, and rows the ground truth. In the CM for the prediction of peaks and sheets only the $62\%$ was predicted correctly. The best prediction are obtained for the filaments, where the $73\%$ was predicted correctly. The worst prediction was for the voids where only the $35\%$ was predicted correctly.}
-    \label{fig:confusion_matrix}    
-\end{figure}
-
-
 \section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
-We use machine learning algorithms to predict the DM T-Web environment from features derived
-from the $\beta$-skeleton.
+We use machine learning algorithms to predict the DM T-Web environment from features derived from the $\beta$-skeleton.
 We focus our work on a single snapshot at redshift $z=0$ without taking into
 account Redshift Space Distortions.
 In what follows we define the details of our setup for training and testing the algorithms.
@@ -293,8 +281,6 @@ average value over first neighbors nodes.
 Two more features come from the simulation. The absolute magnitude in the 
 $r$-band, $M_r$, and its corresponding $\Delta M_r$.
 Figure \ref{fig:features} shows the histogram for all $\beta$-skeleton features.
-
-
 
 We also use the threshold $\lambda_{th}$ and the smoothing parameter $\sigma$ as
 meta-parameters that drive the T-Web classification. 
@@ -332,63 +318,133 @@ and the total predictions) and the F1 score (harmonic mean between precision and
 We use the average F1 score across classes to select the best models and its meta-parameters.
 
 \begin{figure*}
-    \includegraphics[scale=0.45]{Figs/p_F1_EnvPredTreeClass.pdf}
-    \caption{The evaluation of the classification tree algorithm was computed with the F1 score. Here the evaluation of the F1$_{av}$ score was computed for $\lambda_{th}=0.3$, $\sigma=1.5$ and $M_r<-14$.  In the left figure was evaluated the F1$_{av}$ score for the prediction of all environments as a function of the Max Depth of the classification tree. The center figure show us the evaluation for the prediction by environment, here the best predicted environment are the filaments, for this, the maximum F1 score is near to 0.8. The right figure show the population by environment using to make the prediction with the Tree Classification ML algorithm.}
-    \label{fig:F1_curve}
+    \includegraphics[scale=0.45]{Figs/p_hist_f1.pdf}
+    \caption{XXX}
+    \label{fig:methods}
 \end{figure*}
-
 
 \begin{figure*}
 \centering
-    \includegraphics[scale=0.5]{Figs/p_FS_Tree.pdf}
-    \caption{Plots for the analysis of the features space. Here we found the best configuration of the features to maximize the Gain and the $F1$ average score. The values founded over the features that maximize both scores are $\lambda_{th}=0.3$ ,$\sigma=1.5$, $M_{r}<-14$ and Max Depth=10. The colors in the left bottom figure are the product between the Gain and the $F1$ average, this scale varies between 0 and 1.}
-    \label{fig:features_space}
+    \includegraphics[scale=0.22]{Figs/p_features_Forest_F1_av_no_voids.pdf}
+    \caption{XXX}
+    \label{fig:feature_void}    
 \end{figure*}
 
+\begin{figure*}
+\centering
+    \includegraphics[scale=0.22]{Figs/p_features_Forest_F1_av.pdf}
+    \caption{XXX}
+    \label{fig:features_no_void}    
+\end{figure*}
+
+\begin{figure}
+\centering
+    \includegraphics[scale=0.4]{Figs/p_confusion_matrix_21.pdf}
+    \caption{Confusion Matrix for the best performing model with $\lambda_{th}$=0.3, $\sigma$=1.5 and $M_{r}<-14$. Columns represent the predictions, and rows the ground truth. In the CM for the prediction of peaks and sheets only the $62\%$ was predicted correctly. The best prediction are obtained for the filaments, where the $73\%$ was predicted correctly. The worst prediction was for the voids where only the $35\%$ was predicted correctly.}
+    \label{fig:confusion_matrix}    
+\end{figure}
+
+\begin{figure*}
+    \includegraphics[scale=0.45]{}
+    \caption{The evaluation of the Random Forest algorithm was computed with the F1 score. Here the evaluation of the F1$_{av}$ score was computed for $\lambda_{th}=0.2$, $\sigma=1.5$ and $M_r<-12$.  In the left figure was evaluated the F1$_{av}$ score for the prediction of all environments as a function of the Number of Estimators of the random forest classificator. The center figure show us the evaluation for the prediction by environment, here the best predicted environment are the filaments, for this, the maximum F1 score is near to XXX. The right figure show the population by environment using to make the prediction with the Random Forest ML algorithm.}
+    \label{fig:F1_curve}
+\end{figure*}
 
 \section{Results}\label{sec:results}
-
-A comparison between the best results for the machine learning methods used are resumed in the Table \ref{tab:methods}. Figure \ref{fig:prediction} shows the comparison between the ground truth environments (left) and the prediction by the best ML algorithm with the optimized parameters and meta-parameters (right). 
-The visual impression is that the sheets and filaments have good predictions, 
+Figure \ref{fig:prediction} shows the comparison between the ground truth environments (left) and the prediction by the best ML algorithm with the optimized parameters and meta-parameters (right) for the best method.
+The visual impression is that the sheets and filaments have good predictions,
 peaks are reasonable, while voids are the worst.
+
+In consequence, was evaluated the three machine learning methods considering voids and not.
+The comparison between all results for the three methods probed for both cases is summarized in Figure \ref{fig:methods}. 
+There are represented the F1 average distributions with voids (left) and the same excluding the voids (right). 
+In general, in both cases, the distributions show that the best method is the Random Forest. 
+To evaluate the methods in both cases was computed the mean values and standard deviation for the best 20 F1-scores. Table \ref{tab:methods} show mean values and standard deviations for these best. 
 
 \begin{table}
 \centering
-\begin{tabular}{l|l|l|l|l|l|}
- F1 & Peaks & Filaments & Sheets & Voids & Average \\ \hline
-\multicolumn{1}{|l|}{SVM} & 0.000 & 0.000 & 0.687 & 0.617 & 0.326 \\ \hline
-\multicolumn{1}{|l|}{R. Forest} & 0.682 & 0.693 & 0.602 & 0.397 & 0.594 \\ \hline
-\multicolumn{1}{|l|}{Trees} & 0.678 & 0.687 & 0.608 & 0.445 & 0.605 \\ \hline
+\begin{tabular}{lrr}
+\hline
+\multicolumn{3}{l}{With Voids}\\
+\hline
+ Method   &   $\mu$ &   $\sigma$ \\
+\hline
+ Forest   &   0.610 &      0.001 \\
+ Tree     &   0.605 &      0.003 \\
+ SVM      &   0.427 &      0.019 \\
+\hline
 \end{tabular}
-\caption{F1 score by environment and average. Comparison between the three supervised machine learning methods, SVM has the worst F1 average score, the best F1 average score is for the tree classifier.}
+\begin{tabular}{lrr}
+\hline
+\multicolumn{3}{l}{Without Voids}\\
+\hline
+ Method   &   $\mu$ &   $\sigma$ \\
+\hline
+ Forest   &   0.670 &      0.001 \\
+ Tree     &   0.664 &      0.003 \\
+ SVM      &   0.477 &      0.019 \\
+\hline
+\end{tabular}
+\caption{The Table summarized the results for the best 20 models with the three machine learning methods probed: Random Forest, Tree Classifier, and SVM. It was computed the mean value and the standard deviation by method in both cases with voids(left) and without voids(right). In terms of these parameters, the best method is the Random Forest when we do not consider the voids in the F1 average.}
 \label{tab:methods}
 \end{table}
 
-This visual impression is confirmed by the quantitative results shown in Figure \ref{fig:confusion_matrix}.
-We observe that the best prediction is for filaments where the $73\%$ of the true galaxies in filaments are correctly predicted. 
-This fraction is followed by $62\%$ of correct peaks and sheets galaxies with
-a low value of $35\%$ void galaxies classified correctly.
+The Random Forest have other types of configurable parameters, the most common parameter is the number of estimators $NE$, we evaluate the Random Forest with the F1 score as a function of the NE parameter. 
+Figs.\ref{fig:F1_curve} show the behavior of the F1 score as a function of $NE$ in contrast to the populations of the environments,
+the left figure shows the F1 average score,
+the maximum is near to XXX for a number of estimators equal to XXX.
+The center figure shows the F1 score for the four environments,
+the best environment predicted was the filaments followed by the peaks and sheets,
+the worst predicted environment was the voids,
+this due the population of them as we can see in the right figure of the Fig.\ref{fig:F1_curve},
+we can observe that the amount of voids is considerably less than the others environments almost in one order.
 
+Fig. \ref{fig:features_void} show the distributions of the meta-parameters including the $NE$ for the best 20 results using Random Forest and evaluating the F1 average for the four environments. Here we can observe that the meta-parameter $\lambda_{th}$ are centered in 0.5, and sigma have values of $\sigma=1.5,2$ mainly. The smoothing with these values of $\sigma$ over the dark matter density produces giant voids, this population of voids is not according to reality. Due to this inconsistency, we considered the best 20 results using Random Forest and evaluating the F1 excluding voids. The distribution of the meta-parameters for this case is showed in the Figure \ref{fig:features_no_void}.
 
-The classification trees have other types of configurable parameters, the most common parameter is the depth of the branches in the tree, we evaluate the classification tree with the F1 score as a function of the max depth parameter. 
-Figs.\ref{fig:F1_curve} show the behavior of the F1 score as a function of the max depth in the tree in contrast to the populations of the environments, the left figure shows the F1 average score, the maximum is near to 0.6 for a max depth equal to 10. 
-The center figure shows the F1 score for the four environments, the best environment predicted was the filaments followed by the peaks and sheets, the worst predicted environment was the voids, this due the population of them as we can see in the right figure of the Fig.\ref{fig:F1_curve}, we can observe that the amount of voids is considerably less than the others environments almost in one order.
+The bad prediction of the voids is confirmed by the quantitative results shown in Figure \ref{fig:confusion_matrix} computed for the 20 best models when we do not consider the voids in the F1 average. Table \ref{tab:models} show the values for the meta-parameters in the best 20 results using Random Forest. We can observe that threshold $\lambda$ have values of 0.1 and 0.2, the smoothing $\sigma$, 1.5 and 2 and the luminosity $M_r$, -14 and -16, according to Fig. \ref{fig:features_no_void}. The $NE$ varies between 23 and 100.
+\begin{table}
+\centering
+\begin{tabular}{rrrr}
+\hline
+   $\lambda$ &   $\sigma$ &   $M_r$ &   $NE$ \\
+\hline
+         0.2 &        1.5 &     -14 &    100 \\
+         0.2 &        1.5 &     -14 &     67 \\
+         0.2 &        1.5 &     -14 &     78 \\
+         0.1 &        2   &     -14 &     89 \\
+         0.1 &        2   &     -14 &     78 \\
+         0.1 &        2   &     -14 &    100 \\
+         0.1 &        2   &     -16 &     34 \\
+         0.1 &        2   &     -16 &     45 \\
+         0.1 &        1.5 &     -14 &     34 \\
+         0.1 &        1.5 &     -14 &     67 \\
+         0.1 &        1.5 &     -14 &     56 \\
+         0.1 &        1.5 &     -14 &     45 \\
+         0.1 &        1.5 &     -14 &     23 \\
+         0.1 &        2   &     -16 &     56 \\
+         0.1 &        1.5 &     -14 &    100 \\
+         0.1 &        1.5 &     -14 &     78 \\
+         0.1 &        1.5 &     -14 &     89 \\
+         0.1 &        2   &     -16 &     67 \\
+         0.1 &        2   &     -16 &    100 \\
+         0.1 &        2   &     -16 &     78 \\
+         0.1 &        2   &     -16 &     89 \\
+\hline
+\end{tabular}
+\caption{Values of the meta-parameters for the best 20 models using Random Forest. This selection was made when we do not consider the voids in the F1 average.}
+\label{tab:models}
+\end{table}
 
-In order to select the best set of features we evaluated the classification tree for different ranges of the features and select the values that maximize simultaneously the F1 average score and the gain. Fig.\ref{fig:features_space} shows the ranges probed for the features. 
-The colors in the figure F1$_{av}$ vs. gain (G) are the product between them, this product varies between 0 and 1. 
-The maximum value for this product was indicated with a black cross and indicates the best set of values for the parameters of the features space. 
-The values obtained for the parameters are $\lambda_{th}$=0.3, $\sigma$=1.5, \textit{max depth}=10 and $M_r<$-14.
-The values in the range of $M_r$ are related to cuts in the luminosity. The classification tree was training with different volumes of galaxies that depended on these cuts in luminosity. Another mechanism to select the best meta-parameters was computed the area under the precision-recall curve, however this information was not clear due the noise in the curve. So, this score was ignored to select the best meta-parameters.
+In the Fig. \ref{fig:confusion_matrix} we observe that the best prediction is for filaments where the $XXX\%$ of the true galaxies in filaments are correctly predicted. 
+This fraction is followed by $XXX\%$ of correct peaks and sheets galaxies with a low value of $XXX\%$ void galaxies classified correctly.
 
-Fig.~\ref{fig:feature_importance} shows the importance of the features for classification trees. The most important feature for our model is the $\Delta \delta$ feature related to the local average distance between connections, followed by the average distance between connections $\delta$. This shows us that the separation between the galaxies is a parameter that can determinate the T-Web environment for a galaxy. The number of connections is not a relevant parameter to determine the environment due to its importance is not significant.
-
-The same evaluation over the features space with the classification trees was made with the SVM and random forest. The values for the parameters that maximize the F1 average score and the gain were $\lambda_{th}=0.2$ ,$\sigma=2$ and $M_{r}<-18$ for the SVM and $\lambda_{th}=0.3$ ,$\sigma=1.5$ and $M_{r}<-14$ for the random forest. The SVM algorithm was trained with the robust bias function (rbf) kernel, the best value obtained for the F1 average score was 0.326, worst than the tree classifier. In the random forest case, we could optimize the prediction with the number of estimators fixing the max depth for the trees in 10, the results showed that the max value obtained for the F1 average score was near to 0.594 with a number of estimators equal to 20. These evaluations confirmed that the tree classifier is the best algorithm to reconstruct the T-Web.
+Fig.~\ref{fig:feature_importance} shows the importance of the features for best 20 Random Forests models. The most important feature for our model is the $\Delta \delta$ feature related to the local average distance between connections, followed by the average distance between connections $\delta$. This Fig. shows us that the separation between the galaxies is a parameter that can determinate the T-Web environment for a galaxy. The number of connections is not a relevant parameter to determine the environment due to its importance is not significant.
 
 The best model was evaluated including the information of the features extracted from the 2 and 3-skeleton, the results do not vary in comparison when we used only the features of the 1-skeleton, these showed that the 2 and 3-skeleton do not contain important information to predict the T-Web.
 
 \begin{figure}
 \centering
-    \includegraphics[scale=0.32]{Figs/p_FI_EnvPredTreeClass.pdf}  
+    \includegraphics[scale=0.45]{Figs/p_features_importance_21.pdf}  
     \caption{Feature importance for the best classification with $\lambda_{th}$=0.3 ,$\sigma$=1.5, $M_{r}<-14$ and Max Depth=10. This figure show us that the most important variable from the $\beta$-skeleton to make the best prediction are related with the average distance between the connections of the galaxies. The importance of the $\delta$ parameter is near to the $50\%$.}
     \label{fig:feature_importance}     
 \end{figure}
