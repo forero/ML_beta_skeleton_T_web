@@ -45,7 +45,7 @@
 \newcommand{\kpc}{\,{\rm kpc}\,}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title[The $\beta$-skeleton and the T-web]{Cosmic web classification of galaxies from the $\beta$-skeleton}
+\title[The $\beta$-skeleton and the T-web]{Cosmic web galaxy classification from the $\beta$-skeleton}
 
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
@@ -109,35 +109,46 @@ pattern commonly know as the cosmic web.
 This web consists of dense spherical peaks connected by
 anisotropic filaments and walls woven across vast under-dense voids.
 \citep{Bond1996}. 
-Such a structure can also be interpreted in the context of 
-the evolution from initial density fluctuations to the present-day 
-large-scale structure within a $\Lambda$CDM cosmology \citep{ZelDovich1970,White1987}. 
-The cosmic web emergence can be followed in great detail by studying DM only
-cosmological simulations.
-There is a great variety of methods to detect and classify regions of
-space as belonging to a peak, filament, sheet or void
-\citep{Libeskind2018}.
+This pattern can be interpreted in the context provided
+by the $\Lambda$CDM cosmology, whereby initial density fluctuations 
+evolve into the present-day large-scale structure through graviational instability \citep{ZelDovich1970,White1987}. 
 
-However, the cosmic web recognition algorithms that seek to work
-directly on the discrete galaxy distribution are less abundant.
-There are specific algorithms that can be used to find voids \citep{Platen2007,Neyrinck2008,Ravoux2020}, filaments \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019,Malavasi2020}, filaments and sheets \citep{Zhang2009}, peaks,filaments and sheets \citep{Aragon-Calvo2019} or peaks,filaments and voids \citep{Buncher2019}, 
-but a generic approach to predict the full cosmic web environments 
+The cosmic web evolution can be followed in great detail by studying DM only
+cosmological simulations. Furthermore, there is a great variety of methods to detect and classify the cosmic web from these simulations into four different elements: peak, filament, sheet or void \citep{Libeskind2018}.
+Cosmic web detection algorithms that work directly on the discrete galaxy distribution are less abundant.
+Most of them are focused on some cosmic web elements.
+For instances, most of the attention has focused on void-finders \citep{Platen2007,Neyrinck2008,Ravoux2020} and filaments-finders \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019,Malavasi2020}. 
+
+There are two main approaches to find the four cosmic web elements
 from the galaxy distribution relies either on performing 
 the reconstruction of the dark matter around the galaxies
 or using an approximation where galaxies are interpolated over a 
 grid to process them in the same way as dark matter densities.
+The first approach is expensive, while the has large uncertainties.
 
-Many dark matter reconstruction methods use Bayesian statistics
-coupled with Monte Carlo sampling
-\citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}. Other methods reconstruct the cosmic density field from the distribution of dark matter halos \citep{Wang2009}. In contrast some procedures emulate the dark matter density field with a matter 
-overdensity field reconstructed from the distribution of galaxies with 
-mechanism like the Delaunay Tessellation Field Estimator (DTFE),
-a reconstruction methodology to the sample particle or galaxy 
-distribution  \citep{Schaap2007,Platen2011,Aragon-Calvo2007,Aragon-Calvo2010,Cautun2013,Cautun2014}, 
-then this overdensity field is used jointly with other algorithms or methodologies to make the classification by environments of the cosmic web. Recently, other procedures compute different properties of dark matter halos and make the classification using these input with machine learning methods \citep{Hui2018}. 
-Either way, dark matter reconstruction remains computationally expensive task. 
+The approach that start from the galaxies in a redshift survey estimate a
+smooth galaxy overdensity distribution to use the Hessian of that
+distribution in order to determine the cosmic web
+elements  \citep{Eardley2015,Alpaslan2016,Tojeiro2017,Shadab2019}. 
+This approach has a low compuational cost, is highly uncertain how accurate are these results with respect to the expected 
+cosmic web dark matter distribution.
+This uncertainty can be reduced by using algorithms that perform dark matter density reconstruction from a galaxy distribution.
+Most of these algorithms use Bayesian statistics coupled with Monte
+Carlo sampling  and N-body simulations.\citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}.
+Some others are based on the density distribution around halos that are associated to galaxy groups \citep{Wang2009,2011MNRAS.417.1303M}. 
+This approach can get a good results in terms of the accuracy of the 
+DM distribution, but the downside is that it can be very expensive from the computational point of view.
 
-Other methodologies to make the environments classification compute some features directly on the galaxies. The galaxy clustering and quenching are quantified in terms of the spherical overdensity $\delta_8$ and the tidal anisotropy $\sigma_5$ \citep{Shadab2019}. In \citep{Eardley2015} are estimated the  tidal  tensor  from  a smoothed galaxy overdensity field in order to determine the dimensionality of collapse of any region. Other works study the influence of some features of the galaxies like the colour, brightness, morhological properties, gas metallicity, and total spectral energy density in the large scale structure \citep{Alpaslan2016}. Also, some properties like the normalized stellar mass and the local overdensity $\delta_4$ are used to make the classification \citep{Tojeiro2017}. In \citep{Horowitz2019} is reconstructed the initial density field from Lyman-$\alpha$ datasets to infer the underlying matter density and make the classification by environments.
+
+Recently, Machine Learning (ML) methods have been used to compute the
+web elements from the DM halo properties \citep{Hui2018}. 
+This approach has the promise to offer a good accuracy with an intermediate computational cost.
+Under this approach of supeverside ML classification on needs a training
+dataset (some galaxy properties), the classes to classify the dataset (the four cosmic web environments) and an algorithm capable to link 
+the galaxy properties to the cosmic web environment.
+This paper is inscribed into that line of work.
+
+
 
 The goal of this paper is to avoid expensive reconstruction algorithms
 and binning of galaxy data to provide a new way to connect the galaxy
@@ -319,47 +330,48 @@ We use the average F1 score across classes to select the best models and its met
 
 \begin{figure*}
     \includegraphics[scale=0.45]{Figs/p_hist_f1.pdf}
-    \caption{XXX}
+    \caption{Distributions of the F1 average for the three machine learning methods. F1-score average distributions considering the four environments (left) and without consider the voids (right).}
     \label{fig:methods}
 \end{figure*}
 
 \begin{figure*}
 \centering
-    \includegraphics[scale=0.22]{Figs/p_features_Forest_F1_av_no_voids.pdf}
-    \caption{XXX}
-    \label{fig:feature_void}    
+    \includegraphics[scale=0.22]{Figs/p_features_Forest_F1_av.pdf}
+    \caption{Distribution of the meta-parameters and the F1 average when the voids are including in the average. We can observe that the $\lambda$ meta-parameter are including in 0.5, $\sigma$ jumps between 1.5 and 2.0, $M_r$ could be -14,-16,-18 and $NE$ are concentred in 100.}
+    \label{fig:features_no_void}    
 \end{figure*}
 
 \begin{figure*}
 \centering
-    \includegraphics[scale=0.22]{Figs/p_features_Forest_F1_av.pdf}
-    \caption{XXX}
-    \label{fig:features_no_void}    
+    \includegraphics[scale=0.22]{Figs/p_features_Forest_F1_av_no_voids.pdf}
+    \caption{Distribution of the meta-parameters and the F1 average when the voids are not including in the average. We can observe that the $\lambda$ meta-parameter is centered in 0.1, mainly, $\sigma$ jumps between 1.5 and 2.0, $M_r$ could be -14 or -16 and $NE$ are concentred in 80-100.}
+    \label{fig:feature_void}    
 \end{figure*}
 
 \begin{figure}
 \centering
     \includegraphics[scale=0.4]{Figs/p_confusion_matrix_21.pdf}
-    \caption{Confusion Matrix for the best performing model with $\lambda_{th}$=0.3, $\sigma$=1.5 and $M_{r}<-14$. Columns represent the predictions, and rows the ground truth. In the CM for the prediction of peaks and sheets only the $62\%$ was predicted correctly. The best prediction are obtained for the filaments, where the $73\%$ was predicted correctly. The worst prediction was for the voids where only the $35\%$ was predicted correctly.}
+    \caption{Confusion Matrix for the 20 best performing models with the values of $\lambda_{th}$, $\sigma$, $M_{r}$ and $NE$ of the Table \ref{tab:models}. Columns represent the predictions, and rows the ground truth. In the CM for the prediction of peaks only the $62\%$ was predicted correctly, the $55\%$ of sheets was predicted correctly. The best prediction are obtained for the filaments, where the $80\%$ was predicted correctly. The worst prediction was for the voids where only the $8\%$ was predicted correctly.}
     \label{fig:confusion_matrix}    
 \end{figure}
 
 \begin{figure*}
-    \includegraphics[scale=0.45]{}
-    \caption{The evaluation of the Random Forest algorithm was computed with the F1 score. Here the evaluation of the F1$_{av}$ score was computed for $\lambda_{th}=0.2$, $\sigma=1.5$ and $M_r<-12$.  In the left figure was evaluated the F1$_{av}$ score for the prediction of all environments as a function of the Number of Estimators of the random forest classificator. The center figure show us the evaluation for the prediction by environment, here the best predicted environment are the filaments, for this, the maximum F1 score is near to XXX. The right figure show the population by environment using to make the prediction with the Random Forest ML algorithm.}
+    \includegraphics[scale=0.45]{Figs/p_F1_curve_Forest.pdf}
+    \caption{The evaluation of the Random Forest algorithm was computed with the F1 score. Here the evaluation of the F1 average score  was computed for $\lambda_{th}=0.2$, $\sigma=1.5$ and $M_r<-12$.  In the left figure was evaluated the F1 average score for the prediction of all environments as a function of the Number of Estimators of the random forest classifier. The center figure show us the evaluation for the prediction by environment, here the best predicted environment are the filaments, for this, the maximum F1 score is near to 0.7. The right figure show the population by environment using to make the prediction with the Random Forest ML algorithm.}
     \label{fig:F1_curve}
 \end{figure*}
 
 \section{Results}\label{sec:results}
+
 Figure \ref{fig:prediction} shows the comparison between the ground truth environments (left) and the prediction by the best ML algorithm with the optimized parameters and meta-parameters (right) for the best method.
 The visual impression is that the sheets and filaments have good predictions,
 peaks are reasonable, while voids are the worst.
 
 In consequence, was evaluated the three machine learning methods considering voids and not.
-The comparison between all results for the three methods probed for both cases is summarized in Figure \ref{fig:methods}. 
+The comparison between all results for the three methods probed in both cases is summarized in Figure \ref{fig:methods}. 
 There are represented the F1 average distributions with voids (left) and the same excluding the voids (right). 
 In general, in both cases, the distributions show that the best method is the Random Forest. 
-To evaluate the methods in both cases was computed the mean values and standard deviation for the best 20 F1-scores. Table \ref{tab:methods} show mean values and standard deviations for these best. 
+To evaluate the methods was computed the mean values and standard deviation for the 20 best F1 averages. Table \ref{tab:methods} show mean values and standard deviations.
 
 \begin{table}
 \centering
@@ -385,23 +397,23 @@ To evaluate the methods in both cases was computed the mean values and standard 
  SVM      &   0.477 &      0.019 \\
 \hline
 \end{tabular}
-\caption{The Table summarized the results for the best 20 models with the three machine learning methods probed: Random Forest, Tree Classifier, and SVM. It was computed the mean value and the standard deviation by method in both cases with voids(left) and without voids(right). In terms of these parameters, the best method is the Random Forest when we do not consider the voids in the F1 average.}
+\caption{The Table summarized the results for the 20 best models with the three machine learning methods probed: Random Forest, Tree Classifier, and SVM. It was computed the mean value and the standard deviation by method in both cases: with voids(left) and without voids(right). In terms of these parameters, the best method is the Random Forest when we do not consider the voids in the F1 average.}
 \label{tab:methods}
 \end{table}
 
-The Random Forest have other types of configurable parameters, the most common parameter is the number of estimators $NE$, we evaluate the Random Forest with the F1 score as a function of the NE parameter. 
-Figs.\ref{fig:F1_curve} show the behavior of the F1 score as a function of $NE$ in contrast to the populations of the environments,
+The Random Forest have other types of configurable parameters, the most common parameter is the number of estimators $NE$, we evaluate the Random Forest with the F1 score as a function of the $NE$ parameter. 
+Figs.\ref{fig:F1_curve} show the behavior of the F1 acerage score as a function of $NE$ in contrast to the populations of the environments,
 the left figure shows the F1 average score,
-the maximum is near to XXX for a number of estimators equal to XXX.
+the maximum is near to 0.6 for a number of estimators bigger than 15.
 The center figure shows the F1 score for the four environments,
 the best environment predicted was the filaments followed by the peaks and sheets,
 the worst predicted environment was the voids,
 this due the population of them as we can see in the right figure of the Fig.\ref{fig:F1_curve},
 we can observe that the amount of voids is considerably less than the others environments almost in one order.
 
-Fig. \ref{fig:features_void} show the distributions of the meta-parameters including the $NE$ for the best 20 results using Random Forest and evaluating the F1 average for the four environments. Here we can observe that the meta-parameter $\lambda_{th}$ are centered in 0.5, and sigma have values of $\sigma=1.5,2$ mainly. The smoothing with these values of $\sigma$ over the dark matter density produces giant voids, this population of voids is not according to reality. Due to this inconsistency, we considered the best 20 results using Random Forest and evaluating the F1 excluding voids. The distribution of the meta-parameters for this case is showed in the Figure \ref{fig:features_no_void}.
+Including the $NE$ meta-parameter, the Fig. \ref{fig:features_void} shows the distributions of all for the 20 best results using Random Forest and evaluating the F1 average for the four environments. We can observe that the meta-parameter $\lambda_{th}$ are centered in 0.5 and $\sigma$ have values of 1.5 and 2. For these values of $\lambda$ and $\sigma$, the number of galaxies in voids is not according to reality. Due to this inconsistency, we considered the best 20 results using Random Forest filtering when the F1 average is computed excluding the voids. The distribution of the meta-parameters for this case is shown in Figure \ref{fig:features_no_void}.
 
-The bad prediction of the voids is confirmed by the quantitative results shown in Figure \ref{fig:confusion_matrix} computed for the 20 best models when we do not consider the voids in the F1 average. Table \ref{tab:models} show the values for the meta-parameters in the best 20 results using Random Forest. We can observe that threshold $\lambda$ have values of 0.1 and 0.2, the smoothing $\sigma$, 1.5 and 2 and the luminosity $M_r$, -14 and -16, according to Fig. \ref{fig:features_no_void}. The $NE$ varies between 23 and 100.
+The bad prediction of the voids is confirmed by the quantitative results shown in Figure \ref{fig:confusion_matrix} computed for the 20 best models when we do not consider the voids in the F1 average. Table \ref{tab:models} show the values for the meta-parameters in the 20 best results. We can observe that threshold $\lambda$ have values of 0.1 and 0.2, the smoothing $\sigma$, 1.5 and 2, and the luminosity $M_r$, -14 and -16, according to Fig. \ref{fig:features_no_void}. The $NE$ varies between 23 and 100 but is concentrate in values bigger that 80.
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -431,12 +443,11 @@ The bad prediction of the voids is confirmed by the quantitative results shown i
          0.1 &        2   &     -16 &     89 \\
 \hline
 \end{tabular}
-\caption{Values of the meta-parameters for the best 20 models using Random Forest. This selection was made when we do not consider the voids in the F1 average.}
+\caption{Values of the meta-parameters for the 20 best models using Random Forest. This selection was made when we do not consider the voids in the F1 average.}
 \label{tab:models}
 \end{table}
-
-In the Fig. \ref{fig:confusion_matrix} we observe that the best prediction is for filaments where the $XXX\%$ of the true galaxies in filaments are correctly predicted. 
-This fraction is followed by $XXX\%$ of correct peaks and sheets galaxies with a low value of $XXX\%$ void galaxies classified correctly.
+In the Fig. \ref{fig:confusion_matrix} we observe that the best prediction is for filaments where the $80\%$ of the true galaxies in filaments are correctly predicted. 
+This fraction is followed by $63\%$ of correct peaks, $55\%$ of correct   sheets galaxies with a low value of $8\%$ void galaxies classified correctly.
 
 Fig.~\ref{fig:feature_importance} shows the importance of the features for best 20 Random Forests models. The most important feature for our model is the $\Delta \delta$ feature related to the local average distance between connections, followed by the average distance between connections $\delta$. This Fig. shows us that the separation between the galaxies is a parameter that can determinate the T-Web environment for a galaxy. The number of connections is not a relevant parameter to determine the environment due to its importance is not significant.
 
