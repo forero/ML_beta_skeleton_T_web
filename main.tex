@@ -169,9 +169,9 @@ We quantify the precision and accuracy of the algorithms using
 the Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$.
 
 This paper is organized as follows. 
-In Section \ref{sec:init} we describe the T-web algorithm,
-the $\beta$-skeleton graph and the summarize the most important
-aspects of the Illustris-TNG simulations relevant to our work.
+In Section \ref{sec:init} we describe the relevant aspects of the Illustris-TNG
+simulations relevant to our work, the T-web algorithm,
+and the $\beta$-skeleton graph.
 In Section \ref{sec:link} we describe the mechanism to link the
 $\beta$-skeleton to the T-Web using machine learning algorithms. 
 There we detail the features and meta-parameters we use, the
@@ -196,11 +196,30 @@ to finally summarize our conclusions in Section
     \label{fig:features}
 \end{figure*}
 
+\subsection{Illustris-TNG}
+
+The Next Generation (TNG) of the Illustris simulations, or the
+Illustris-TNG project \citep{Nelson2015},  is a series of large,
+cosmological magnetohydrodynamical and semi-analytical simulations of
+galaxy formation. 
+These simulations are based on the cosmological standard model
+$\Lambda$CDM.  
+
+The Illustris-TNG project simulates different structures in the
+visible matter like stars, black holes or diffuse gas jointly with the
+distribution of DM.   
+The project includes simulated galaxies as realistic as possible in
+order to make a comparison with the real universe. There are 18
+different simulations in this project with boxes of sizes 50, 100 and
+300 Mpc that started at $z=127$ and finalized at $z=0$.   
+
 \subsection{T-Web Classification}
 
-The tidal web (T-Web) method \citep{Hahn2007,Forero-Romero2009} classifies the large scale
-structure into four web types: voids, sheets, filaments and peaks. 
-This classification is based on the eigenvalues of the deformation tensor $T_{\alpha\beta}$, the Hessian of the gravitational potential
+The tidal web (T-Web) method \citep{Hahn2007,Forero-Romero2009}
+classifies the large scale structure into four web types: voids,
+sheets, filaments and peaks.   
+This classification is based on the eigenvalues of the deformation
+tensor $T_{\alpha\beta}$, the Hessian of the gravitational potential 
 \begin{equation}
 T_{\alpha\beta}=\frac{\partial^2\psi}{\partial r_{\alpha}r_{\beta}},
 \end{equation}
@@ -212,68 +231,80 @@ where $\psi$ is a normalized gravitational potential that follows the equation
 %
 and $\delta$ is the dark matter overdensity.
 This tensor has three real valued eigenvalues. 
-The cosmic web environment is defined by the number of eigenvalues larger than
-a threshold value $\lambda_{th}$.
-Locations with three eigenvalues larger than $\lambda_{th}$ correspond to a peak, two to a filament, one to a sheet and zero to a void.
+The cosmic web environment is defined by the number of eigenvalues
+larger than a threshold value $\lambda_{th}$.
+Locations with three eigenvalues larger than $\lambda_{th}$ correspond
+to a peak, two to a filamet, one to a sheet and zero to a void. 
 
-Computationally speaking, to define an environment in an N-body simulation 
-we implement the following seven steps: 1) interpolate the mass particles with a Cloud-In-Cell
-(CIC) scheme over a grid to obtain the density, 2) smooth it with an isotropic Gaussian filter,
-3) compute the overdensity, 4) find the normalized potential with Fast Fourier Transform
-methods, 5) compute the deformation tensor using finite differences, 6) find the eigenvalues and
-finally 7) count the number of eigenvalues larger than the threshold $\lambda_{th}$.
+Computationally speaking, to define an environment in an N-body
+simulation we implement the following seven steps: 1) interpolate the
+mass particles with a Cloud-In-Cell  (CIC) scheme over a grid to
+obtain the density, 2) smooth it with an isotropic Gaussian filter,
+3) compute the overdensity, 4) find the normalized potential with Fast
+Fourier Transform  methods, 5) compute the deformation tensor using
+finite differences, 6) find the eigenvalues and finally 7) count the
+number of eigenvalues larger than the threshold $\lambda_{th}$. 
 
-\subsection{The \texorpdfstring{$\beta$}-skeleton algorithm}
-The $\beta$-skeleton is an algorithm that computes a graph over a distribution of nodes
-\citep{Kirkpatrick1985, Fang2019}. 
-This algorithm depends on a positive and continuous parameter $\beta$ that defines an exclusion
-region between two nodes.
-If the exclusion region is empty then, the two nodes are connected by an edge. 
-In the case, $\beta=1$, the exclusion region is a sphere with a diameter equal to the separation
-between the two nodes. 
+
+\subsection{The $\beta$-skeleton algorithm}
+
+The $\beta$-skeleton is an algorithm that computes a graph over a
+distribution of nodes \citep{Kirkpatrick1985, Fang2019}.  
+This algorithm depends on a positive and continuous parameter $\beta$
+that defines an exclusion region between two nodes.
+If the exclusion region is empty then, the two nodes are connected by
+an edge.  
+In the case, $\beta=1$, the exclusion region is a sphere with a
+diameter equal to the separation between the two nodes.  
 
 As $\beta$ increases the exclusion region is larger.
-This makes that for low values of $\beta$ the graph is dense and for large values of $\beta$
-the graph becomes sparse.
-The $1$-skeleton also receives the name of Gabriel Graph. 
-The $2$-skeleton is also known as the Relative Neighbor Graph (RNG).
+This makes that for low values of $\beta$ the graph is dense and for
+large values of $\beta$ the graph becomes sparse. 
+The $1$-skeleton also receives the name of Gabriel Graph.  
+The $2$-skeleton is also known as the Relative Neighbor Graph (RNG). 
 
 In our case, the galaxies represent a node in the graph.
-From this graph, we compute a variety of features that will be used as an input
-for the classification task.
-These features include the number of connections $N_{c}$, the average distance $D_{av}$ of these connections and a pseudo-density $\rho$.
+From this graph, we compute a variety of features to be used as
+an input for the classification task. 
 
-We use these features together with the galaxy luminosity to predict the T-Web DM environment.
-Figure \ref{fig:TWebBsk} shows the correlation between DM overdensity and the $\beta$-skeleton 
-graph computed over the corresponding galaxy distribution.
-This spatial correlation motivates the effort to predict the DM cosmic web starting from
-the $\beta$-skeleton built on the galaxies.
-
-\subsection{Illustris-TNG}
-
-The Next Generation (TNG) of the Illustris simulations, or the Illustris-TNG project \citep{Nelson2015}, 
-is a series of large, cosmological magnetohydrodynamical and semi-analytical simulations of
-galaxy formation. These simulations are based on the cosmological standard model $\Lambda$CDM.
-
-The Illustris-TNG project simulates different structures in the visible matter like stars, black
-holes or diffuse gas jointly with the distribution of DM. 
-The project includes simulated galaxies as realistic as possible in order to make a comparison
-with the real universe.
-There are 18 different simulations in this project with boxes of sizes 50, 100 and 300 Mpc
-that started at  $z=127$ and finalized at $z=0$. 
+\section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
 
-\section{Linking the \texorpdfstring{$\beta$}-skeleton to the T-Web}\label{sec:link}
 
-We use machine learning algorithms to predict the DM T-Web environment from features derived from the $\beta$-skeleton.
-We focus our work on a single snapshot at redshift $z=0$ without taking into
-account Redshift Space Distortions.
-In what follows we define the details of our setup for training and testing the algorithms.
+Figure \ref{fig:TWebBsk} shows the correlation between the DM overdensity
+and the $\beta$-skeleton graph computed over the corresponding galaxy
+distribution. 
+This spatial correlationsuggests that graph derived features might have
+a good chance to predict the DM web environment. 
+However, there is a number of free parameters that have to be explored
+to find the best match between the $\beta$-skekeleton and the cosmic
+web.
+
+
+\subsection{T-web and $\beta$-skeleton free parameters}
+
+For a start, the influence of the $\beta$ parameter has to be explored.
+Additionally, the classification provided by the T-web algorithm
+depends on the smoothing scale, $\sigma$, used to compute the Hessian and the
+threshold parameter $\lambda_{th}$ used to define the web elements.
+The tracers we use from the simulation can also change. 
+We use a simple magnitude cut $M_{th}$ on the $r$-band absolute magnitudes
+to define the galaxy sample. 
+Different values for that threshold naturally produce different galaxy
+distributions and thus different $\beta$-skeletons. 
+
+For given values of these four different parameters ($\beta$,
+$\sigma$, $\lambda_{th}$ and $M_{th}$) the $\beta$-skeleton and the
+T-web are fixed.
+Next we define what features to use to predict the four cosmic web
+elements. 
 
 \begin{figure*}
   \centering 
     \includegraphics[scale=0.32]{Figs/p_environment_predicted.pdf}
-    \caption{Comparison between the DM T-Web from the Illustris-TNG simulation and the environments predicted by the Tree Classifier algorithm}
+    \caption{Comparison between the DM T-Web from the Illustris-TNG
+      simulation and the environments predicted by the Tree Classifier
+      algorithm.} 
     \label{fig:prediction}
 \end{figure*}
 
