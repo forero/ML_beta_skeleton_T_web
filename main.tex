@@ -190,12 +190,6 @@ to finally summarize our conclusions in Section
  \label{fig:TWebBsk}
 \end{figure*}
 
-\begin{figure*}
-        \includegraphics[scale=0.3]{Figs/p_all_features_correlations.pdf}
-    \caption{Histograms and correlations curves for the eight features used to train the classifiers.}
-    \label{fig:features}
-\end{figure*}
-
 \subsection{Illustris-TNG}
 
 The Next Generation (TNG) of the Illustris simulations, or the
@@ -269,8 +263,6 @@ an input for the classification task.
 
 \section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
-
-
 Figure \ref{fig:TWebBsk} shows the correlation between the DM overdensity
 and the $\beta$-skeleton graph computed over the corresponding galaxy
 distribution. 
@@ -279,7 +271,6 @@ a good chance to predict the DM web environment.
 However, there is a number of free parameters that have to be explored
 to find the best match between the $\beta$-skekeleton and the cosmic
 web.
-
 
 \subsection{T-web and $\beta$-skeleton free parameters}
 
@@ -293,11 +284,69 @@ to define the galaxy sample.
 Different values for that threshold naturally produce different galaxy
 distributions and thus different $\beta$-skeletons. 
 
+We take $\lambda_{th}=0.0, 0.1, 0.2, 0.3, 0.4$ and $0.5$.
+For the smoothing parameter we take the values $\sigma 0.5$, $1.0$,
+$1.5$, $2.0$ and $2.5$, expressed in cell units.
+For $M_{th}$ we use  $18$, $16$ and $14$. 
+We explored the influence of $\beta$ in the range $1\leq \beta \leq 2$
+to find that the best results are obtained for $\beta=1$. 
+Therefore we keep this value fixed for the results reported here.
+
 For given values of these four different parameters ($\beta$,
 $\sigma$, $\lambda_{th}$ and $M_{th}$) the $\beta$-skeleton and the
 T-web are fixed.
 Next we define what features to use to predict the four cosmic web
 elements. 
+
+
+
+\subsection{Galaxy Features}
+
+We use eight features for each galaxy in the $\beta$-skeleton to train
+the classifiers. 
+
+\begin{enumerate}
+\item[1)]
+The number of connections minus the global average number of
+connections, $\eta = N_c - \bar{N}_c$. 
+\item[2)]
+The ratio between the average edge length to first neighbors on the graph
+normalized by the global average edge length, $\delta=D_{av}/\bar{D}_{av}$. 
+\item[3)] 
+The logarithm of the pseudo-density over the graph,
+  $\varrho=\log_{10}\rho$.   
+This pseudo density $\rho$ is defined as the inverse of the volume
+computed from the ellipsoid that best fits the distribution of first
+neighbors over the graph. 
+If a galaxy has less than three neighbors ... 
+\end{enumerate}
+\noindent
+We define three more features that we call $\Delta$-features.
+Their values are computed as the difference between the corresponding
+value in a node and the average value over first neighbors nodes. 
+They can be loosely interpreted as a first derivative computed over
+the graph. 
+
+\begin{enumerate}
+\item[4)] $\Delta$ over the number of connections, $\Delta\eta$.
+\item[5)] $\Delta$ over the normalized edge length, $\Delta\delta$.
+\item[6)] $\Delta$ over the the pseudo-density, $\Delta\varrho$.
+\end{enumerate}
+
+\noindent
+Two more features come from the $r$-band magnitudes
+\begin{enumerate}
+\item[7)] The absolute $r$-band magnitude, $M_r$.
+\item[8)] $\Delta$ over the absolute $r$-band magnitude, $\Delta M_r$.
+\end{enumerate}
+
+\begin{figure*}
+        \includegraphics[scale=0.3]{Figs/p_all_features_correlations.pdf}
+    \caption{Histograms and correlations curves for the eight features
+      used to train the classifiers.} 
+    \label{fig:features}
+\end{figure*}
+
 
 \begin{figure*}
   \centering 
@@ -308,33 +357,15 @@ elements.
     \label{fig:prediction}
 \end{figure*}
 
-\subsection{Features and meta-parameters}
-
-We use eight features to train the classifiers.
-Six features come from the $\beta$-skeleton algorithm applied over the distribution
-of galaxies with $\beta=1$.
-The first parameter is the number of connections minus the overall average number of
-connections, $\eta = N_c - \bar{N}_c$. 
-The second parameter is the ratio between the average distance across neighbors and its median
-value over all galaxies in the simulations $\delta=D_{av}/\bar{D}_{av}$.
-The third parameter is the logarithm of the pseudo-density $\rho$, $\varrho$. 
-This pseudo density $\rho$ is defined as the inverse of the volume computed from the ellipsoid that best fits the distribution of graph neighbors.
-We define three more features that we call $\Delta$-features: $\Delta\eta,\Delta\delta\,\text{and}\,\Delta\varrho$. 
-These values are computed as the difference between the corresponding value in a node and the 
-average value over first neighbors nodes.
-Two more features come from the simulation. The absolute magnitude in the 
-$r$-band, $M_r$, and its corresponding $\Delta M_r$.
-Figure \ref{fig:features} shows the histogram for all $\beta$-skeleton features.
-
-We also use the threshold $\lambda_{th}$ and the smoothing parameter $\sigma$ as
-meta-parameters that drive the T-Web classification. 
-We take $\lambda_{th}=0.0, 0.1, 0.2, 0.3, 0.4$ and $0.5$.
-For the smoothing parameter we take the values $\sigma=0.5$, $1.0$, $1.5$, $2.0$ and $2.5$. 
-
-
 \subsection{Classification Algorithms}
 
-We applied three different supervised machine learning algorithms: support vector machine (SVM),
+We explore three different supervised machine learning algorithms to
+predict the cosmic web environment from the features we have just
+presented.
+For each algorithm we also explore the most relevant metaparameters in
+the their performance.
+
+: support vector machine (SVM),
 classification trees and random forests as implemented in scikit-learn. 
  For each algorithm we explore the following metaparameters:
 \begin{itemize}
