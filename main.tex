@@ -75,21 +75,19 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 \begin{abstract}
 We show how it is possible to infer the environments of the cosmic web
 of dark matter using the information of the spatial distribution of
-galaxies and a machine learning algorithm.
-Handled the set of galaxies
-as a set of nodes, we applied the $\beta$-skeleton algorithm to
-extract geometrical information like the number of connections or the
-average distance by galaxy.
-Using these properties of the distribution
-of galaxies was probed the classification trees, random forest and SVM algorithms under
-different configurations to find the best set of parameters that makes
-a good prediction with the lowest confusion. 
-The results show that the
-local average distance between galaxies on the $\beta$-skeleton is the
-most important feature for the prediction of the cosmic web
-environment. 
-This is a good approximation that will allow us to use
-these algorithms to make predictions in observational data. 
+galaxies and a machine learning algorithm. 
+Handled the set of galaxies as a set of nodes, we applied the
+$\beta$-skeleton algorithm to extract geometrical information like the
+number of connections or the average distance by galaxy. 
+Using these properties of the distribution of galaxies was probed the
+classification trees, random forest and SVM algorithms under different
+configurations to find the best set of parameters that makes a good
+prediction with the lowest confusion.  
+The results show that the local average distance between galaxies on
+the $\beta$-skeleton is the most important feature for the prediction
+of the cosmic web environment. 
+This is a good approximation that will allow us to use these
+algorithms to make predictions in observational data.  
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -104,24 +102,35 @@ cosmic web -- $\beta$-skeleton -- machine learning
 \section{Introduction}
 The galaxy distribution on large spatial scales follows a structured 
 pattern commonly know as the cosmic web. 
-This web consists of dense spherical peaks connected by
+This web consists of dense spheroidal peaks connected by
 anisotropic filaments and walls woven across vast under-dense voids
 \citep{Bond1996}. 
-This pattern can be interpreted in the context provided
-by the $\Lambda$CDM cosmology, whereby initial density fluctuations 
-evolve into the present-day large-scale structure through graviational instability \citep{ZelDovich1970,White1987}. 
+This pattern can be interpreted in the context provided by the
+$\Lambda$CDM cosmology, whereby initial density fluctuations   evolve
+into the present-day large-scale structure through graviational
+instability \citep{ZelDovich1970,White1987}.  
 
-The cosmic web evolution can be followed in great detail by studying DM only cosmological simulations. Furthermore, there is a great variety of methods to detect and classify the cosmic web from these simulations into four different elements: peak, filament, sheet or void \citep{Libeskind2018}.
-Cosmic web detection algorithms that work directly on the discrete galaxy distribution are less abundant.
-Most of them are focused on some cosmic web elements.
-For instances, most of the attention has focused on void-finders \citep{Platen2007,Neyrinck2008,Ravoux2020} and filaments-finders \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019,Malavasi2020}. 
+The cosmic web evolution can be followed in great detail by studying
+DM only cosmological simulations. 
+Furthermore, there is a great variety of methods to detect and
+classify the cosmic web from these simulations into four different
+elements: peak, filament, sheet or void \citep{Libeskind2018}.  
+However, cosmic web detection algorithms that find these web elements
+starting from dicrete positions describing the galaxy distribution are
+less common.
+Most of them focuse on some cosmic web elements.
+For instance, there is a great variety of void-finders
+\citep{Platen2007,Neyrinck2008,Ravoux2020} and filaments-finders
+\citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019,Malavasi2020}.   
 
 There are two main approaches to find the four cosmic web elements
-from the galaxy distribution relies either on performing 
-the reconstruction of the dark matter around the galaxies
-or using an approximation where galaxies are interpolated over a 
-grid to process them in the same way as dark matter densities.
-The first approach is expensive, while the has large uncertainties.
+from the galaxy distribution.
+A first approach performsthe reconstruction of the dark matter around
+the galaxies, while the second directly interpolates galaxy position
+on a grid to process this interpolated field in the same way as dark
+matter densities. 
+The first approach is computationaly expensive, while the second has
+large physical uncertainties. 
 
 The approach that start from the galaxies in a redshift survey estimate a
 smooth galaxy overdensity distribution to use the Hessian of that
