@@ -43,7 +43,8 @@
 \newcommand{\kpc}{\,{\rm kpc}\,}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title[The $\beta$-skeleton and the T-web]{Cosmic web galaxy classification from the $\beta$-skeleton}
+\title[Cosmic web elements and the $\beta$-skeleton]{The four cosmic web
+  elements from the $\beta$-skeleton}
 
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
@@ -125,47 +126,42 @@ For instance, there is a great variety of void-finders
 
 There are two main approaches to find the four cosmic web elements
 from the galaxy distribution.
-A first approach performsthe reconstruction of the dark matter around
-the galaxies, while the second directly interpolates galaxy position
-on a grid to process this interpolated field in the same way as dark
-matter densities. 
-The first approach is computationaly expensive, while the second has
-large physical uncertainties. 
+A first approach directly interpolates galaxy positions
+on a grid to process this number density field in the same way as a dark
+matter density field \citep{Eardley2015,Alpaslan2016,Tojeiro2017,Shadab2019}. 
+This approach has a low compuational cost, is highly uncertain how
+accurate are these results with respect to the expected  cosmic web
+dark matter distribution. 
 
-The approach that start from the galaxies in a redshift survey estimate a
-smooth galaxy overdensity distribution to use the Hessian of that
-distribution in order to determine the cosmic web
-elements  \citep{Eardley2015,Alpaslan2016,Tojeiro2017,Shadab2019}. 
-This approach has a low compuational cost, is highly uncertain how accurate are these results with respect to the expected 
-cosmic web dark matter distribution.
-This uncertainty can be reduced by using algorithms that perform dark matter density reconstruction from a galaxy distribution.
+The second approach performs the reconstruction of the dark matter around
+the observed galaxies.
 Most of these algorithms use Bayesian statistics coupled with Monte
-Carlo sampling  and N-body simulations.\citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}.
-Some others are based on the density distribution around halos that are associated to galaxy groups \citep{Wang2009,2011MNRAS.417.1303M}. 
-This approach can get a good results in terms of the accuracy of the 
-DM distribution, but the downside is that it can be very expensive from the computational point of view.
+Carlo sampling  and N-body
+simulations \citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}. 
+Some others are based on the density distribution around halos that
+are associated to galaxy groups \citep{Wang2009,2011MNRAS.417.1303M}.  
+This generic approach can provide accurate DM distributions, but can
+be very expensive from the computational point of view. 
 
-
-Recently, Machine Learning (ML) methods have been used to compute the
-web elements from the DM halo properties \citep{Hui2018}. 
-This approach has the promise to offer a good accuracy with an intermediate computational cost.
-Under this approach of supeverside ML classification on needs a training
-dataset (some galaxy properties), the classes to classify the dataset (the four cosmic web environments) and an algorithm capable to link 
-the galaxy properties to the cosmic web environment.
+Recently, Machine Learning (ML) methods have been used to solve the
+intermediate problem of finding the four web elements from discrete
+tracers \citep{Hui2018}. 
+This avoids the uncertain grid interpolation of tracers and the expensive
+DM density reconstrution.
+Under this approach of supervised ML classification needs a training
+dataset (some galaxy properties), the classes to classify the dataset
+(the four cosmic web environments) and an algorithm capable to link
+he galaxy properties to the cosmic web environment.
 This paper is inscribed into that line of work.
 
 
-
-The goal of this paper is to avoid expensive reconstruction algorithms
-and binning of galaxy data to provide a new way to connect the galaxy
-distribution to its dark matter web environment.
-To do that, we build a graph on top of the galaxy distribution 
-to build a set of features that can be used to predict the web
-environment.
-
-We demonstrate an specific implementation of this approach using 
-the $\beta$-skeleton graph \citep{Fang2019} and the 
-T-web \citep{Forero-Romero2009} cosmic web classification.
+We want to explore to what extent graph properties built on a galaxy
+distribution can predict the cosmic web element to which every galaxy
+belongs. 
+We demonstrate an specific implementation of this approach by using
+the $\beta$-skeleton graph \citep{Fang2019} and the  T-web
+\citep{Forero-Romero2009} classification into four cosmic web
+elements.  
 We test three different supervised machine learning
 algorithms (support vector machine, Tree Classifier, Random Forest) 
 to train from the features and predict the environment.
@@ -173,16 +169,16 @@ We quantify the precision and accuracy of the algorithms using
 the Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$.
 
 This paper is organized as follows. 
-In section \ref{sec:init} we describe the T-web algorithm,
+In Section \ref{sec:init} we describe the T-web algorithm,
 the $\beta$-skeleton graph and the summarize the most important
 aspects of the Illustris-TNG simulations relevant to our work.
-In the section \ref{sec:link} we
-describe the mechanism to link the $\beta$-skeleton to the T-Web
-using machine learning algorithms. 
+In Section \ref{sec:link} we describe the mechanism to link the
+$\beta$-skeleton to the T-Web using machine learning algorithms. 
 There we detail the features and meta-parameters we use, the
-classification algorithms and the metrics for model evaluation. 
-In the section \ref{sec:results} we present our results
-to finally summarize our conclusions in \ref{sec:conclusions}.
+classification algorithms and the metrics for model evaluation.  
+In the Section \ref{sec:results} we present our results
+to finally summarize our conclusions in Section
+\ref{sec:conclusions}. 
 
 
 \section{Initial Algorithms and Simulations}\label{sec:init}
