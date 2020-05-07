@@ -181,15 +181,18 @@ In the Section \ref{sec:results} we present our results
 to finally summarize our conclusions in Section
 \ref{sec:conclusions}. 
 
-
-\section{Initial Algorithms and Simulations}\label{sec:init}
-
 \begin{figure*}
 \centering
  \includegraphics[scale=0.28]{Figs/Fig1_.png}%Figs/p_TWeb_bsk.pdf}
- \caption{Comparison between the T-Web of dark matter density field (left) and the $\beta$-skeleton (right) computed from the distribution of galaxies with $\beta$=1 for Illustris-TNG300.}
+ \caption{Comparison between the T-Web of dark matter density field
+   (left) and the $\beta$-skeleton (right) computed from the
+   distribution of galaxies with $\beta$=1 for Illustris-TNG300.}  
  \label{fig:TWebBsk}
 \end{figure*}
+
+
+\section{Initial Algorithms and Simulations}\label{sec:init}
+
 
 \subsection{Illustris-TNG}
 
@@ -348,16 +351,6 @@ Two more features come from the $r$-band magnitudes
     \label{fig:features}
 \end{figure*}
 
-
-\begin{figure*}
-  \centering 
-    \includegraphics[scale=0.32]{Figs/p_environment_predicted.pdf}
-    \caption{Comparison between the DM T-Web from the Illustris-TNG
-      simulation and the environments predicted by the Tree Classifier
-      algorithm.} 
-    \label{fig:prediction}
-\end{figure*}
-
 \subsection{Classification Algorithms}
 
 We explore three different supervised machine learning algorithms to
@@ -391,12 +384,21 @@ the their performance.
 \subsection{Model evaluation}
 
 
-From the box simulation, we select randomly a 50$\%$ of galaxies by
-class of environment to train the ML algorithms. We use the other
-30$\%$ as test and  20$\%$ as validation. Due to the box simulation
-has periodic conditions, we selected the galaxies located between 5Mpc
-and 295Mpc in order to make the model consistent.   
-As success metrics, we compute the precision, recall and the F1 score
+From the box simulation, we select randomly a 50$\%$ of galaxies 
+to train the ML algorithms. 
+We use 30$\%$ as test to find the best free parameters that link the
+cosmic web and the beta skeleton and fix the ML algorithm
+meta-parameters.
+Once we find the best algorithm, the best set of parameters and
+meta-parameters we use the remaining 20 $\%$ of data as validation to
+report on the expected confusion matrix and feature importance for the
+classification.
+
+
+We only selected the galaxies located 5 Mpc away from the box limits
+to avoid boundary effects comming from incomplete $\beta$-skeleton
+information.
+As performance metrics we compute the precision, recall and the F1 score
 (harmonic mean between precision and recall). 
 We use the average F1 score across classes to select the best models
 and its meta-parameters. 
@@ -441,6 +443,45 @@ peaks are reasonable, while voids are the worst.
 \label{tab:methods}
 \end{table*}
 
+
+\begin{figure*}
+\centering
+    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av.pdf}
+    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av_no_voids.pdf}
+    \caption{Distribution of the meta-parameters and the F1 average
+      when the voids are including in the average. We can observe that
+      the $\lambda$ meta-parameter are including in 0.5, $\sigma$
+      jumps between 1.5 and 2.0, $M_r$ could be -14,-16,-18 and $NE$
+      are concentrate in 100.} 
+    \label{fig:features}    
+\end{figure*}
+
+\begin{figure*}
+\centering
+    \includegraphics[scale=0.33]{Figs/p_confusion_matrix_20.pdf}
+    \includegraphics[scale=0.4]{Figs/p_features_importance_20.pdf}  
+    \caption{Confusion Matrix for the 20 best performing
+      models. Columns represent the predictions, and rows the ground
+      truth. In the CM for the prediction of peaks only the $62\%$ was
+      predicted correctly. The best prediction are obtained for the
+      filaments, where the $80\%$ was predicted correctly. The worst
+      prediction was for the voids where only the $8\%$ was predicted
+      correctly.} 
+    \label{fig:confusion_matrix}    
+\end{figure*}
+
+
+
+\begin{figure*}
+  \centering 
+    \includegraphics[scale=0.32]{Figs/p_environment_predicted.pdf}
+    \caption{Comparison between the DM T-Web from the Illustris-TNG
+      simulation and the environments predicted by the Tree Classifier
+      algorithm.} 
+    \label{fig:prediction}
+\end{figure*}
+
+
 The comparison between all results obtained for the three machine
 learning methods is in terms of the F1 average score. These results
 are represented in Figure \ref{fig:methods}, when the voids are
@@ -466,53 +507,6 @@ this due the population of them as we can see in the right figure of the Fig.\re
 we can observe that the amount of voids is considerably less than the
 others environments almost in one order. 
 
-\begin{figure*}
-\centering
-    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av.pdf}
-    \caption{Distribution of the meta-parameters and the F1 average
-      when the voids are including in the average. We can observe that
-      the $\lambda$ meta-parameter are including in 0.5, $\sigma$
-      jumps between 1.5 and 2.0, $M_r$ could be -14,-16,-18 and $NE$
-      are concentrate in 100.} 
-    \label{fig:features_void}    
-\end{figure*}
-
-\begin{figure*}
-\centering
-    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av_no_voids.pdf}
-    \caption{Distribution of the meta-parameters and the F1 average
-      when the voids are not including in the average. We can observe
-      that the $\lambda$ meta-parameter is centered in 0.1, mainly,
-      $\sigma$ jumps between 1.5 and 2.0, $M_r$ could be -14 or -16
-      and $NE$ are concentrate in 80-100.} 
-    \label{fig:features_no_void}    
-\end{figure*}
-
-\begin{figure}
-\centering
-    \includegraphics[scale=0.33]{Figs/p_confusion_matrix_20.pdf}
-    \caption{Confusion Matrix for the 20 best performing
-      models. Columns represent the predictions, and rows the ground
-      truth. In the CM for the prediction of peaks only the $62\%$ was
-      predicted correctly. The best prediction are obtained for the
-      filaments, where the $80\%$ was predicted correctly. The worst
-      prediction was for the voids where only the $8\%$ was predicted
-      correctly.} 
-    \label{fig:confusion_matrix}    
-\end{figure}
-
-\begin{figure}
-\centering
-    \includegraphics[scale=0.4]{Figs/p_features_importance_20.pdf}  
-    \caption{Feature importance for the best classification with
-      $\lambda_{th}$=0.3 ,$\sigma$=1.5, $M_{r}<-14$ and Max
-      Depth=10. This figure show us that the most important variable
-      from the $\beta$-skeleton to make the best prediction are
-      related with the average distance between the connections of the
-      galaxies. The importance of the $\delta$ parameter is near to
-      the $50\%$.} 
-    \label{fig:feature_importance}     
-\end{figure}
 
 Including the NE meta-parameter, the Fig. \ref{fig:features_void}
 shows the distributions of all meta-parameters for the 20 best results
@@ -554,6 +548,7 @@ extracted from the 2 and 3-skeleton, the results do not vary in
 comparison when we used only the features of the 1-skeleton, these
 showed that the 2 and 3-skeleton do not contain important information
 to predict the T-Web. 
+
 
 
 \section{Conclusions}\label{sec:conclusions}
