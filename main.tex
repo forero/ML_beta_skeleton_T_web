@@ -358,10 +358,11 @@ corresponding $\Delta$ features.
 
 \subsection{Classification Algorithms}
 
-We explore three different supervised machine learning algorithms to predict the cosmic web environment from the features we have just
-presented.
-For each algorithm we also explore the most relevant metaparameters in
-the their performance.
+We explore three different supervised machine learning algorithms to
+predict the cosmic web environment from the features we have just
+presented. 
+For each algorithmthe most relevant metaparameters driving their
+performance.
 
 \begin{itemize}
     \item Support Vector machines: 
@@ -370,7 +371,8 @@ the their performance.
             \item Regularization parameter $C$=0.01, 0.1, 1.0.
             \item Scale for the radial basis function  $\gamma$=0.01, 0.1, 1.0.
         \end{itemize}
-        For this algorithm we standardize the input features to have mean zero and standard deviation of one.
+        For this algorithm we standardize the input features to have
+        mean zero and standard deviation of one. 
     \item Classification trees
       \begin{itemize}
       \item Maximum tree depth: From 1 to 30.
@@ -384,20 +386,22 @@ the their performance.
 
 \subsection{Model evaluation}
 
-From the box simulation, we select randomly a 50$\%$ of galaxies to train the ML algorithms. 
-We use 30$\%$ as test to find the best free parameters that link the
-cosmic web and the beta skeleton and fix the ML algorithm
-meta-parameters.
-Once we find the best algorithm, the best set of parameters and
-meta-parameters we use the remaining 20 $\%$ of data as validation to
-report on the expected confusion matrix and feature importance for the
-classification.
-
-We only selected the galaxies located 5 Mpc away from the box limits to avoid boundary effects coming from incomplete $\beta$-skeleton
-information.
-As performance metrics we compute the precision, recall and the F1 score (harmonic mean between precision and recall). 
-We use the average F1 score across classes to select the best models
-and its meta-parameters. 
+After computing the features we discard the galaxies located within 5 Mpc
+away from the box limits  in order  to avoid boundary effects coming
+from incomplete $\beta$-skeleton information.  
+From this set we randomly select $50\%$ of galaxies to train the ML
+algorithms.   
+We use another $30\%$ as test to find the best algorithm and ML
+meta-parameters that link the cosmic web and the $\beta$-skeleton.  
+Once that is selected we use the same $30\%$ to find the best 
+T-web and $\beta$-skeleton parameters. 
+Finally, we use an additional 20 $\%$ of data as validation to  report
+on the expected confusion matrix and feature importance for the
+classification. 
+As performance metrics we compute the precision, recall and the F1
+score (harmonic mean between precision and recall).  
+We use both the F1 for each web environment and the average F1 across
+environments. 
 
 \section{Results}\label{sec:results}
 
@@ -501,27 +505,33 @@ considered to compute the F1 average (left) and when not (right).
     \label{fig:features_void}    
 \end{figure*}
 
-\begin{figure*}
-\centering
-    \includegraphics[scale=0.32]{Figs/p_confusion_matrix_20.pdf}
-    \includegraphics[scale=0.28]{Figs/p_features_importance_20.pdf}  
-    \caption{(Left) Confusion Matrix (CM) for the 20 best performing
-      models. Columns represent the predictions, and rows the ground
-      truth. In the CM for the prediction of peaks only the $62\%$ was predicted correctly. The best prediction are obtained for the
-      filaments, where the $80\%$ was predicted correctly. The worst  prediction was for the voids where only the $8\%$ was predicted
-      correctly.
-      (Right) Feature importance to predict the environments in the cosmic web. Here the most important feature is the local average distance $\Delta\delta$ with a $30\%$ of importance, follow by the local number of connections with a $26\%$ of importance.} 
-    \label{fig:confusion_matrix}
-\end{figure*}
+%\begin{figure*}
+%\centering
+%    \includegraphics[scale=0.32]{Figs/p_confusion_matrix_20.pdf}
+%    \includegraphics[scale=0.28]{Figs/p_features_importance_20.pdf}  
+%    \caption{(Left) Confusion Matrix (CM) for the 20 best performing
+%      models. Columns represent the predictions, and rows the ground
+%      truth. In the CM for the prediction of peaks only the $62\%$ was predicted correctly. The best prediction are obtained for the
+%      filaments, where the $80\%$ was predicted correctly. The worst  prediction was for the voids where only the $8\%$ was predicted
+%      correctly.
+%      (Right) Feature importance to predict the environments in the cosmic web. Here the most important feature is the local average distance $\Delta\delta$ with a $30\%$ of importance, follow by the local number of connections with a $26\%$ of importance.} 
+%    \label{fig:confusion_matrix}
+%\end{figure*}
 
 \begin{figure*}
 \centering
     \includegraphics[scale=0.32]{Figs/p_confusion_matrix_valid.pdf}
     \includegraphics[scale=0.28]{Figs/p_features_importance_valid.pdf}  
-    \caption{(Left) Confusion Matrix (CM) for the valid data with the best model $\lambda_{th}$=0.1, $\sigma$=1.5, $M_r$=-14 and $NE$=80. The best prediction are obtained for the
-      filaments, where the $81\%$ was predicted correctly. The worst  prediction was for the voids where only the $6\%$ was predicted
+    \caption{(Left) Confusion Matrix (CM) for the valid data with the
+      best model $\lambda_{th}$=0.1, $\sigma$=1.5, $M_r$=-14 and
+      $NE$=80. The best prediction are obtained for the 
+      filaments, where the $81\%$ was predicted correctly. The worst
+      prediction was for the voids where only the $6\%$ was predicted 
       correctly.
-      (Right) Feature importance for the valid data. The most important feature is the local average distance $\Delta\delta$ with a $32\%$ of importance, follow by the local number of connections with a $27\%$ of importance.} 
+      (Right) Feature importance for the valid data. The most
+      important feature is the local average distance $\Delta\delta$
+      with a $32\%$ of importance, follow by the local number of
+      connections with a $27\%$ of importance.}  
     \label{fig:confusion_matrix_valid}
 \end{figure*}
 
