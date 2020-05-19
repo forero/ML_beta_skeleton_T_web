@@ -189,6 +189,13 @@ to finally summarize our conclusions in Section
 \end{figure*}
 
 
+\begin{figure*}
+        \includegraphics[scale=0.37]{Figs/p_all_features_correlations.pdf}
+    \caption{Histograms and correlations curves for the eight features
+      used to train the classifiers.}  
+    \label{fig:features}
+\end{figure*}
+
 \section{Initial Algorithms and Simulations}\label{sec:init}
 
 \subsection{Illustris-TNG}
@@ -205,8 +212,8 @@ visible matter like stars, black holes or diffuse gas jointly with the
 distribution of DM.
 The project includes simulated galaxies as realistic as possible in
 order to make a comparison with the real universe. There are 18
-different simulations in this project with boxes of sizes 50, 100 and
-300 Mpc that started at $z=127$ and finalized at $z=0$.   
+different simulations in this project with boxes of sizes $50$, $100$ and
+$300$ Mpc that started at $z=127$ and finalized at $z=0$.   
 
 \subsection{T-Web Classification}
 
@@ -241,7 +248,7 @@ finite differences, 6) find the eigenvalues and finally 7) count the
 number of eigenvalues larger than the threshold $\lambda_{th}$. 
 
 
-\subsection{The \texorpdfstring{$\beta$}-skeleton algorithm}
+\subsection{The $\beta$-skeleton algorithm}
 
 The $\beta$-skeleton is an algorithm that computes a graph over a
 distribution of nodes \citep{Kirkpatrick1985, Fang2019}.  
@@ -260,7 +267,7 @@ The $2$-skeleton is also known as the Relative Neighbor Graph (RNG).
 In our case, the galaxies represent a node in the graph.
 From this graph, we compute a variety of features to be used as an input for the classification task. 
 
-\section{Linking the \texorpdfstring{$\beta$}-skeleton to the T-Web}\label{sec:link}
+\section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
 Figure \ref{fig:TWebBsk} shows the correlation between the DM overdensity
 and the $\beta$-skeleton graph computed over the corresponding galaxy
@@ -270,7 +277,7 @@ a good chance to predict the DM web environment.
 However, there is a number of free parameters that have to be explored
 to find the best match between the $\beta$-skeleton and the cosmic web.
 
-\subsection{T-web and \texorpdfstring{$\beta$}-skeleton free parameters}
+\subsection{T-web and $\beta$-skeleton free parameters}
 
 For a start, the influence of the $\beta$ parameter has to be explored.
 Additionally, the classification provided by the T-web algorithm
@@ -282,16 +289,26 @@ to define the galaxy sample.
 Different values for that threshold naturally produce different galaxy
 distributions and thus different $\beta$-skeletons. 
 
-We take $\lambda_{th}=0.0, 0.1, 0.2, 0.3, 0.4$ and $0.5$.
-For the smoothing parameter we take the values $\sigma = 0.5,1.0,1.5,2.0$ and $2.5$, expressed in cell units.
-For $M_{r}$ we use  $-18, -16, -14$ and $-12$. 
-We explored the influence of $\beta$ in the range $1\leq \beta \leq 2$
-to find that the best results are obtained for $\beta=1$. 
+The T-web computation is performed over a cubic grid with $256^3$
+cells.  
+This corresponds to a cell size of $1.17$ Mpc.
+For the smoothing parameter we take five different values of $\sigma =
+0.5$, $1.0$, $1.5$, $2.0$ and $2.5$, expressed in units of the cell
+size on a side.   
+In turn, for each smoothing length we take five different values for
+the eigenvalue threshold
+$\lambda_{th}=0.0, 0.1, 0.2, 0.3, 0.4$ and $0.5$. 
+We use four different values for the limiting $r$-band magnitude
+$M_{r}$ we use  $-18, -16, -14$ and $-12$.
+From these galaxies we compute the skeleton using values of $\beta$ in
+the range $1\leq \beta \leq 2$ to find that the best results are
+obtained for $\beta=1$.   
 Therefore we keep this value fixed for the results reported here.
 
-For given values of these four different parameters ($\beta$,
-$\sigma$, $\lambda_{th}$ and $M_{r}$) the $\beta$-skeleton and the T-web are fixed.
-Next we define what features to use to predict the four cosmic web elements.
+Once these four different parameters ($\beta$,
+$\sigma$, $\lambda_{th}$ and $M_{r}$) are fixed the $\beta$-skeleton and the
+T-web are fixed.  
+Next we define what features used to predict the four cosmic web elements.
 
 \subsection{Galaxy Features}
 We use eight features for each galaxy in the $\beta$-skeleton to train the classifiers. 
@@ -309,11 +326,12 @@ The logarithm of the pseudo-density over the graph,
 This pseudo density $\rho$ is defined as the inverse of the volume
 computed from the ellipsoid that best fits the distribution of first
 neighbors over the graph. 
-If a galaxy has less than three neighbors its volume at fixed in $10^{-4}$.
+If a galaxy has less than three neighbors its volume is fixed to be $10^{-4}$.
 \end{enumerate}
 \noindent
 We define three more features that we call $\Delta$-features.
-Their values are computed as the difference between the corresponding value in a node and the average value over first neighbors nodes. 
+Their values are computed as the difference between the corresponding
+value in a node and the average value over first neighbors nodes.  
 They can be loosely interpreted as a first derivative computed over the graph. 
 
 \begin{enumerate}
@@ -329,11 +347,14 @@ Two more features come from the $r$-band magnitudes
 \item[8)] $\Delta$ over the absolute $r$-band magnitude, $\Delta M_r$.
 \end{enumerate}
 
-\begin{figure*}
-        \includegraphics[scale=0.37]{Figs/p_all_features_correlations.pdf}
-    \caption{Histograms and correlations curves for the eight features used to train the classifiers.} 
-    \label{fig:features}
-\end{figure*}
+Figure \ref{fig:features} show the correlations among all features.
+The diagonal panels present the distribution of a given parameters.
+The strongest correlations are present for the the average number of
+connections $\eta$, the connection length $\delta$, the
+pseudo-density $\varrho$ and the r-band magnitude $M_r$ with their
+corresponding $\Delta$ features.
+
+
 
 \subsection{Classification Algorithms}
 
