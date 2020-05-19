@@ -405,11 +405,46 @@ environments.
 
 \section{Results}\label{sec:results}
 
+We start by comparing the performance of the different ML learning
+algorithms.
+Figure \ref{fig:methods} shows the the average F1 distribution for
+all the classification experiments. 
+The histograms are discriminated into the three ML algorithm.
+The first result that stands out is that SVM shows the worst
+classification results.
+On average the F1 score is around 0.3, while its best value is close
+to 0.5.
+
+For Classification Trees and Random Forest the results are notably better. 
+
+
+
+
+Figure \ref{fig:prediction} shows the comparison between the ground
+truth environments (left) and the prediction (right) by the best ML algorithm
+with the optimized parameters and meta-parameters  for the best
+method. 
+The visual impression is that the sheets and filaments have good predictions,
+peaks are reasonable, while voids are the worst. 
+
+\begin{figure*}
+    \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
+    \caption{Distributions of the F1 average for the three machine
+      learning methods. F1-score average distributions considering the
+      four environments (left) and without consider the voids
+      (right).} 
+    \label{fig:methods}
+\end{figure*}
+
+
+
 \begin{table*}
 \centering
 \begin{tabular}{cccccccc}
 \hline
- Method   & $F1_{peak}$     & $F1_{fila}$     & $F1_{sheet}$    & $F1_{voids}$    & $F1_{av}\,[all]$   & $F1_{av}\,[without \,\,voids]$   \\
+ Method   & $F1_{\mathrm{peak}}$     & $F1_{\mathrm{filament}}$     &
+ $F1_{\mathrm{sheet}}$    & $F1_{\mathrm{void}}$    &
+ $F1_{\mathrm{avg,all}}$   & $\bar{F1}_{\mathrm{avg,without\ voids}}$   \\
 \hline
  Forest   & 0.520 $\pm$ 0.261  & 0.716 $\pm$ 0.054 & 0.558 $\pm$ 0.054 & 0.274 $\pm$ 0.187 & 0.517 $\pm$ 0.085  & 0.598 $\pm$ 0.084 \\
  Tree     & 0.468 $\pm$ 0.243 & 0.663 $\pm$ 0.071 & 0.505 $\pm$ 0.104 & 0.272 $\pm$ 0.173 & 0.477 $\pm$ 0.093 & 0.545 $\pm$ 0.089  \\
@@ -426,6 +461,24 @@ in the 20 best models for
   not consider the voids in the F1 average.} 
 \label{tab:methods}
 \end{table*}
+
+
+\begin{figure*}
+\centering
+    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av.pdf}
+    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av_no_voids.pdf}
+    \caption{(Upper) Distribution of the meta-parameters and the F1 average
+      when the voids are including in the average. We can observe that
+      the $\lambda$ meta-parameter is 0.5, while $\sigma$
+      jumps between 1.5 and 2.0, $M_r$ is -16 mainly and $NE$ are concentrate in 100.
+      (Bottom) Distributions when the voids are not including in the average. We can observe that
+      the $\lambda$ meta-parameter is 0.1, while $\sigma$
+      jumps between 1.5 and 2.0, also, $M_r$ is -14 and $NE$ have a peak in 80.
+      } 
+    \label{fig:features_void}    
+\end{figure*}
+
+
 
 \begin{table}
 \centering
@@ -458,53 +511,6 @@ in the 20 best models for
 \caption{Values of the meta parameters for the best 20 models using Random Forest with the test data when we do not consider the voids in the F1 average score.}
 \label{tab:metaparameters}
 \end{table}
-
-Figure \ref{fig:prediction} shows the comparison between the ground
-truth environments (left) and the prediction (right) by the best ML algorithm
-with the optimized parameters and meta-parameters  for the best
-method. 
-The visual impression is that the sheets and filaments have good predictions,
-peaks are reasonable, while voids are the worst. 
-
-\begin{figure*}
-  \centering 
-    \includegraphics[scale=0.3]{Figs/p_environment_predicted.pdf}
-    \caption{Comparison between the DM T-Web from the Illustris-TNG
-      simulation and the environments predicted by the Tree Classifier
-      algorithm.} 
-    \label{fig:prediction}
-\end{figure*}
-
-\begin{figure*}
-    \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
-    \caption{Distributions of the F1 average for the three machine
-      learning methods. F1-score average distributions considering the
-      four environments (left) and without consider the voids
-      (right).} 
-    \label{fig:methods}
-\end{figure*}
-
-The comparison between all results obtained for the three machine
-learning methods is in terms of the F1 average using the test data. These results
-are represented in Figure \ref{fig:methods}, when the voids are
-considered to compute the F1 average (left) and when not (right). 
-
-
-\begin{figure*}
-\centering
-    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av.pdf}
-    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av_no_voids.pdf}
-    \caption{(Upper) Distribution of the meta-parameters and the F1 average
-      when the voids are including in the average. We can observe that
-      the $\lambda$ meta-parameter is 0.5, while $\sigma$
-      jumps between 1.5 and 2.0, $M_r$ is -16 mainly and $NE$ are concentrate in 100.
-      (Bottom) Distributions when the voids are not including in the average. We can observe that
-      the $\lambda$ meta-parameter is 0.1, while $\sigma$
-      jumps between 1.5 and 2.0, also, $M_r$ is -14 and $NE$ have a peak in 80.
-      } 
-    \label{fig:features_void}    
-\end{figure*}
-
 %\begin{figure*}
 %\centering
 %    \includegraphics[scale=0.32]{Figs/p_confusion_matrix_20.pdf}
@@ -588,6 +594,17 @@ extracted from the 2 and 3-skeleton, the results do not vary in
 comparison when we used only the features of the 1-skeleton, these
 showed that the 2 and 3-skeleton do not contain important information
 to predict the T-Web. 
+
+
+\begin{figure*}
+  \centering 
+    \includegraphics[scale=0.3]{Figs/p_environment_predicted.pdf}
+    \caption{Comparison between the DM T-Web from the Illustris-TNG
+      simulation and the environments predicted by the Tree Classifier
+      algorithm.} 
+    \label{fig:prediction}
+\end{figure*}
+
 
 \section{Conclusions}\label{sec:conclusions}
 
