@@ -427,40 +427,41 @@ method.
 The visual impression is that the sheets and filaments have good predictions,
 peaks are reasonable, while voids are the worst. 
 
-\begin{figure*}
+\begin{figure}
     \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
     \caption{Distributions of the F1 average for the three machine
       learning methods. F1-score average distributions considering the
       four environments (left) and without consider the voids
       (right).} 
     \label{fig:methods}
-\end{figure*}
+\end{figure}
 
 
 
-\begin{table*}
+\begin{table}
 \centering
-\begin{tabular}{cccccccc}
+\begin{tabular}{p{1.8cm}ccc}
 \hline
- Method   & $F1_{\mathrm{peak}}$     & $F1_{\mathrm{filament}}$     &
- $F1_{\mathrm{sheet}}$    & $F1_{\mathrm{void}}$    &
- $F1_{\mathrm{avg,all}}$   & $F1_{\mathrm{avg,without\ voids}}$   \\
+                  & RF                & TC                & SVM               \\
 \hline
- Forest   & 0.520 $\pm$ 0.261  & 0.716 $\pm$ 0.054 & 0.558 $\pm$ 0.054 & 0.274 $\pm$ 0.187 & 0.517 $\pm$ 0.085  & 0.598 $\pm$ 0.084 \\
- Tree     & 0.468 $\pm$ 0.243 & 0.663 $\pm$ 0.071 & 0.505 $\pm$ 0.104 & 0.272 $\pm$ 0.173 & 0.477 $\pm$ 0.093 & 0.545 $\pm$ 0.089  \\
- SVM      & 0.426 $\pm$ 0.090  & 0.332 $\pm$ 0.095 & 0.266 $\pm$ 0.097 & 0.129 $\pm$ 0.099 & 0.288 $\pm$ 0.068 & 0.341 $\pm$ 0.072   \\
+ F1 Peaks               & 0.52 $\pm$ 0.26  & 0.46 $\pm$ 0.24 & 0.42 $\pm$ 0.09  \\
+ F1 Filaments          & 0.71 $\pm$ 0.05 & 0.66 $\pm$ 0.07 & 0.33 $\pm$ 0.09 \\
+ F1 Sheets             & 0.55 $\pm$ 0.05 & 0.50 $\pm$ 0.10 & 0.26 $\pm$ 0.09 \\
+ F1 Voids              & 0.27 $\pm$ 0.18 & 0.27 $\pm$ 0.17 & 0.12 $\pm$ 0.09 \\
+ Average F1\\ with voids    & 0.51 $\pm$ 0.08 & 0.47 $\pm$ 0.09 & 0.28 $\pm$ 0.06 \\
+ Average F1\\ without voids & 0.59 $\pm$ 0.08 & 0.54 $\pm$ 0.08 & 0.34 $\pm$ 0.07 \\
 \hline
 \end{tabular}
 \caption{F1 score for the environments 
 in the 20 best models for
-  the three machine learning methods probed: Random Forest, Tree
-  Classifier, and SVM using the test data. It was computed the mean value and error in the
+  the three machine learning methods probed: Random Forest (RF), Tree
+  Classifier (TC), and support vector machine (SVM) using the test data. It was computed the mean value and error in the
   F1 score by method in both cases: with voids $F1_{av}\,[all]$, and
   without voids $F1_{av}\,[without voids]$. According to these
   results, the best method is the Random Forest algorithm when we do
   not consider the voids in the F1 average.} 
 \label{tab:methods}
-\end{table*}
+\end{table}
 
 
 \begin{figure*}
