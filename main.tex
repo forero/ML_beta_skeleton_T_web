@@ -412,16 +412,43 @@ environments.
 \begin{figure}
     \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
     \caption{Histograms of the average F1 for the three machine
-      learning methods.
+      learning algorithms.
       The average F1 changes as the parameter and meta-parameter
       are changed.}
     \label{fig:methods}
 \end{figure}
 
+
+
+\begin{table}
+\centering
+\begin{tabular}{p{1.8cm}ccc}
+\hline
+                  & Random               & Classification        & SVM\\
+                  & Forest               & Trees                &  \\
+\hline
+ F1 Peaks               & 0.52 $\pm$ 0.26  & 0.46 $\pm$ 0.24 & 0.42 $\pm$ 0.09  \\
+ F1 Filaments          & 0.71 $\pm$ 0.05 & 0.66 $\pm$ 0.07 & 0.33 $\pm$ 0.09 \\
+ F1 Sheets             & 0.55 $\pm$ 0.05 & 0.50 $\pm$ 0.10 & 0.26 $\pm$ 0.09 \\
+ F1 Voids              & 0.27 $\pm$ 0.18 & 0.27 $\pm$ 0.17 & 0.12 $\pm$ 0.09 \\
+ Average F1\\ with voids    & 0.51 $\pm$ 0.08 & 0.47 $\pm$ 0.09 & 0.28 $\pm$ 0.06 \\
+ Average F1\\ without voids & 0.59 $\pm$ 0.08 & 0.54 $\pm$ 0.08 & 0.34 $\pm$ 0.07 \\
+\hline
+\end{tabular}
+\caption{Mean values and standard deviations over the F1
+  scores for the 20 best models in each one of the ML algorithms.
+  The first four rows differentiate the results for each one of the
+  environemnts.
+  The fifth row corresponds to the unweighted average over the four
+  web elements, while the last row is the average over web elements
+  with the exclusion of voids.}
+\label{table:elements}
+\end{table}
+
 \section{Results}\label{sec:results}
 
 
-
+\subsection{ML algorithm performance}
 We start by comparing the performance of the different ML learning
 algorithms.
 Figure \ref{fig:methods} shows the the average F1 distribution for
@@ -433,7 +460,27 @@ On average the F1 score is around 0.3, while its best value is close
 to 0.5.
 
 For Classification Trees and Random Forest the results are notably better. 
-T
+The mean value over the distribution is close to 0.5 while their best
+average F1 is close to 0.6.
+From these two modelos, the results from the Random Forest are
+better; the F1 value distribution is skewed towards higher values than
+the distribution from the Classification Tree.
+From this overall response over all possible models, Random Forest
+emerges as the best model.
+We perform a more detailed analysis by taking a look at the best
+models from all the three different ML algorithms.
+We choose the best $20$ results in terms of the average F1 to understand
+in detail the algorithm performance and the influence on the 
+different web elements classification.
+Considering the best $10$ or $50$ models does not affect the results
+and insights we are about to present.
+
+\subsection{Cosmic Web element peformance}
+
+Table \ref{table:elements} summarizes the F1 performance split by cosmic
+web elements in the first four rows.
+
+
 
 Figure \ref{fig:prediction} shows the comparison between the ground
 truth environments (left) and the prediction (right) by the best ML algorithm
@@ -500,31 +547,6 @@ showed that the 2 and 3-skeleton do not contain important information
 to predict the T-Web. 
 
 
-
-\begin{table}
-\centering
-\begin{tabular}{p{1.8cm}ccc}
-\hline
-                  & RF                & TC                & SVM               \\
-\hline
- F1 Peaks               & 0.52 $\pm$ 0.26  & 0.46 $\pm$ 0.24 & 0.42 $\pm$ 0.09  \\
- F1 Filaments          & 0.71 $\pm$ 0.05 & 0.66 $\pm$ 0.07 & 0.33 $\pm$ 0.09 \\
- F1 Sheets             & 0.55 $\pm$ 0.05 & 0.50 $\pm$ 0.10 & 0.26 $\pm$ 0.09 \\
- F1 Voids              & 0.27 $\pm$ 0.18 & 0.27 $\pm$ 0.17 & 0.12 $\pm$ 0.09 \\
- Average F1\\ with voids    & 0.51 $\pm$ 0.08 & 0.47 $\pm$ 0.09 & 0.28 $\pm$ 0.06 \\
- Average F1\\ without voids & 0.59 $\pm$ 0.08 & 0.54 $\pm$ 0.08 & 0.34 $\pm$ 0.07 \\
-\hline
-\end{tabular}
-\caption{F1 score for the environments 
-in the 20 best models for
-  the three machine learning methods probed: Random Forest (RF), Tree
-  Classifier (TC), and support vector machine (SVM) using the test data. It was computed the mean value and error in the
-  F1 score by method in both cases: with voids $F1_{av}\,[all]$, and
-  without voids $F1_{av}\,[without voids]$. According to these
-  results, the best method is the Random Forest algorithm when we do
-  not consider the voids in the F1 average.} 
-\label{tab:methods}
-\end{table}
 
 
 \begin{figure*}
