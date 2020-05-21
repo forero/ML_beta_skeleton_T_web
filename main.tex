@@ -196,6 +196,8 @@ to finally summarize our conclusions in Section
     \label{fig:features}
 \end{figure*}
 
+
+
 \section{Initial Algorithms and Simulations}\label{sec:init}
 
 \subsection{Illustris-TNG}
@@ -266,6 +268,8 @@ The $2$-skeleton is also known as the Relative Neighbor Graph (RNG).
 
 In our case, the galaxies represent a node in the graph.
 From this graph, we compute a variety of features to be used as an input for the classification task. 
+
+
 
 \section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
@@ -356,6 +360,8 @@ corresponding $\Delta$ features.
 
 
 
+
+
 \subsection{Classification Algorithms}
 
 We explore three different supervised machine learning algorithms to
@@ -392,18 +398,29 @@ from incomplete $\beta$-skeleton information.
 From this set we randomly select $50\%$ of galaxies to train the ML
 algorithms.   
 We use another $30\%$ as test to find the best algorithm and ML
-meta-parameters that link the cosmic web and the $\beta$-skeleton.  
-Once that is selected we use the same $30\%$ to find the best 
-T-web and $\beta$-skeleton parameters. 
-Finally, we use an additional 20 $\%$ of data as validation to  report
+meta-parameters together with the best matching T-web and
+$\beta$-skeleton parameters.   
+Finally, we use the final $20 \%$ of data as validation to  report
 on the expected confusion matrix and feature importance for the
 classification. 
+
 As performance metrics we compute the precision, recall and the F1
 score (harmonic mean between precision and recall).  
 We use both the F1 for each web environment and the average F1 across
 environments. 
 
+\begin{figure}
+    \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
+    \caption{Histograms of the average F1 for the three machine
+      learning methods.
+      The average F1 changes as the parameter and meta-parameter
+      are changed.}
+    \label{fig:methods}
+\end{figure}
+
 \section{Results}\label{sec:results}
+
+
 
 We start by comparing the performance of the different ML learning
 algorithms.
@@ -416,9 +433,7 @@ On average the F1 score is around 0.3, while its best value is close
 to 0.5.
 
 For Classification Trees and Random Forest the results are notably better. 
-
-
-
+T
 
 Figure \ref{fig:prediction} shows the comparison between the ground
 truth environments (left) and the prediction (right) by the best ML algorithm
@@ -427,14 +442,62 @@ method.
 The visual impression is that the sheets and filaments have good predictions,
 peaks are reasonable, while voids are the worst. 
 
-\begin{figure}
-    \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
-    \caption{Distributions of the F1 average for the three machine
-      learning methods. F1-score average distributions considering the
-      four environments (left) and without consider the voids
-      (right).} 
-    \label{fig:methods}
-\end{figure}
+
+
+
+To evaluate the methods, it was computed the mean values and errors
+for the 20 larger F1 score by method. Table \ref{tab:methods} show mean
+values for the F1 by environment and the averages considering voids 
+and not. 
+In general, in both cases, the evaluation shows that the best method is
+the Random Forest.  
+
+
+The Random Forest have other types of configurable parameters, the
+most common parameter is the number of estimators NE, we evaluate the
+Random Forest with the F1 score as a function of the NE parameter.  
+Figs.\ref{fig:F1_curve} show the behavior of the F1 average score as a
+function of NE in contrast to the populations of the environments,
+the left figure shows the F1 average score,
+the maximum is near to 0.6.
+The center figure shows the F1 score for the four environments,
+the best environment predicted is the filaments followed by the peaks and sheets,
+the worst predicted environment is the voids,
+this due the population of them as we can see in the right figure of the Fig.\ref{fig:F1_curve},
+we can observe that the amount of voids is considerably less than the
+others environments almost in one order of magnitude. 
+
+Including the NE meta-parameter, the Fig. \ref{fig:features_void} (upper)
+shows the distributions of all meta-parameters for the 20 best results
+using Random Forest and the F1 average distribution. We can observe that the meta-parameter $\lambda_{th}$
+is 0.5 and $\sigma$ have values of 1.5 and 2. For these
+values of $\lambda$ and $\sigma$ the number of galaxies in voids is not real according with our analysis. Due to this inconsistency, we can consider the meta-parameters filtering when the F1 average is computed excluding the voids. The table \ref{tab:metaparameters} show the combinations of meta-parameters that allow us to obtain a good prediction. The distribution of these meta-parameters
+in the case when we do not consider the voids in the F1 average score is shown in Figure \ref{fig:features_void}(bottom). We can
+observe in this Figure that the threshold $\lambda_{th}$ is 0.1, the smoothing $\sigma$ 1.5 and 2, and the luminosity $M_r$<-14. The NE varies between 23 and 100 but is concentrate in values larger than 80. 
+
+The bad prediction of the voids illustrated in the Figure
+\ref{fig:F1_curve} is confirmed by the results shown in
+Figure \ref{fig:confusion_matrix}(left) computed for the 20 best models.  
+
+In the Fig. \ref{fig:confusion_matrix}(left) we observe that the best prediction is for filaments where the $80\%$ of the true galaxies in filaments are correctly predicted. 
+This fraction is followed by $63\%$ of correct peaks, $55\%$ of
+correct sheets galaxies with a low value of $8\%$ void galaxies
+classified correctly. 
+
+Fig.~\ref{fig:confusion_matrix}(right) shows the importance of the features
+for the 20 best Random Forests models. According to the Figure, the 
+most important feature is $\Delta \delta$
+related to the local average distance between connections, followed by
+the local number of connections $\Delta \eta$. This Figure shows
+us that the separation between the galaxies is a parameter that can determinate the T-Web environment for a galaxy. 
+
+We report the best results using the validation data, the Fig. \ref{fig:confusion_matrix_valid}(left) shows the confusion matrix for the validation data with the best model where $\lambda_{th}$=0.1, $\sigma$=1.5, $M_r$=-14 and $NE$=80. The Fig. \ref{fig:confusion_matrix_valid}(right) shows the feature importances for the validation data, we can observe that the local average distance $\Delta \rho$ and the local number of connections $\Delta \eta$ remain the most important according with the results obtained for the test data.
+
+The best model was evaluated including the information of the features
+extracted from the 2 and 3-skeleton, the results do not vary in
+comparison when we used only the features of the 1-skeleton, these
+showed that the 2 and 3-skeleton do not contain important information
+to predict the T-Web. 
 
 
 
@@ -512,18 +575,7 @@ in the 20 best models for
 \caption{Values of the meta parameters for the best 20 models using Random Forest with the test data when we do not consider the voids in the F1 average score.}
 \label{tab:metaparameters}
 \end{table}
-%\begin{figure*}
-%\centering
-%    \includegraphics[scale=0.32]{Figs/p_confusion_matrix_20.pdf}
-%    \includegraphics[scale=0.28]{Figs/p_features_importance_20.pdf}  
-%    \caption{(Left) Confusion Matrix (CM) for the 20 best performing
-%      models. Columns represent the predictions, and rows the ground
-%      truth. In the CM for the prediction of peaks only the $62\%$ was predicted correctly. The best prediction are obtained for the
-%      filaments, where the $80\%$ was predicted correctly. The worst  prediction was for the voids where only the $8\%$ was predicted
-%      correctly.
-%      (Right) Feature importance to predict the environments in the cosmic web. Here the most important feature is the local average distance $\Delta\delta$ with a $30\%$ of importance, follow by the local number of connections with a $26\%$ of importance.} 
-%    \label{fig:confusion_matrix}
-%\end{figure*}
+
 
 \begin{figure*}
 \centering
@@ -541,61 +593,6 @@ in the 20 best models for
       connections with a $27\%$ of importance.}  
     \label{fig:confusion_matrix_valid}
 \end{figure*}
-
-To evaluate the methods, it was computed the mean values and errors
-for the 20 larger F1 score by method. Table \ref{tab:methods} show mean
-values for the F1 by environment and the averages considering voids 
-and not. 
-In general, in both cases, the evaluation shows that the best method is
-the Random Forest.  
-
-
-The Random Forest have other types of configurable parameters, the
-most common parameter is the number of estimators NE, we evaluate the
-Random Forest with the F1 score as a function of the NE parameter.  
-Figs.\ref{fig:F1_curve} show the behavior of the F1 average score as a
-function of NE in contrast to the populations of the environments,
-the left figure shows the F1 average score,
-the maximum is near to 0.6.
-The center figure shows the F1 score for the four environments,
-the best environment predicted is the filaments followed by the peaks and sheets,
-the worst predicted environment is the voids,
-this due the population of them as we can see in the right figure of the Fig.\ref{fig:F1_curve},
-we can observe that the amount of voids is considerably less than the
-others environments almost in one order of magnitude. 
-
-Including the NE meta-parameter, the Fig. \ref{fig:features_void} (upper)
-shows the distributions of all meta-parameters for the 20 best results
-using Random Forest and the F1 average distribution. We can observe that the meta-parameter $\lambda_{th}$
-is 0.5 and $\sigma$ have values of 1.5 and 2. For these
-values of $\lambda$ and $\sigma$ the number of galaxies in voids is not real according with our analysis. Due to this inconsistency, we can consider the meta-parameters filtering when the F1 average is computed excluding the voids. The table \ref{tab:metaparameters} show the combinations of meta-parameters that allow us to obtain a good prediction. The distribution of these meta-parameters
-in the case when we do not consider the voids in the F1 average score is shown in Figure \ref{fig:features_void}(bottom). We can
-observe in this Figure that the threshold $\lambda_{th}$ is 0.1, the smoothing $\sigma$ 1.5 and 2, and the luminosity $M_r$<-14. The NE varies between 23 and 100 but is concentrate in values larger than 80. 
-
-The bad prediction of the voids illustrated in the Figure
-\ref{fig:F1_curve} is confirmed by the results shown in
-Figure \ref{fig:confusion_matrix}(left) computed for the 20 best models.  
-
-In the Fig. \ref{fig:confusion_matrix}(left) we observe that the best prediction is for filaments where the $80\%$ of the true galaxies in filaments are correctly predicted. 
-This fraction is followed by $63\%$ of correct peaks, $55\%$ of
-correct sheets galaxies with a low value of $8\%$ void galaxies
-classified correctly. 
-
-Fig.~\ref{fig:confusion_matrix}(right) shows the importance of the features
-for the 20 best Random Forests models. According to the Figure, the 
-most important feature is $\Delta \delta$
-related to the local average distance between connections, followed by
-the local number of connections $\Delta \eta$. This Figure shows
-us that the separation between the galaxies is a parameter that can determinate the T-Web environment for a galaxy. 
-
-We report the best results using the validation data, the Fig. \ref{fig:confusion_matrix_valid}(left) shows the confusion matrix for the validation data with the best model where $\lambda_{th}$=0.1, $\sigma$=1.5, $M_r$=-14 and $NE$=80. The Fig. \ref{fig:confusion_matrix_valid}(right) shows the feature importances for the validation data, we can observe that the local average distance $\Delta \rho$ and the local number of connections $\Delta \eta$ remain the most important according with the results obtained for the test data.
-
-The best model was evaluated including the information of the features
-extracted from the 2 and 3-skeleton, the results do not vary in
-comparison when we used only the features of the 1-skeleton, these
-showed that the 2 and 3-skeleton do not contain important information
-to predict the T-Web. 
-
 
 \begin{figure*}
   \centering 
