@@ -453,7 +453,6 @@ We compute the F1 for each web environment and its average.
 \subsection{ML algorithm performance}
 
 
-\subsubsection{Global performance}
 We start by comparing the performance of the different ML algorithms.
 Figure \ref{fig:methods} shows the average F1 distribution for
 all the classification experiments. 
@@ -476,12 +475,16 @@ We can confirm this result by performin a more detailed analysis by
 taking a look at the reults for each cosmic web element separately.
 
 
-
-\subsubsection{Cosmic Web element performance}
-
 Table \ref{table:elements} summarizes the F1 performance split by cosmic
 web elements in the first four rows.
-
+The mean values and standard deviations are computed over all the ML
+experiments. 
+From this table we confirm that the RF classifier performs
+consistently better than CT and SVM for every web element.
+The F1 scores from RF are always at least 0.15 above SVM.
+The comparison between RF and CT shows that for peaks, filaments and
+sheets the RF produces average F1 scores 0.05 higher. 
+However, for voids the average of the scores are similar. 
 
 best models from all the three different ML algorithms.
 We choose the best $20$ results in terms of the average F1 to understand
