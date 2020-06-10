@@ -104,37 +104,37 @@ large-scale structure of Universe -- $\beta$-skeleton -- machine learning
 \section{Introduction}
 The galaxy distribution on large spatial scales follows a structured 
 pattern commonly know as the cosmic web. 
-This web consists of dense spheroidal peaks connected by
+This web can be described as dense ellipsoidal peaks connected by
 anisotropic filaments and walls woven across vast under-dense voids
 \citep{Bond1996}. 
-This pattern can be interpreted in the context provided by the
-$\Lambda$CDM cosmology, whereby initial density fluctuations   evolve
-into the present-day large-scale structure through gravitational
-instability \citep{ZelDovich1970,White1987}.  
+The emergence of this pattern is understood as the evolution of
+initial density fluctuations growing through gravitational instability
+\citep{ZelDovich1970,White1987}.   
 
-The cosmic web evolution can be followed in great detail by studying only dark matter (DM) cosmological simulations. 
-Furthermore, there is a great variety of methods to detect and
+This picture can be followed in great detail by studying N-body
+cosmological simulations.   
+Furthermore, a great variety of methods exist to detect and
 classify the cosmic web from these simulations into four different 
 elements: peak, filament, sheet or void \citep{Libeskind2018}.  
-However, cosmic web detection algorithms that find these web elements
-starting from discrete positions describing the galaxy distribution are
-less common.
+Cosmic web detection algorithms that find these four web
+elements using discrete galaxy positions as an input are less
+common. 
 Most of them focus on some cosmic web elements.
 For instance, there is a great variety of void-finders
 \citep{Platen2007,Neyrinck2008} and filaments-finders
 \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019}.   
+The algorithms that aim at finding the four cosmic web elements from
+the galaxy positions can be roughly divided into two approaches.
 
-There are two main approaches to find the four cosmic web elements
-from the galaxy distribution.
-A first approach directly interpolates galaxy positions
-on a grid to process this number density field in the same way as a dark
-matter density field \citep{Eardley2015,Alpaslan2016,Tojeiro2017,Shadab2019}. 
-This approach has a low computational cost, is highly uncertain how
-accurate are these results with respect to the expected  cosmic web
-dark matter distribution. 
+The first one interpolates galaxy positions on a grid to process
+this number density field in the same way as a dark matter density
+field \citep{Eardley2015,Alpaslan2016,Tojeiro2017,Shadab2019}.
+This approach has a low computational cost, but it is highly uncertain
+how accurate are these results with respect to the expected  cosmic
+web dark matter distribution. 
 
-The second approach performs the reconstruction of the dark matter around
-the observed galaxies.
+The second approach performs a full dark matter density field
+reconstruction around the observed galaxies.
 Most of these algorithms use Bayesian statistics coupled with Monte
 Carlo sampling  and N-body
 simulations \citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}. 
@@ -155,17 +155,17 @@ the galaxy properties to the cosmic web environment.
 This paper is inscribed into that line of work.
 
 
-We want to explore to what extent graph properties built on a galaxy
-distribution can predict the cosmic web element to which every galaxy
-belongs. 
+Here we show to what extent graph properties built on a galaxy
+distribution can predict the cosmic web elements.
 We demonstrate an specific implementation of this approach by using
 the $\beta$-skeleton graph \citep{Fang2019} and the  T-web
-\citep{Forero-Romero2009} classification into four cosmic web
+\citep{Forero-Romero2009} classification to define the four cosmic web
 elements.  
 We test three different supervised machine learning
-algorithms (support vector machine (SVM), Tree Classifier, Random Forest) 
+algorithms (support vector machines, a Tree Classifier and Random Forests) 
 to train from the features and predict the environment.
-We quantify the precision and accuracy of the algorithms using the Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$.
+We quantify the precision and accuracy of the algorithms using the
+Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$. 
 
 This paper is organized as follows. 
 In Section \ref{sec:init} we describe the relevant aspects of the Illustris-TNG
@@ -216,6 +216,8 @@ The project includes simulated galaxies as realistic as possible in
 order to make a comparison with the real universe. There are 18
 different simulations in this project with boxes of sizes $50$, $100$ and
 $300$ Mpc that started at $z=127$ and finalized at $z=0$.   
+
+\textbf{Faltan detalles sobre la resolucion de la simulacion que usamos.}
 
 \subsection{T-Web Classification}
 
@@ -397,17 +399,17 @@ away from the box limits  in order  to avoid boundary effects coming
 from incomplete $\beta$-skeleton information.  
 From this set we randomly select $50\%$ of galaxies to train the ML
 algorithms.   
-We use another $30\%$ as test to find the best algorithm and ML
+We use another $30\%$ as validation to find the best algorithm and ML
 meta-parameters together with the best matching T-web and
 $\beta$-skeleton parameters.   
-Finally, we use the final $20 \%$ of data as validation to  report
+Finally, we use the final $20 \%$ of data as test to report
 on the expected confusion matrix and feature importance for the
 classification. 
 
 As performance metrics we compute the precision, recall and the F1
 score (harmonic mean between precision and recall).  
-We use both the F1 for each web environment and the average F1 across
-environments. 
+We compute the F1 for each web environment and its average.
+
 
 \begin{figure}
     \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
