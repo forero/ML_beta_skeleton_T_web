@@ -217,7 +217,7 @@ order to make a comparison with the real universe. There are 18
 different simulations in this project with boxes of sizes $50$, $100$ and
 $300$ Mpc that started at $z=127$ and finalized at $z=0$.   
 
-\textbf{Faltan detalles sobre la resolucion de la simulacion que usamos.}
+\textbf{Faltan todos los detalles sobre la simulacion que usamos.}
 
 \subsection{T-Web Classification}
 
@@ -267,9 +267,12 @@ This makes that for low values of $\beta$ the graph is dense and for
 large values of $\beta$ the graph becomes sparse. 
 The $1$-skeleton also receives the name of Gabriel Graph.  
 The $2$-skeleton is also known as the Relative Neighbor Graph (RNG). 
+\textbf{Faltan detalles sobre c\'omo cambia la regi\'on de exclusi\'on
+  con beta.}
 
 In our case, the galaxies represent a node in the graph.
-From this graph, we compute a variety of features to be used as an input for the classification task. 
+From this graph, we compute a variety of features to be used as an
+input for the classification task.  
 
 
 
@@ -470,13 +473,13 @@ From these two models, the results from the Random Forest are
 better; the F1 value distribution is skewed towards higher values than
 the distribution from the Classification Tree.
 From this overall response over all possible models, Random Forest
-emerges as the best ML algorithm
-We can confirm this result by performin a more detailed analysis by
+emerges as the best ML algorithm.
+We can confirm this result by performing a more detailed analysis by
 taking a look at the reults for each cosmic web element separately.
 
 
 Table \ref{table:elements} summarizes the F1 performance split by cosmic
-web elements in the first four rows.
+web element in the first four rows.
 The mean values and standard deviations are computed over all the ML
 experiments. 
 From this table we confirm that the RF classifier performs
@@ -485,6 +488,31 @@ The F1 scores from RF are always at least 0.15 above SVM.
 The comparison between RF and CT shows that for peaks, filaments and
 sheets the RF produces average F1 scores 0.05 higher. 
 However, for voids the average of the scores are similar. 
+
+\subsection{Performance across web elements}
+
+Table \ref{table:elements} also shows that some cosmic web elements 
+are harder to predict than others.
+Focusing our attention on the RF classifier, the algorithm with the
+best results,  we readily observe that filaments is the environment
+with the best mean F1 score (0.71).
+This score is followed by sheets and filaments (0.55 and 0.51,
+respectively) and finally by voids (0.27). 
+
+Void is the hardest class to predict. 
+The reason behind this result is easy to understand. 
+There are too few galaxies in voids. 
+Across all models, Less than XX $\%$ of all galaxies
+are classified as void galaxies. 
+This has two consequences.
+First, the low number of instances makes it hard for the ML algorithm to
+define the region in parameter space occupied by voids.
+Second, a small number of void galaxies that are missclassified is
+translated into large changes in the F1 scores.
+
+
+\subsection{Best parameters and metaparameters}
+
 
 best models from all the three different ML algorithms.
 We choose the best $20$ results in terms of the average F1 to understand
@@ -552,7 +580,15 @@ related to the local average distance between connections, followed by
 the local number of connections $\Delta \eta$. This Figure shows
 us that the separation between the galaxies is a parameter that can determinate the T-Web environment for a galaxy. 
 
-We report the best results using the validation data, the Fig. \ref{fig:confusion_matrix_valid}(left) shows the confusion matrix for the validation data with the best model where $\lambda_{th}$=0.1, $\sigma$=1.5, $M_r$=-14 and $NE$=80. The Fig. \ref{fig:confusion_matrix_valid}(right) shows the feature importances for the validation data, we can observe that the local average distance $\Delta \rho$ and the local number of connections $\Delta \eta$ remain the most important according with the results obtained for the test data.
+We report the best results using the validation data, the
+Fig. \ref{fig:confusion_matrix_valid}(left) shows the confusion matrix
+for the validation data with the best model where $\lambda_{th}$=0.1,
+$\sigma$=1.5, $M_r$=-14 and $NE$=80. The
+Fig. \ref{fig:confusion_matrix_valid}(right) shows the feature
+importances for the validation data, we can observe that the local
+average distance $\Delta \rho$ and the local number of connections
+$\Delta \eta$ remain the most important according with the results
+obtained for the test data. 
 
 The best model was evaluated including the information of the features
 extracted from the 2 and 3-skeleton, the results do not vary in
