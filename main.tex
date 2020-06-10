@@ -451,16 +451,19 @@ We compute the F1 for each web environment and its average.
 
 
 \subsection{ML algorithm performance}
-We start by comparing the performance of the different ML learning
-algorithms.
+
+
+\subsubsection{Global performance}
+We start by comparing the performance of the different ML algorithms.
 Figure \ref{fig:methods} shows the average F1 distribution for
 all the classification experiments. 
 The histograms are discriminated into the three ML algorithms.
 The first result that stands out is that SVM shows the worst
 classification results.
-On average the F1 score is around 0.3, while its best value is close
-to 0.5.
+The F1 score is the average F1 over the four web environments.
 
+The mean values of this average F1 score for SVM is around 0.3, while its best
+value is close to 0.5.
 For Classification Trees and Random Forest the results are notably better. 
 The mean value over the distribution is close to 0.5 while their best
 average F1 is close to 0.6.
@@ -468,19 +471,25 @@ From these two models, the results from the Random Forest are
 better; the F1 value distribution is skewed towards higher values than
 the distribution from the Classification Tree.
 From this overall response over all possible models, Random Forest
-emerges as the best model.
-We perform a more detailed analysis by taking a look at the best
-models from all the three different ML algorithms.
+emerges as the best ML algorithm
+We can confirm this result by performin a more detailed analysis by
+taking a look at the reults for each cosmic web element separately.
+
+
+
+\subsubsection{Cosmic Web element performance}
+
+Table \ref{table:elements} summarizes the F1 performance split by cosmic
+web elements in the first four rows.
+
+
+best models from all the three different ML algorithms.
 We choose the best $20$ results in terms of the average F1 to understand
 in detail the algorithm performance and the influence on the 
 different web elements classification.
 Considering the best $10$ or $50$ models does not affect the results
 and insights we are about to present.
 
-\subsection{Cosmic Web element performance}
-
-Table \ref{table:elements} summarizes the F1 performance split by cosmic
-web elements in the first four rows.
 
 
 
