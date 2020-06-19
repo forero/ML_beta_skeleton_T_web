@@ -166,7 +166,6 @@ algorithms (support vector machines, a Tree Classifier and Random Forests)
 to train from the features and predict the environment.
 We quantify the precision and accuracy of the algorithms using the
 Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$. 
-
 This paper is organized as follows. 
 In Section \ref{sec:init} we describe the relevant aspects of the Illustris-TNG
 simulations relevant to our work, the T-web algorithm,
@@ -177,47 +176,49 @@ There we detail the features and meta-parameters we use, the
 classification algorithms and the metrics for model evaluation.  
 In the Section \ref{sec:results} we present our results
 to finally summarize our conclusions in Section
-\ref{sec:conclusions}. 
-
-\begin{figure*}
-\centering
- \includegraphics[scale=0.28]{Figs/Fig1_.png}%Figs/p_TWeb_bsk.pdf}
- \caption{Comparison between the T-Web of dark matter density field
-   (left) and the $\beta$-skeleton (right) computed from the
-   distribution of galaxies with $\beta$=1 for Illustris-TNG300.}  
- \label{fig:TWebBsk}
-\end{figure*}
-
-
-\begin{figure*}
-        \includegraphics[scale=0.37]{Figs/p_all_features_correlations.pdf}
-    \caption{Histograms and correlations curves for the eight features
-      used to train the classifiers.}  
-    \label{fig:features}
-\end{figure*}
-
+\ref{sec:conclusions}.
 
 
 \section{Initial Algorithms and Simulations}\label{sec:init}
 
 \subsection{Illustris-TNG}
-
+{\bf 
 The Next Generation (TNG) of the Illustris simulations, or the
-Illustris-TNG project \citep{Nelson2015},  is a series of large,
-cosmological magnetohydrodynamical and semi-analytical simulations of
-galaxy formation. 
+Illustris-TNG project \citep{Nelson2015} is a series of large,
+cosmological magnetohydrodynamical and semi-analytical simulations of galaxy formation. 
 These simulations are based on the cosmological standard model
-$\Lambda$CDM.  
+$\Lambda$CDM and uses the \texttt{AREPO} code \cite{Springel2011}.  The simulations run start from the cosmology $\Lambda$CDM with the cosmological parameters: cosmological constant $\Omega_{\Lambda,0}$=0.6911, matter density $\Omega_{m,0}$=0.3089,  baryonic density $\Omega_{b,0}$=0.0486, normalisation $\sigma_8$=0.8159, spectral index $n_s$=0.9667 and Hubble constant $H_o$= 100$h\,km\,s^{-1}\,Mpc^{-1}$ with $h$=0.6774 consistent with the Planck 2015 results \cite{Ade2016}. 
 
-The Illustris-TNG project simulates different structures in the
-visible matter like stars, black holes or diffuse gas jointly with the
-distribution of DM.
-The project includes simulated galaxies as realistic as possible in
-order to make a comparison with the real universe. There are 18
-different simulations in this project with boxes of sizes $50$, $100$ and
-$300$ Mpc that started at $z=127$ and finalized at $z=0$.   
+The Illustris-TNG project simulates different structures in the visible matter like stars, black holes or diffuse gas jointly with the distribution of DM.
+The project includes simulated galaxies as realistic as possible to make a comparison with the real universe. There are 18 different simulations in this project with boxes of sizes $50$, $100$ and $300$ Mpc that started at $z=127$ and finalized at $z=0$.   
 
-\textbf{Faltan todos los detalles sobre la simulacion que usamos.}
+In this work we used the TNG300 (~300 Mpc) simulation in $z=0$, this simulation has a volume of 302.6$^3 Mpc^3$. 
+A total of 88$\times 10^{6}$ \Msun of baryonic mass
+and 470$\times 10^{6}$ \Msun/h of Dark Matter mass \cite{Nelson2015}. 
+The number of galaxies used to make all calculates that we report in this paper
+was 14485709 with a total of 711967677 stars simulated. Where for the stellar formation were included the next physical component \cite{Nelson2015,Pillepich2018a}:
+\begin{itemize}
+    \item The stars pass through an AGB phase with a mass range of 1-8\Msun, and supernovae phase between 8 and 100\Msun. 
+    \item Stochastic star formation in dense interstellar medium (ISM) gas above a threshold density criterion. Gas above a star formation density threshold of forms stars stochastically following the empirically defined Kennicutt-Schmidt relation and assuming a Chabrier initial mass function.
+    \item Pressurization from unresolved supernovae is included for star-forming gas using a two-phase, effective equation.
+    \item Stellar populations evolve and return mass and metals to their ambient via supernovae of Type Ia and Type II and asymptotic giant branch (AGB) stars.
+    \item Metal enriched gas radiatively cools in the presence of a redshift-dependent, spatially uniform, ionizing UV background radiation field, with corrections for self-shielding in the dense ISM.
+    \item Feedback associated with star formation is assumed to drive galactic-scale outflows. These outflows are launched directly from star-forming gas.
+\end{itemize}
+
+
+In the TNG300 simulation the galaxies are called subhalos and
+are defined as any gravitationally 
+bound object with a nonzero
+stellar component. 
+To identify galaxies in the simulation,
+first, a friends-of-friends group finder is run
+in order to identify FOF haloes with
+a linking length $b=$ 0.2,
+within which gravitationally bound substructures
+are then located and classified hierarchically \cite{Pillepich2018a}.
+%The subhalos data can be download from \url{https://www.tng-project.org/data/downloads/TNG300-1/\#}. To access to the information stored in the catalog using python is necessary have the \texttt{illustris\_python} library that can be downloaded from  \url{https://github.com/illustristng/illustris\_python}. Then with the method \texttt{groupcat.loadSubhalos} passing the parameters \texttt{basePath:} the location of the catalog data, \texttt{snapshot number}: The snapshot number (99 in our case for $z=0$) and \texttt{fields} like \texttt{SubhaloPos}, for the galaxies position, \texttt{SubhaloStellarPhotometrics}, for the luminosity and \texttt{SubhaloMass}, for the mass of the galaxies is possible access to the galaxies of the TNG simulation.
+}
 
 \subsection{T-Web Classification}
 
@@ -251,6 +252,29 @@ Fourier Transform  methods, 5) compute the deformation tensor using
 finite differences, 6) find the eigenvalues and finally 7) count the
 number of eigenvalues larger than the threshold $\lambda_{th}$. 
 
+\begin{figure}
+\centering
+ \includegraphics[scale=0.18]{Figs/p_beta.pdf}
+ \caption{Exclusion region of the $\beta$-skeleton under the Lune-based definition. }  
+ \label{fig:beta}
+\end{figure}
+
+\begin{figure*}
+\centering
+ \includegraphics[scale=0.28]{Figs/Fig1_.png}%Figs/p_TWeb_bsk.pdf}
+ \caption{Comparison between the T-Web of dark matter density field
+   (left) and the $\beta$-skeleton (right) computed from the
+   distribution of galaxies with $\beta$=1 for Illustris-TNG300.}  
+ \label{fig:TWebBsk}
+\end{figure*}
+
+
+\begin{figure*}
+        \includegraphics[scale=0.37]{Figs/p_all_features_correlations.pdf}
+    \caption{Histograms and correlations curves for the eight features
+      used to train the classifiers.}  
+    \label{fig:features}
+\end{figure*}
 
 \subsection{The $\beta$-skeleton algorithm}
 
@@ -258,17 +282,16 @@ The $\beta$-skeleton is an algorithm that computes a graph over a
 distribution of nodes \citep{Kirkpatrick1985, Fang2019}.  
 This algorithm depends on a positive and continuous parameter $\beta$
 that defines an exclusion region between two nodes.
-If the exclusion region is empty then, the two nodes are connected by an edge.  
-In the case, $\beta=1$, the exclusion region is a sphere with a
-diameter equal to the separation between the two nodes.  
 
-As $\beta$ increases the exclusion region is larger.
+{\bf Defining $d$ as the distance between two nodes, they are connected by an edge if any other point is allocated in the various exclusion regions shown in Figure \ref{fig:beta}. 
+
+For $\beta<1$, the exclusion region is the intersection of all the spheres with diameter $d/\beta$ that pass through the nodes. In the case, $\beta=1$, the exclusion region is a sphere with a diameter $d$.  
+As $\beta$ increases, $\beta>1$, the exclusion region is larger and it is the intersection of all the spheres with diameter $d\beta$ having the nodes in their boundary.}
+
 This makes that for low values of $\beta$ the graph is dense and for
 large values of $\beta$ the graph becomes sparse. 
 The $1$-skeleton also receives the name of Gabriel Graph.  
-The $2$-skeleton is also known as the Relative Neighbor Graph (RNG). 
-\textbf{Faltan detalles sobre c\'omo cambia la regi\'on de exclusi\'on
-  con beta.}
+The $2$-skeleton is also known as the Relative Neighbor Graph (RNG).
 
 In our case, the galaxies represent a node in the graph.
 From this graph, we compute a variety of features to be used as an
