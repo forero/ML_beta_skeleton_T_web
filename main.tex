@@ -493,6 +493,8 @@ We compute the F1 for each web environment and its average.
 \label{table:elements}
 \end{table}
 
+
+
 \section{Results}\label{sec:results}
 
 
@@ -581,92 +583,6 @@ fairer evaluation for each model.
 
 
 
-
-\subsection{Best match between T-web and $\beta$-skeleton}
-
-We now focus in understanding what are the best matched T-web and
-$\beta$-skeleton parameters.
-In this exploration we focus on the algorithm that we already know
-provides the best classification results: Random Forest. 
-To do that we choose the best $N=20$ models in terms of their average F1 across
-classes and see what do they have in commont.
-Choosing $N=10$ or $N=30$ does not have a great impact in our
-results. 
-However, as we previously saw, including voids or not in the analysis
-has deeper consequences that we are going to explore next.
-
-\label{fig:features_score} summarizes the parameter and meta-parameter
-distribution for the best $N=20$ models in the Random Forest
-classification.
-The upper raw takes voids into account for the F1 average computation,
-while the lower raw does not.
-The panels in each row have the following meaning.
-The first two panels show the T-web parameters
-$\lambda$ and $\sigma$, the third panel corresponds to the $M_r$
-absolute magnitude cut that impacts the $\beta$-skeleton, the fourth
-panel is the meta-parameter Number of estimators (NE) in the RF
-classifier and finally the last panel shows the average F1 across
-classes. 
-
-Including the void F1-score or not has a dramatic influence on
-on the prefered valued for $\lambda_{th}$. 
-If the void F1-score is included the preferred value is
-$\lambda_{th}=0.5$. 
-This prefered value drops to $\lambda_{\th}=0.1$ if voids are not taken into
-account.
-Why is this difference relevant?
-Pushing $\lambda_{th}$ towards high values makes the voids larger.
-That means that more galaxies are included in voids, giving the ML
-algorith more instances to train.
-However, the voids corresponding to $\lambda_{th}=0.5$ are in may ways
-unphysical: they have densities a few times above the mean density
-and are so large that they occupy $60\%$ of the
-total volume.
-In other words, those $\lambda_{\th}=0.5$ voids are actually including
-regions that would be classified as sheets \citep{2015MNRAS.453..497B,Forero-Romero2009}.
-
-
-
-
-
-
-
-
-
-
-
-is 0.5 and $\sigma$ have values of 1.5 and 2. For these
-values of $\lambda$ and $\sigma$ the number of galaxies in voids is not real according with our analysis. Due to this inconsistency, we can consider the meta-parameters filtering when the F1 average is computed excluding the voids. The table \ref{tab:metaparameters} show the combinations of meta-parameters that allow us to obtain a good prediction. The distribution of these meta-parameters
-in the case when we do not consider the voids in the F1 average score is shown in Figure \ref{fig:features_void}(bottom). We can
-observe in this Figure that the threshold $\lambda_{th}$ is 0.1, the smoothing $\sigma$ 1.5 and 2, and the luminosity $M_r$<-14. The NE varies between 23 and 100 but is concentrate in values larger than 80. 
-
-The bad prediction of the voids illustrated in the Figure
-\ref{fig:F1_curve} is confirmed by the results shown in
-Figure \ref{fig:confusion_matrix}(left) computed for the 20 best models.  
-
-In the Fig. \ref{fig:confusion_matrix}(left) we observe that the best prediction is for filaments where the $80\%$ of the true galaxies in filaments are correctly predicted. 
-This fraction is followed by $63\%$ of correct peaks, $55\%$ of
-correct sheets galaxies with a low value of $8\%$ void galaxies
-classified correctly. 
-
-Fig.~\ref{fig:confusion_matrix}(right) shows the importance of the features
-for the 20 best Random Forests models. According to the Figure, the 
-most important feature is $\Delta \delta$
-related to the local average distance between connections, followed by
-the local number of connections $\Delta \eta$. This Figure shows
-us that the separation between the galaxies is a parameter that can determinate the T-Web environment for a galaxy. 
-
-We report the best results using the validation data, the
-Fig. \ref{fig:confusion_matrix_valid}(left) shows the confusion matrix
-for the validation data with the best model where $\lambda_{th}$=0.1,
-$\sigma$=1.5, $M_r$=-14 and $NE$=80. The
-Fig. \ref{fig:confusion_matrix_valid}(right) shows the feature
-importances for the validation data, we can observe that the local
-average distance $\Delta \rho$ and the local number of connections
-$\Delta \eta$ remain the most important according with the results
-obtained for the test data. 
-
-
 \begin{table}
 \centering
 \begin{tabular}{rrrr}
@@ -696,26 +612,120 @@ obtained for the test data.
 \hline
 \end{tabular}
 \caption{Values of the meta parameters for the best 20 models using Random Forest with the test data when we do not consider the voids in the F1 average score.}
-\label{tab:metaparameters}
+\label{tab:parameters}
 \end{table}
 
 
-\begin{figure*}
+
+\begin{figure}
 \centering
     \includegraphics[scale=0.32]{Figs/p_confusion_matrix_valid.pdf}
+\caption{Confusion matrix for the model 
+      \{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$,
+      $NE$=78\} computed on the test dataset.}
+      \label{fig:confusion_matrix}
+\end{figure}
+
+\begin{figure}
     \includegraphics[scale=0.28]{Figs/p_features_importance_valid.pdf}  
-    \caption{(Left) Confusion Matrix (CM) for the valid data with the
-      best model $\lambda_{th}$=0.1, $\sigma$=1.5, $M_r$=-14 and
-      $NE$=80. The best prediction are obtained for the 
-      filaments, where the $81\%$ was predicted correctly. The worst
-      prediction was for the voids where only the $6\%$ was predicted 
-      correctly.
-      (Right) Feature importance for the valid data. The most
-      important feature is the local average distance $\Delta\delta$
-      with a $32\%$ of importance, follow by the local number of
-      connections with a $27\%$ of importance.}  
-    \label{fig:confusion_matrix_valid}
-\end{figure*}
+    \caption{
+      Feature importance in the Random Forest classifier for the model
+      \{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$,
+      $NE$=78\} computed on the test dataset.}
+    \label{fig:feature_importance}
+\end{figure}
+
+
+
+\subsection{Best match between T-web and $\beta$-skeleton}
+
+We now focus in understanding what are the best matched T-web and
+$\beta$-skeleton parameters.
+In this exploration we focus on the algorithm that we already know
+provides the best classification results: Random Forest. 
+To do that we choose the best $N=20$ models in terms of their average F1 across
+classes and see what do they have in commont.
+Choosing $N=10$ or $N=30$ does not have a great impact in our
+results. 
+However, as we previously saw, including voids or not in the analysis
+has deeper consequences that we are going to explore next.
+
+\label{fig:features_score} summarizes the parameter and meta-parameter
+distribution for the best $N=20$ models in the Random Forest
+classification.
+The upper raw takes voids into account for the F1 average computation,
+while the lower raw does not.
+The panels in each row have the following meaning.
+The first two panels show the T-web parameters
+$\lambda$ and $\sigma$, the third panel corresponds to the $M_r$
+absolute magnitude cut that impacts the $\beta$-skeleton, the fourth
+panel is the meta-parameter Number of estimators (NE) in the RF
+classifier and finally the last panel shows the average F1 across
+classes. 
+
+Excluding the void F1-score or not has a dramatic influence on
+on the prefered valued for $\lambda_{th}$. 
+If the void F1-score is included in the average F1 the preferred value is
+$\lambda_{th}=0.5$. 
+This prefered value drops to $\lambda_{\th}=0.1$ if voids are not taken into
+account in the average score.
+Why is this difference relevant?
+Pushing $\lambda_{th}$ towards high values makes the voids larger.
+That means that more galaxies are included in voids, giving the ML
+algorith more instances to train, explaining the rise in the F1 score
+for $\lambda_{th}=0.5$.
+
+
+However, the T-web voids corresponding to $\lambda_{th}=0.5$ are 
+unphysical: they have densities a few times above the mean
+density and are so large that they occupy $60\%$ of the total volume.
+In other words, the $\lambda_{\th}=0.5$ voids are actually including
+regions that would be classified as sheets
+\citep{2015MNRAS.453..497B,Forero-Romero2009}. 
+
+
+For those reasons we decide to exclude the F1-score for voids in
+judging what model is best.
+This choice is equivalent to computing the average F1-score using the
+four environments, but weighted by the number of instances. 
+The weighted average score automatically gives less importance to the
+less represented class, which in this case corresponds to voids.
+
+All the other parameters ($\sigma$, $M_r$ and $NE$) give similar
+results. 
+The best values for $\sigma$ are betwen 1 and 2, the prefered values
+for $M_r$ are between $-16$ and $-14$ and the best Number of
+Estimaters is around $80$.
+To decide on the best set of parameters we use the results listed in
+Table \ref{tab:parameters}.
+There we list the 20 parameter combinations that
+produce the highest F1 weighted average values.
+From that list we find that the combination that appears more often is 
+\{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$\} followed by 
+\{$\lambda_{th}=0.1$, $\sigma=2.0$, $M_r=-16$\}.
+For the Number of Estimators we pick $NE=78$ as it is the most
+repeated value in the list.
+
+\subsection{Confusion Matrix and Feature Importance}
+
+We finalize this section by reporting the results from the model 
+\{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$, $NE=278$\} that we
+consider to be the best according to the reasons we have just
+presented.
+These results are computed on the reserved $20\%$ test data that has
+not be used so far.
+
+Figure \ref{fig:confusion_matrix_valid} shows the confusion matrix and
+the features ranked by importance.
+
+Fig. \ref{fig:confusion_matrix_valid}(left) shows the confusion matrix
+for the validation data with the best model where $\lambda_{th}$=0.1,
+$\sigma$=1.5, $M_r$=-14 and $NE$=80. The
+Fig. \ref{fig:confusion_matrix_valid}(right) shows the feature
+importances for the validation data, we can observe that the local
+average distance $\Delta \rho$ and the local number of connections
+$\Delta \eta$ remain the most important according with the results
+obtained for the test data. 
 
 \begin{figure*}
   \centering 
