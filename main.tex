@@ -598,14 +598,36 @@ has deeper consequences that we are going to explore next.
 \label{fig:features_score} summarizes the parameter and meta-parameter
 distribution for the best $N=20$ models in the Random Forest
 classification.
-The upper raw took voids into account for the F1 average computation,
-while the lower raw did not.
-In each row, the first two panels correspond to the T-web parameters
+The upper raw takes voids into account for the F1 average computation,
+while the lower raw does not.
+The panels in each row have the following meaning.
+The first two panels show the T-web parameters
 $\lambda$ and $\sigma$, the third panel corresponds to the $M_r$
 absolute magnitude cut that impacts the $\beta$-skeleton, the fourth
 panel is the meta-parameter Number of estimators (NE) in the RF
-classifier and finally the last panel is the average F1 across
+classifier and finally the last panel shows the average F1 across
 classes. 
+
+Including the void F1-score or not has a dramatic influence on
+on the prefered valued for $\lambda_{th}$. 
+If the void F1-score is included the preferred value is
+$\lambda_{th}=0.5$. 
+This prefered value drops to $\lambda_{\th}=0.1$ if voids are not taken into
+account.
+Why is this difference relevant?
+Pushing $\lambda_{th}$ towards high values makes the voids larger.
+That means that more galaxies are included in voids, giving the ML
+algorith more instances to train.
+However, the voids corresponding to $\lambda_{th}=0.5$ are in may ways
+unphysical: they have densities a few times above the mean density
+and are so large that they occupy $60\%$ of the
+total volume.
+In other words, those $\lambda_{\th}=0.5$ voids are actually including
+regions that would be classified as sheets \citep{2015MNRAS.453..497B,Forero-Romero2009}.
+
+
+
+
 
 
 
