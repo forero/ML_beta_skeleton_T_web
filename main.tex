@@ -452,6 +452,21 @@ We compute the F1 for each web environment and its average.
 \end{figure}
 
 
+\begin{figure*}
+\centering
+    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av.pdf}
+    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av_no_voids.pdf}
+    \caption{(Upper) Distribution of the meta-parameters and the F1 average
+      when the voids are including in the average. We can observe that
+      the $\lambda$ meta-parameter is 0.5, while $\sigma$
+      jumps between 1.5 and 2.0, $M_r$ is -16 mainly and $NE$ are concentrate in 100.
+      (Bottom) Distributions when the voids are not including in the average. We can observe that
+      the $\lambda$ meta-parameter is 0.1, while $\sigma$
+      jumps between 1.5 and 2.0, also, $M_r$ is -14 and $NE$ have a peak in 80.
+      } 
+    \label{fig:features_score}    
+\end{figure*}
+
 
 \begin{table}
 \centering
@@ -566,6 +581,7 @@ fairer evaluation for each model.
 
 
 
+
 \subsection{Best match between T-web and $\beta$-skeleton}
 
 We now focus in understanding what are the best matched T-web and
@@ -576,46 +592,27 @@ To do that we choose the best $N=20$ models in terms of their average F1 across
 classes and see what do they have in commont.
 Choosing $N=10$ or $N=30$ does not have a great impact in our
 results. 
-However, as we saw previously, including voids or not in the analysis
-has deeper consequences that we are going to explore now.
+However, as we previously saw, including voids or not in the analysis
+has deeper consequences that we are going to explore next.
+
+\label{fig:features_score} summarizes the parameter and meta-parameter
+distribution for the best $N=20$ models in the Random Forest
+classification.
+The upper raw took voids into account for the F1 average computation,
+while the lower raw did not.
+In each row, the first two panels correspond to the T-web parameters
+$\lambda$ and $\sigma$, the third panel corresponds to the $M_r$
+absolute magnitude cut that impacts the $\beta$-skeleton, the fourth
+panel is the meta-parameter Number of estimators (NE) in the RF
+classifier and finally the last panel is the average F1 across
+classes. 
 
 
 
-Figure \ref{fig:prediction} shows the comparison between the ground
-truth environments (left) and the prediction (right) by the best ML algorithm
-with the optimized parameters and meta-parameters  for the best
-method. 
-The visual impression is that the sheets and filaments have good predictions,
-peaks are reasonable, while voids are the worst. 
 
 
 
 
-To evaluate the methods, it was computed the mean values and errors
-for the 20 larger F1 score by method. Table \ref{tab:methods} show mean
-values for the F1 by environment and the averages considering voids 
-and not. 
-In general, in both cases, the evaluation shows that the best method is
-the Random Forest.  
-
-
-The Random Forest have other types of configurable parameters, the
-most common parameter is the number of estimators NE, we evaluate the
-Random Forest with the F1 score as a function of the NE parameter.  
-Figs.\ref{fig:F1_curve} show the behavior of the F1 average score as a
-function of NE in contrast to the populations of the environments,
-the left figure shows the F1 average score,
-the maximum is near to 0.6.
-The center figure shows the F1 score for the four environments,
-the best environment predicted is the filaments followed by the peaks and sheets,
-the worst predicted environment is the voids,
-this due the population of them as we can see in the right figure of the Fig.\ref{fig:F1_curve},
-we can observe that the amount of voids is considerably less than the
-others environments almost in one order of magnitude. 
-
-Including the NE meta-parameter, the Fig. \ref{fig:features_void} (upper)
-shows the distributions of all meta-parameters for the 20 best results
-using Random Forest and the F1 average distribution. We can observe that the meta-parameter $\lambda_{th}$
 is 0.5 and $\sigma$ have values of 1.5 and 2. For these
 values of $\lambda$ and $\sigma$ the number of galaxies in voids is not real according with our analysis. Due to this inconsistency, we can consider the meta-parameters filtering when the F1 average is computed excluding the voids. The table \ref{tab:metaparameters} show the combinations of meta-parameters that allow us to obtain a good prediction. The distribution of these meta-parameters
 in the case when we do not consider the voids in the F1 average score is shown in Figure \ref{fig:features_void}(bottom). We can
@@ -646,31 +643,6 @@ importances for the validation data, we can observe that the local
 average distance $\Delta \rho$ and the local number of connections
 $\Delta \eta$ remain the most important according with the results
 obtained for the test data. 
-
-The best model was evaluated including the information of the features
-extracted from the 2 and 3-skeleton, the results do not vary in
-comparison when we used only the features of the 1-skeleton, these
-showed that the 2 and 3-skeleton do not contain important information
-to predict the T-Web. 
-
-
-
-
-\begin{figure*}
-\centering
-    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av.pdf}
-    \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av_no_voids.pdf}
-    \caption{(Upper) Distribution of the meta-parameters and the F1 average
-      when the voids are including in the average. We can observe that
-      the $\lambda$ meta-parameter is 0.5, while $\sigma$
-      jumps between 1.5 and 2.0, $M_r$ is -16 mainly and $NE$ are concentrate in 100.
-      (Bottom) Distributions when the voids are not including in the average. We can observe that
-      the $\lambda$ meta-parameter is 0.1, while $\sigma$
-      jumps between 1.5 and 2.0, also, $M_r$ is -14 and $NE$ have a peak in 80.
-      } 
-    \label{fig:features_void}    
-\end{figure*}
-
 
 
 \begin{table}
