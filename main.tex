@@ -182,7 +182,7 @@ to finally summarize our conclusions in Section
 \section{Initial Algorithms and Simulations}\label{sec:init}
 
 \subsection{Illustris-TNG}
-{\bf 
+
 The Next Generation (TNG) of the Illustris simulations, or the
 Illustris-TNG project \citep{Nelson2015} is a series of large,
 cosmological magnetohydrodynamical and semi-analytical simulations of galaxy formation. 
@@ -217,8 +217,7 @@ in order to identify FOF haloes with
 a linking length $b=$ 0.2,
 within which gravitationally bound substructures
 are then located and classified hierarchically \cite{Pillepich2018a}.
-%The subhalos data can be download from \url{https://www.tng-project.org/data/downloads/TNG300-1/\#}. To access to the information stored in the catalog using python is necessary have the \texttt{illustris\_python} library that can be downloaded from  \url{https://github.com/illustristng/illustris\_python}. Then with the method \texttt{groupcat.loadSubhalos} passing the parameters \texttt{basePath:} the location of the catalog data, \texttt{snapshot number}: The snapshot number (99 in our case for $z=0$) and \texttt{fields} like \texttt{SubhaloPos}, for the galaxies position, \texttt{SubhaloStellarPhotometrics}, for the luminosity and \texttt{SubhaloMass}, for the mass of the galaxies is possible access to the galaxies of the TNG simulation.
-}
+ 
 
 \subsection{T-Web Classification}
 
@@ -283,10 +282,16 @@ distribution of nodes \citep{Kirkpatrick1985, Fang2019}.
 This algorithm depends on a positive and continuous parameter $\beta$
 that defines an exclusion region between two nodes.
 
-{\bf Defining $d$ as the distance between two nodes, they are connected by an edge if any other point is allocated in the various exclusion regions shown in Figure \ref{fig:beta}. 
+Defining $d$ as the distance between two nodes, they are connected by
+an edge if any other point is allocated in the various exclusion
+regions shown in Figure \ref{fig:beta}.  
 
-For $\beta<1$, the exclusion region is the intersection of all the spheres with diameter $d/\beta$ that pass through the nodes. In the case, $\beta=1$, the exclusion region is a sphere with a diameter $d$.  
-As $\beta$ increases, $\beta>1$, the exclusion region is larger and it is the intersection of all the spheres with diameter $d\beta$ having the nodes in their boundary.}
+For $\beta<1$, the exclusion region is the intersection of all the
+spheres with diameter $d/\beta$ that pass through the nodes. In the
+case, $\beta=1$, the exclusion region is a sphere with a diameter $d$.   
+As $\beta$ increases, $\beta>1$, the exclusion region is larger and it
+is the intersection of all the spheres with diameter $d\beta$ having
+the nodes in their boundary.  
 
 This makes that for low values of $\beta$ the graph is dense and for
 large values of $\beta$ the graph becomes sparse. 
@@ -525,7 +530,7 @@ respectively) and finally by voids (0.27).
 Void is the hardest class to predict. 
 The reason behind this result is easy to understand. 
 There are too few galaxies in voids. 
-Across all models, Less than XX $\%$ of all galaxies
+Across all models, less than XX $\%$ of all galaxies
 are classified as void galaxies. 
 This has two consequences.
 First, the low number of instances makes it hard for the ML algorithm to
@@ -533,17 +538,46 @@ define the region in parameter space occupied by voids.
 Second, a small number of void galaxies that are missclassified is
 translated into large changes in the F1 scores.
 
+In comparison, Filament is the class with the best score.
+For RF classifiers, the F1 score for Filament is the highest of all four
+web elements with an average value of  $0.71$.
+Notably, the F1 dispersion across models is also the lowest
+corresponding to $0.07$.
+Galaxies in filaments are also the most represented,
+approximately XX $\%$ of all galaxies are classified as filament
+galaxies.
+This helps to explain that it is easier for the ML algorithm to learn
+the charachteristics that make a galaxy sit in a filaments.
+Sheet and Peak have intermediate F1 scores between
+those for Void and Filament, with average values of $0.55$ and $0.52$.
+The fraction of galaxies in Sheets and Peaks averages $XX\%$ and $XX\%$,
+respectively. 
 
-\subsection{Best parameters and metaparameters}
+The failure to classify voids has to be taken into account at the
+moment of assigning a global score to a model.
+Not taking into account this special results can be misleading.
+The reason for that is the we have used the the average F1 across the
+four classes to define that algorithm was better. 
+We should also compute the average F1 across classes, but
+\emph{excluding voids}.
+This is what we do in the last two rows in Table \ref{table:elements}.
+In what follows we keep in mind this distinction in order to provide a
+fairer evaluation for each model.
 
 
-best models from all the three different ML algorithms.
-We choose the best $20$ results in terms of the average F1 to understand
-in detail the algorithm performance and the influence on the 
-different web elements classification.
-Considering the best $10$ or $50$ models does not affect the results
-and insights we are about to present.
 
+\subsection{Best match between T-web and $\beta$-skeleton}
+
+We now focus in understanding what are the best matched T-web and
+$\beta$-skeleton parameters.
+In this exploration we focus on the algorithm that we already know
+provides the best classification results: Random Forest. 
+To do that we choose the best $N=20$ models in terms of their average F1 across
+classes and see what do they have in commont.
+Choosing $N=10$ or $N=30$ does not have a great impact in our
+results. 
+However, as we saw previously, including voids or not in the analysis
+has deeper consequences that we are going to explore now.
 
 
 
