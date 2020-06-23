@@ -144,17 +144,26 @@ This generic approach can provide accurate DM distributions, but can
 be very expensive from the computational point of view. 
 
 Recently, Machine Learning (ML) methods have been used to solve the
-intermediate problem of finding the four web elements from discrete
-tracers \citep{Hui2018}. 
-This avoids the uncertain grid interpolation of tracers and the expensive
-DM density reconstruction.
-Under this approach of supervised ML classification needs a training
-dataset (some galaxy properties), the classes to classify the dataset
-(the four cosmic web environments) and an algorithm capable to link
-the galaxy properties to the cosmic web environment.
-This paper is inscribed into that line of work.
+intermediate problem of finding the four web elements for dark matter
+halos \citep{Hui2018,2020MNRAS.495.1311T}.
+For instance, \cite{2020MNRAS.495.1311T} classified
+dark  matter halos into their cosmic web elements. 
+They built networks by linking halos within a fixed linking length.
+From these graphs they built twelve different network metrics to feed
+four different ML algorithms and predict the cosmic web
+environment. 
+The true environments are computed themselves with five different
+algorithms.  
 
+This generic procedure avoids the uncertain grid interpolation of
+tracers and the expensive DM density reconstruction. 
+Under this approach of supervised ML classification, 
+the algorithm needs a training dataset (some haloor galaxy
+properties), the classes to classify the dataset (the four cosmic web
+environments) and an algorithm capable to link the galaxy properties
+to the cosmic web environment . 
 
+The work presented here is inscribed into that line of work.
 Here we show to what extent graph properties built on a galaxy
 distribution can predict the cosmic web elements.
 We demonstrate an specific implementation of this approach by using
@@ -706,36 +715,96 @@ From that list we find that the combination that appears more often is
 For the Number of Estimators we pick $NE=78$ as it is the most
 repeated value in the list.
 
-\subsection{Confusion Matrix and Feature Importance}
 
-We finalize this section by reporting the results from the model 
-\{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$, $NE=278$\} that we
-consider to be the best according to the reasons we have just
-presented.
-These results are computed on the reserved $20\%$ test data that has
-not be used so far.
-
-Figure \ref{fig:confusion_matrix_valid} shows the confusion matrix and
-the features ranked by importance.
-
-Fig. \ref{fig:confusion_matrix_valid}(left) shows the confusion matrix
-for the validation data with the best model where $\lambda_{th}$=0.1,
-$\sigma$=1.5, $M_r$=-14 and $NE$=80. The
-Fig. \ref{fig:confusion_matrix_valid}(right) shows the feature
-importances for the validation data, we can observe that the local
-average distance $\Delta \rho$ and the local number of connections
-$\Delta \eta$ remain the most important according with the results
-obtained for the test data. 
 
 \begin{figure*}
   \centering 
     \includegraphics[scale=0.25]{Figs/p_environment_predicted.pdf}
-    \caption{Comparison between the DM T-Web from the Illustris-TNG
-      simulation and the environments predicted by the Tree Classifier
-      algorithm.} 
+    \caption{Spatial distribution for the galaxies classified into the
+      four web elements following the T-web environment (left) and 
+      the $\beta$-skeleton based prediction (right).} 
     \label{fig:prediction}
 \end{figure*}
 
+
+\subsection{Confusion Matrix and Feature Importance}
+
+We finalize this section by reporting the results from the model 
+\{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$, $NE=278$\}.
+These results are computed on the reserved $20\%$ test data that has
+not be used so far.
+
+Figure \ref{fig:confusion_matrix} shows the confusion matrix.
+The numbers correspond to the fraction of objects that correspond to
+the \verb"Truth" class but are classified into the \verb"Prediction"
+class.
+What are the most common missclassifications?
+In first place comes the $88\%$ of void galaxies that are misclassified
+as sheet galaxies.  
+In second place we have the $45\%$ of sheets that are missclassified
+as filaments, and finally, the $37\%$ of peaks that are missclassified
+as filaments.
+
+The first missclassification results highlights the difficulty to find
+void galaxies.
+This turns out to be an almost impossible task for one simple reason:
+there are very few void galaxies.
+The second kind of missclassification shows that the galaxies
+classified as belonging to a filament, actually belong to neighboring
+environemts: sheets and peaks.
+
+This missclassification can also be understood in terms of the
+topological properties of the cosmic web elements. 
+Voids are surrounded by sheets, sheets have filaments inside them and
+filaments in turn have peaks inside them \citep{Cautun2014}. 
+In this progression the average density increases and the tidal field
+anisotropy goes from being isotropic (voids) to anisotropic (sheets
+and filaments) and isotropic (peaks) \citep{2015MNRAS.453..497B}.
+
+The ranking of correct classifications follows the F1 trends
+shown in Table \ref{table:elements}.
+Filaments are the class most correctly classified ($80\%$) followed by
+peaks ($62\%$) and sheets ($54\%$).
+Void galaxies have the worst results, only $6\%$ of void galaxies are
+correctly classified.
+This ranking follows the trend in the fraction of instances belonging to
+filaments ($XX\%$), peaks($XX\%$), sheets ($XX\%$) and voids ($XX\%$).
+Higher number of instances translates into a better chance for the
+algorithm to give a correct classification.
+
+
+Figure \ref{fig:feature_importance} shows the feature
+importances for the classification.
+In the combination of eight features the four most important ones are:
+$\Delta \delta$ (changes in the average edge length), $\Delta \eta$
+(changes in the average number of connections), $\delta$ (average edge
+lenght) and $\Delta M_r$ (changes in the average magnitudes).
+The most interesting outcome is that the changes over the graph (the 
+$\Delta$ features) turn out to be crucial for the classification, not
+so much the actual values over the graph.
+
+Figure  \ref{fig:prediction} summarizes our results. 
+It shows the spatial distribution for the galaxies into the four web
+elements. 
+The left panels correspond to the T-web prediction and the right
+panels to the prediction from the $\beta$-skeleton features.
+The failure in the void classification is visible as an excess of
+galaxies classified as belonging to a void, compared to the lower
+number in the T-web classification.
+A similar trend, although less pronounced is visible for peak
+galaxies, although the predictions seem to have a similar clustering
+as the input truth. 
+On the other hand, sheet galaxies in the prediction appear more
+clustered than they should.
+Finally, the visual impression for filament galaxies is the most
+similar between truth and prediction, as expected by the quantitative
+results presented here.
+
+
+\section{Discussion}
+
+{\bf Hacer un par de parrafos de comparacion con
+  https://arxiv.org/pdf/1910.07868.pdf}. 
 
 \section{Conclusions}\label{sec:conclusions}
 
