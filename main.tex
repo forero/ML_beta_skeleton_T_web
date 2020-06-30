@@ -75,21 +75,8 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 
 % Abstract of the paper
 \begin{abstract}
-We show how it is possible to infer the environments of the cosmic web
-of dark matter using the information of the spatial distribution of
-galaxies and a machine learning algorithm. 
-Handled the set of galaxies as a set of nodes, we applied the
-$\beta$-skeleton algorithm to extract geometrical information like the
-number of connections or the average distance by galaxy. 
-Using these properties of the distribution of galaxies was probed the
-classification trees, random forest and support vector machine algorithms under different
-configurations to find the best set of parameters that makes a good
-prediction with the lowest confusion.
-The results show that the local average distance between galaxies on
-the $\beta$-skeleton is the most important feature for the prediction
-of the cosmic web environment. 
-This is a good approximation that will allow us to use these
-algorithms to make predictions in observational data.  
+
+We show how it is possible to infer the environments of the cosmic web of dark matter using the information of the spatial distribution of galaxies and a machine learning algorithm.  Handled the set of galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm to extract geometrical information like the number of connections or the average distance by galaxy. Using these properties of the distribution of galaxies was probed the classification trees, random forest and support vector machine algorithms under different configurations to find the best set of parameters that makes a good prediction with the lowest confusion. The results show that the local average distance between galaxies on the $\beta$-skeleton is the most important feature for the prediction of the cosmic web environment.  This is a good approximation that will allow us to use these algorithms to make predictions in observational data.  
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -269,7 +256,7 @@ number of eigenvalues larger than the threshold $\lambda_{th}$.
 
 \begin{figure*}
 \centering
- \includegraphics[scale=0.28]{Figs/Fig1_.png}%Figs/p_TWeb_bsk.pdf}
+ \includegraphics[scale=0.28]{Figs/p_Fig1_.png}%Figs/p_TWeb_bsk.pdf}
  \caption{Comparison between the T-Web of dark matter density field
    (left) and the $\beta$-skeleton (right) computed from the
    distribution of galaxies with $\beta$=1 for Illustris-TNG300.}  
@@ -818,7 +805,7 @@ A similar methodology proposed in \cite{Tsizh2019} combines a complex network an
 
 In \cite{Tsizh2019} the ML algorithm selected, with the best predictive power was the extreme gradient boosting decision trees, for this selection was not reported the optimal metaparameters. With this method over the T-Web classification, they obtain a prediction score, defined as the prediction rate, of 0.51 (T-Web was the worst predicted tracer). Computing the same score for our best model with the T-Web classification, we obtain a prediction score of 0.68.
 
-Per environment, the results reported in \cite{Tsizh2019} were computed over the Classic classification (see \cite{Libeskind2018}), in this experiment, the scores vary of ours. The voids are the best-predicted environment with a score of 0.82 (according to their confusion matrix), followed by filaments with 0.64, sheets with 0.62, and peaks 0.41. In table \ref{tab:tsizh} we compare the results of the network metrics paper with ours including the population by class in each case. 
+Per environment, the results reported in \cite{Tsizh2019} were computed over the \texttt{Classic} classification (see \cite{Libeskind2018}), in this experiment, the scores vary of ours. The voids are the best-predicted environment with a score of 0.82 (according to their confusion matrix), followed by filaments with 0.64, sheets with 0.62, and peaks 0.41. In table \ref{tab:tsizh} we compare the results of the network metrics paper with ours including the population by class in each case. The good result predicting voids in \cite{Tsizh2019} is due to the population of them in its catalog. Almost a 36.4\% of halos are matched like voids with the \texttt{classic} algorithm.
 }
 
 \section{Conclusions}\label{sec:conclusions}
