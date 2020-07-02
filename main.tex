@@ -76,7 +76,26 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 % Abstract of the paper
 \begin{abstract}
 
-We show how it is possible to infer the environments of the cosmic web of dark matter using the information of the spatial distribution of galaxies and a machine learning algorithm.  Handled the set of galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm to extract geometrical information like the number of connections or the average distance by galaxy. Using these properties of the distribution of galaxies was probed the classification trees, random forest and support vector machine algorithms under different configurations to find the best set of parameters that makes a good prediction with the lowest confusion. The results show that the local average distance between galaxies on the $\beta$-skeleton is the most important feature for the prediction of the cosmic web environment.  This is a good approximation that will allow us to use these algorithms to make predictions in observational data.  
+We show how it is possible to infer the environments of the cosmic web
+of dark matter using the information of the spatial distribution of
+galaxies and a machine learning algorithm.  
+Handled the set of
+galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm
+to extract geometrical information like the number of connections or
+the average distance by galaxy. 
+Using these properties of the
+distribution of galaxies was probed the classification trees, random
+forest and support vector machine algorithms under different
+configurations to find the best set of parameters that makes a good
+prediction with the lowest confusion. 
+The results show that the local
+average distance between galaxies on the $\beta$-skeleton is the most
+important feature for the prediction of the cosmic web environment.
+Our methodology shows a global accuracy of $0.68$, which is an
+improvement of $17$ percentual points on the  global curacy over
+methods that predict the T-web environment from network metrics. 
+This is a good approximation that will allow us to use these
+algorithms to make predictions in observational data.   
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -767,8 +786,9 @@ so much the actual values over the graph.
 Figure  \ref{fig:prediction} summarizes our results. 
 It shows the spatial distribution for the galaxies into the four web
 elements. 
-The left panels correspond to the T-web prediction and the right
-panels to the prediction from the $\beta$-skeleton features.
+The left panes correspond to the prediction from the
+$\beta$-skeleton features and the right panel to the T-web
+computation. 
 The failure in the void classification is visible as an excess of
 galaxies classified as belonging to a void, compared to the lower
 number in the T-web classification.
@@ -784,29 +804,68 @@ results presented here.
 
 \section{Discussion}
 
-{\bf
-
 \begin{table}
 \centering
 \begin{tabular}{c|c|c|c|c|}
-\cline{2-5}
-                                         & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Network Metrics\\ Classic GADGET2\end{tabular}}} & \multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}$\beta$-skeleton\\ T-Web TNG\end{tabular}}} \\ \hline
-\multicolumn{1}{|c|}{\textbf{Class}}     & \textbf{Score}                                    & \textbf{Population}                                   & \textbf{Score}                                 & \textbf{Population}                                 \\ \hline
-\multicolumn{1}{|c|}{\textbf{Peaks}}     & 0.41                                              & 5.00\%                                                & 0.62                                           & 24.00\%                                             \\ \hline
-\multicolumn{1}{|c|}{\textbf{Filaments}} & 0.62                                              & 19.90\%                                               & 0.81                                           & 50.80\%                                             \\ \hline
-\multicolumn{1}{|c|}{\textbf{Sheets}}    & 0.64                                              & 38.80\%                                               & 0.54                                           & 23.20\%                                             \\ \hline
-\multicolumn{1}{|c|}{\textbf{Voids}}     & 0.82                                              & 36.40\%                                               & 0.06                                           & 2.00\%                                              \\ \hline
+\cline{2-5} &
+\multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Best
+      Model\\ Tsizh et al. (2020) \end{tabular}}} &
+\multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Best Model\\ 
+This Work \end{tabular}}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Class}}     & \textbf{Score}   &
+\textbf{Tracer \%}   & \textbf{Score}     & \textbf{Tracer \%}  \\ \hline
+\multicolumn{1}{|c|}{\textbf{Peaks}}     & 0.41   & 5.00\%   & 0.62  & 24.00\%   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Filaments}} & 0.62   & 19.90\%  & 0.81  & 50.80\%   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Sheets}}    & 0.64   & 38.80\%  & 0.54  & 23.20\%   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Voids}}     & 0.82   & 36.40\%  & 0.06  & 2.00\%    \\ \hline
 \end{tabular}
-\caption{Comparison of the confusion matrix scores between the model of network metrics and our model. The populations are computed over the 100\% of total nodes. In the network metrics paper the best environment predicted is the voids. With our model the best is the filaments.}
+\caption{Comparison of the diagonal elements of the confusion matrix
+  (Scores) between the best models in \citet{Tsizh2019} and our work.
+  Comparing each class in the two classifications we see that a higher
+  score correspond to a higher tracer percentage.}
 \label{tab:tsizh}
 \end{table}
 
-A similar methodology proposed in \cite{Tsizh2019} combines a complex network analysis with ML to predict the environments in the cosmic web. In that paper, the nodes are represented by dark matter halos in a box with length of 290 Mpc extracted from the \texttt{GADGET-2} cosmological simulation \cite{Springel2005}. The halos in the simulation were identified by a friends-of-friends algorithm to create a catalog \cite{Libeskind2018}. The catalog has a total of 281465 halos with mass range from 10$^{11}h^{-1}$ to 10$^{15}h^{-1}$\Msun. Over the distribution of halos was computed 10 network metrics by node. To compute these metrics was created a graph from the position of the nodes and a linking length $l=$2$Mpch/h^{-1}$. The metrics together with the mass and the peculiar velocity make up the input data for the ML algorithms. In comparison with our work, we use the positions of 1448570 galaxies in a box with length of 300 Mpc to computed the $\beta$-skeleton and create our features space. From the $\beta$-graph we extract some features like the number of connections by node, the average distance, the pseudo-density, and others that together with the luminosity defines our input data for the ML algorithms.
+A similar methodology proposed in \cite{Tsizh2019} combines a complex
+network analysis with ML to predict the environments in the cosmic
+web. In that paper, the nodes are represented by dark matter halos in
+a box with length of 290 Mpc extracted from the \texttt{GADGET-2}
+cosmological simulation \cite{Springel2005}. The halos in the
+simulation were identified by a friends-of-friends algorithm to create
+a catalog \cite{Libeskind2018}. The catalog has a total of 281465
+halos with mass range from 10$^{11}h^{-1}$ to
+10$^{15}h^{-1}$\Msun. Over the distribution of halos was computed 10
+network metrics by node. To compute these metrics was created a graph
+from the position of the nodes and a linking length
+$l=$2$Mpch/h^{-1}$. The metrics together with the mass and the
+peculiar velocity make up the input data for the ML algorithms. In
+comparison with our work, we use the positions of 1448570 galaxies in
+a box with length of 300 Mpc to computed the $\beta$-skeleton and
+create our features space. From the $\beta$-graph we extract some
+features like the number of connections by node, the average distance,
+the pseudo-density, and others that together with the luminosity
+defines our input data for the ML algorithms. 
 
-In \cite{Tsizh2019} the ML algorithm selected, with the best predictive power was the extreme gradient boosting decision trees, for this selection was not reported the optimal metaparameters. With this method over the T-Web classification, they obtain a prediction score, defined as the prediction rate, of 0.51 (T-Web was the worst predicted tracer). Computing the same score for our best model with the T-Web classification, we obtain a prediction score of 0.68.
+In \cite{Tsizh2019} the ML algorithm selected, with the best
+predictive power was the extreme gradient boosting decision trees, for
+this selection was not reported the optimal metaparameters. With this
+method over the T-Web classification, they obtain a prediction score,
+defined as the prediction rate, of 0.51 (T-Web was the worst predicted
+tracer). Computing the same score for our best model with the T-Web
+classification, we obtain a prediction score of 0.68. 
 
-Per environment, the results reported in \cite{Tsizh2019} were computed over the \texttt{Classic} classification (see \cite{Libeskind2018}), in this experiment, the scores vary of ours. The voids are the best-predicted environment with a score of 0.82 (according to their confusion matrix), followed by filaments with 0.64, sheets with 0.62, and peaks 0.41. In table \ref{tab:tsizh} we compare the results of the network metrics paper with ours including the population by class in each case. The good result predicting voids in \cite{Tsizh2019} is due to the population of them in its catalog. Almost a 36.4\% of halos are matched like voids with the \texttt{classic} algorithm.
-}
+Per environment, the results reported in \cite{Tsizh2019} were
+computed over the \texttt{Classic} classification (see
+\cite{Libeskind2018}), in this experiment, the scores vary of
+ours. The voids are the best-predicted environment with a score of
+0.82 (according to their confusion matrix), followed by filaments with
+0.64, sheets with 0.62, and peaks 0.41. In table \ref{tab:tsizh} we
+compare the results of the network metrics paper with ours including
+the population by class in each case. The good result predicting voids
+in \cite{Tsizh2019} is due to the population of them in its
+catalog. Almost a 36.4\% of halos are matched like voids with the
+\texttt{classic} algorithm.  
+
 
 \section{Conclusions}\label{sec:conclusions}
 
