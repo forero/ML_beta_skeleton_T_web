@@ -76,13 +76,12 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 % Abstract of the paper
 \begin{abstract}
 
-{\b
-We show how it is possible to infer the environments of the cosmic web of dark matter using only the information of the spatial distribution and the absolute magnitude of galaxies with a classic machine learning algorithm.
+We show how it is possible to infer the environments of the cosmic web of dark matter using only the information of the spatial distribution of galaxies with a classic machine learning algorithm.
 Handled the set of galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm to extract geometrical information like the number of connections or the average distance by each galaxy.
-Using these properties extracted from the distribution of galaxies and its magnitude luminosity was probed the classification trees, random forest, and support vector machine algorithms under different configurations to find the best set of parameters that makes a usefulness prediction with the lowest confusion. 
-The results show that the local average distance between galaxies on $\beta$-graph is the most chief feature for the prediction of the cosmic web environment followed by the local number of connections. 
-Our methodology shows a global accuracy of $0.68$, which is an improvement of $17$ percentual points on the total accuracy over methods that predict the T-Web environment from network metrics.
-Our work is a good and simple approximation that will allow us to use these algorithms to make predictions in observational data.}
+Using these properties extracted from the distribution of galaxies was probed the classification trees and random forest machine algorithms under different configurations to find the best set of parameters that makes a usefulness prediction with the lowest confusion. 
+The results show that the average distance between galaxies on $\beta$-graph is the most chief feature for the prediction of the cosmic web environment followed by the local average distance of connections. 
+Our methodology shows a global accuracy of $0.70$, which is an improvement of $19$ percentual points on the total accuracy over methods that predict the T-Web environment from network metrics.
+Our work is a good and simple approximation that will allow us to use these algorithms to make predictions in observational data.
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -129,7 +128,7 @@ web dark matter distribution.
 The second approach performs a full dark matter density field
 reconstruction around the observed galaxies.
 Most of these algorithms use Bayesian statistics coupled with Monte
-Carlo sampling  and N-body
+Carlo sampling and N-body
 simulations \citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}. 
 Some others are based on the density distribution around halos that
 are associated to galaxy groups \citep{Wang2009,2011MNRAS.417.1303M}.  
@@ -144,8 +143,7 @@ They built networks by linking halos within a fixed linking length.
 From these graphs, they built twelve different network metrics to feed
 four different ML algorithms and predict the cosmic web
 environment. 
-The true environments are computed themselves with five different
-algorithms.  
+The true environments are computed themselves with five different algorithms.  
 
 This generic procedure avoids the uncertain grid interpolation of
 tracers and the expensive DM density reconstruction. 
@@ -159,14 +157,14 @@ The work presented here is inscribed into that line of work.
 Here we show to what extent graph properties built on a galaxy
 distribution can predict the cosmic web elements.
 We demonstrate a specific implementation of this approach by using
-the $\beta$-skeleton graph \citep{Fang2019} and the  T-Web
-\citep{Forero-Romero2009} classification to define the four cosmic web
-elements.  
-We test three different supervised machine learning
-algorithms (support vector machines, a Tree Classifier, and Random Forests) 
+the $\beta$-skeleton graph \citep{Fang2019} and the T-Web
+\citep{Forero-Romero2009} classification to define the four cosmic web elements.  
+We test two different supervised ML
+algorithms (Classification Trees - CT, and Random Forests - RF) 
 to train from the features and predict the environment.
 We quantify the precision and accuracy of the algorithms using the
-Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$. 
+Illustris-TNG simulation \citep{Nelson2015} at redshift $z=0$.
+
 This paper is organized as follows. 
 In Section \ref{sec:init} we describe the relevant aspects of the Illustris-TNG
 simulations relevant to our work, the T-Web algorithm,
@@ -188,7 +186,7 @@ to finally summarize our conclusions in Section
 \begin{figure}
 \centering
  \includegraphics[scale=0.18]{Figs/p_beta.pdf}
- \caption{Exclusion region of the $\beta$-skeleton under the Lune-based definition. }  
+ \caption{Exclusion region of the $\beta$-skeleton under the Lune-based definition.}  
  \label{fig:beta}
 \end{figure}
 
@@ -196,16 +194,15 @@ The Next Generation (TNG) of the Illustris simulations, or the
 Illustris-TNG project \citep{Nelson2015} is a series of large,
 cosmological magnetohydrodynamical and semi-analytical simulations of galaxy formation. 
 These simulations are based on the cosmological standard model
-$\Lambda$CDM and uses the \texttt{AREPO} code \cite{Springel2011}.  The simulations run start from the cosmology $\Lambda$CDM with the cosmological parameters: cosmological constant $\Omega_{\Lambda,0}$=0.6911, matter density $\Omega_{m,0}$=0.3089,  baryonic density $\Omega_{b,0}$=0.0486, normalisation $\sigma_8$=0.8159, spectral index $n_s$=0.9667 and Hubble constant $H_o$= 100$h\,km\,s^{-1}\,Mpc^{-1}$ with $h$=0.6774 consistent with the Planck 2015 results \cite{Ade2016}. 
+$\Lambda$CDM and uses the \texttt{AREPO} code \cite{Springel2011}.  The simulations run start from the cosmology $\Lambda$CDM with the cosmological parameters: cosmological constant $\Omega_{\Lambda,0}$=0.6911, matter density $\Omega_{m,0}$=0.3089,  baryonic density $\Omega_{b,0}$=0.0486, normalization $\sigma_8$=0.8159, spectral index $n_s$=0.9667 and Hubble constant $H_o$= 100$h\,km\,s^{-1}\,Mpc^{-1}$ with $h$=0.6774 consistent with the Planck 2015 results \cite{Ade2016}. 
 
 The Illustris-TNG project simulates different structures in the visible matter like stars, black holes, or diffuse gas jointly with the distribution of DM.
 The project includes simulated galaxies as realistic as possible to make a comparison with the real universe. There are 18 different simulations in this project with boxes of sizes $50$, $100$, and $300$ Mpc that started at $z=127$ and finalized at $z=0$.   
 
-In this work we used the TNG300 (~300 Mpc) simulation in $z=0$, this simulation has a volume of 302.6$^3 Mpc^3$. 
+In this work we used the TNG300 (~300 Mpc) simulation at $z=0$, this simulation has a volume of 302.6$^3 Mpc^3$. 
 A total of 88$\times 10^{6}$ \Msun of baryonic mass
 and 470$\times 10^{6}$ \Msun/h of Dark Matter mass \cite{Nelson2015}. 
-The number of galaxies used to make all calculates that we report in this paper
-was 14485709 with a total of 711967677 stars simulated. Where for the stellar formation were included the next physical component \cite{Nelson2015, Pillepich2018a}:
+The number of galaxies in the Illustris-TNG simulation is 14485709 with a total of 711967677 stars simulated. Where for the stellar formation were included the next physical component \cite{Nelson2015, Pillepich2018a}:
 \begin{itemize}
     \item The stars pass through an AGB phase with a mass range of 1-8\Msun, and supernovae phase between 8 and 100\Msun. 
     \item Stochastic star formation in dense interstellar medium (ISM) gas above a threshold density criterion. Gas above a star formation density threshold of forms stars stochastically following the empirically defined Kennicutt-Schmidt relation and assuming a Chabrier initial mass function.
@@ -214,7 +211,6 @@ was 14485709 with a total of 711967677 stars simulated. Where for the stellar fo
     \item Metal enriched gas radiatively cools in the presence of a redshift-dependent, spatially uniform, ionizing UV background radiation field, with corrections for self-shielding in the dense ISM.
     \item Feedback associated with star formation is assumed to drive galactic-scale outflows. These outflows are launched directly from star-forming gas.
 \end{itemize}
-
 
 In the TNG300 simulation, the galaxies are called subhalos and
 are defined as any gravitationally
@@ -227,10 +223,9 @@ a linking length $l=$ 0.2,
 within which gravitationally bound substructures
 are then located and classified hierarchically \cite{Pillepich2018a}.
  
- 
 \begin{figure*}
 \centering
- \includegraphics[scale=0.28]{Figs/p_Fig1_.png}%Figs/p_TWeb_bsk.pdf}
+ \includegraphics[scale=0.3]{Figs/p_Fig1_.png}%Figs/p_TWeb_bsk.pdf}
  \caption{Comparison between the T-Web of dark matter density field
    (left) and the $\beta$-skeleton (right) computed from the
    distribution of galaxies with $\beta$=1 for Illustris-TNG300.}  
@@ -269,12 +264,10 @@ Fourier Transform  methods, 5) compute the deformation tensor using
 finite differences, 6) find the eigenvalues, and finally 7) count the number of eigenvalues larger than the threshold $\lambda_{th}$. 
 
 
-
-
 \begin{figure*}
-        \includegraphics[scale=0.37]{Figs/p_all_features_correlations.pdf}
-    \caption{Histograms and correlations curves for the eight features
-      used to train the classifiers.}  
+        \includegraphics[scale=0.46]{Figs/p_all_features_correlations.pdf}
+    \caption{Histograms and correlations curves for the six features
+      used to train the classifiers. These features were extracted from the 1-skeleton graph.}
     \label{fig:features}
 \end{figure*}
 
@@ -289,7 +282,7 @@ Defining $d$ as the distance between two nodes, they are connected by
 an edge if any other point is allocated in the various exclusion
 regions shown in Figure \ref{fig:beta}.  
 
-For $\beta<1$, the exclusion region is the intersection of all the
+For $\beta<1$, the exclusion region is the intersection of all the 
 spheres with diameter $d/\beta$ that pass through the nodes. In the
 case, $\beta=1$, the exclusion region is a sphere with a diameter $d$.
 As $\beta$ increases, $\beta>1$, the exclusion region is larger and it
@@ -303,8 +296,6 @@ The $2$-skeleton is also known as the Relative Neighbor Graph (RNG).
 
 In our case, the galaxies represent a node in the graph.
 From this graph, we compute a variety of features to be used as an input for the classification task.
-
-
 
 \section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
@@ -330,7 +321,7 @@ distributions and thus different $\beta$-skeletons.
 
 The T-Web computation is performed over a cubic grid with $256^3$
 cells. 
-This corresponds to a cell size of $1.17$ Mpc.
+This corresponds to a cell size of $1.17$Mpc.
 For the smoothing parameter, we take five different values of $\sigma =
 0.5$, $1.0$, $1.5$, $2.0$ and $2.5$, expressed in units of the cell size on a side.
 In turn, for each smoothing length we take five different values for
@@ -349,7 +340,8 @@ T-Web are fixed.
 Next, we define what features used to predict the four cosmic web elements.
 
 \subsection{Galaxy Features}
-We use eight features for each galaxy in the $\beta$-skeleton to train the classifiers. 
+We use six features for each galaxy in the $\beta$-skeleton to train the classifiers. 
+
 
 \begin{enumerate}
 \item[1)]
@@ -378,38 +370,22 @@ They can be loosely interpreted as a first derivative computed over the graph.
 \item[6)] $\Delta$ over the the pseudo-density, $\Delta\varrho$.
 \end{enumerate}
 
-\noindent
-Two more features come from the $r$-band magnitudes
-\begin{enumerate}
-\item[7)] The absolute $r$-band magnitude, $M_r$.
-\item[8)] $\Delta$ over the absolute $r$-band magnitude, $\Delta M_r$.
-\end{enumerate}
-
-Figure \ref{fig:features} show the correlations among all features.
+Figure \ref{fig:features} shows the correlations among all features.
 The diagonal panels present the distribution of a given parameter.
 The strongest correlations are present for the average number of
-connections $\eta$, the connection length $\delta$, the
-pseudo-density $\varrho$, and the r-band magnitude $M_r$ with their
+connections $\eta$, the connection length $\delta$ and the
+pseudo-density $\varrho$ with their
 corresponding $\Delta$ features.
-
 
 
 \subsection{Classification Algorithms}
 
-We explore three different supervised machine learning algorithms to
+We explore two different supervised machine learning algorithms to
 predict the cosmic web environment from the features we have just presented.
 For each algorithm, the most relevant meta parameters driving their
 performance.
 
 \begin{itemize}
-    \item Support Vector Machines (SVM): 
-        \begin{itemize}
-            \item kernel: Radial basis function
-            \item Regularization parameter $C$=0.01, 0.1, 1.0.
-            \item Scale for the radial basis function  $\gamma$ = 0.01, 0.1, 1.0.
-        \end{itemize}
-        For this algorithm we standardize the input features to have
-        mean zero and standard deviation of one. 
     \item Classification Trees (CT):
       \begin{itemize}
       \item Maximum tree depth: From 1 to 30.
@@ -423,17 +399,14 @@ performance.
 
 \subsection{Model evaluation}
 
-After computing the features we discard the galaxies located within 5 Mpc
-away from the box limits  in order  to avoid boundary effects coming
-from incomplete $\beta$-skeleton information.  
-From this set, we randomly select $50\%$ of galaxies to train the ML
-algorithms.   
-We use another $30\%$ as validation to find the best algorithm and ML
+After computing the features, we divided the full box in eight boxes with same volume, then we discard the galaxies located within 5 Mpc away from the boxes limits in order to avoid boundary effects coming from incomplete $\beta$-skeleton information.  
+From this set, we selected the galaxies allocated in four boxes, a $50\%$ of the full volume, to train the ML
+algorithms.
+We use two box, i.e. a $25\%$ volume, as validation to find the best algorithm and ML
 meta-parameters together with the best matching T-Web and
 $\beta$-skeleton parameters.   
-Finally, we use the final $20 \%$ of data as test to report
-on the expected confusion matrix and feature importance for the
-classification. 
+Finally, we use one box, $12.5\%$ of volume, as test to report
+on the expected confusion matrix and feature importance for the classification. The remaining box was published in the repository of the project on \href{https://github.com/jsuarez314/cosmicweb_bsk}{github} as an example mock to evaluate the best model.
 
 As performance metrics, we compute the precision, recall and the F1
 score (harmonic mean between precision and recall).  
@@ -442,7 +415,7 @@ We compute the F1 for each web environment and its average.
 
 \begin{figure}
     \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
-    \caption{Histograms of the average F1 for the three machine
+    \caption{Histograms of the average F1 for the two machine
       learning algorithms.
       The average F1 changes as the parameter and meta-parameter
       are changed.}
@@ -456,10 +429,10 @@ We compute the F1 for each web environment and its average.
     \includegraphics[scale=0.23]{Figs/p_features_Forest_F1_av_no_voids.pdf}
     \caption{(Upper) Distribution of the meta-parameters and the F1 average
       when the voids are including in the average. We can observe that
-      the $\lambda$ meta-parameter is 0.5, while $\sigma$
+      the $\lambda_{th}$ meta-parameter is 0.5, while $\sigma$
       jumps between 1.5 and 2.0, $M_r$ is -16 mainly and $NE$ are concentrate in 100.
       (Bottom) Distributions when the voids are not including in the average. We can observe that
-      the $\lambda$ meta-parameter is 0.1, while $\sigma$
+      the $\lambda_{th}$ meta-parameter is 0.1 and 0.2, while $\sigma$
       jumps between 1.5 and 2.0, also, $M_r$ is -14 and $NE$ have a peak in 80.
       } 
     \label{fig:features_score}    
@@ -468,21 +441,22 @@ We compute the F1 for each web environment and its average.
 
 \begin{table}
 \centering
-\begin{tabular}{p{1.8cm}ccc}
+\begin{tabular}{ccc}
 \hline
-                  & Random               & Classification        & SVM\\
-                  & Forest               & Trees                &  \\
+ F1-score                   & Random                 & Classification                \\
+                            & Forest                 &   
+                            Trees \\
 \hline
- F1 Peaks               & 0.52 $\pm$ 0.26  & 0.46 $\pm$ 0.24 & 0.42 $\pm$ 0.09  \\
- F1 Filaments          & 0.71 $\pm$ 0.05 & 0.66 $\pm$ 0.07 & 0.33 $\pm$ 0.09 \\
- F1 Sheets             & 0.55 $\pm$ 0.05 & 0.50 $\pm$ 0.10 & 0.26 $\pm$ 0.09 \\
- F1 Voids              & 0.27 $\pm$ 0.18 & 0.27 $\pm$ 0.17 & 0.12 $\pm$ 0.09 \\
- Average F1\\ with voids    & 0.51 $\pm$ 0.08 & 0.47 $\pm$ 0.09 & 0.28 $\pm$ 0.06 \\
- Average F1\\ without voids & 0.59 $\pm$ 0.08 & 0.54 $\pm$ 0.08 & 0.34 $\pm$ 0.07 \\
+ $F1_{peaks}$               & 0.537 $\pm$ 0.268 & 0.52 $\pm$ 0.184  \\
+ $F1_{filaments}$           & 0.719 $\pm$ 0.048 & 0.643 $\pm$ 0.07  \\
+ $F1_{sheets}$              & 0.563 $\pm$ 0.069 & 0.498 $\pm$ 0.061 \\
+ $F1_{voids}$               & 0.294 $\pm$ 0.182 & 0.283 $\pm$ 0.142 \\
+ $F1_{av}\,[With Voids]$    & 0.528 $\pm$ 0.092 & 0.486 $\pm$ 0.065 \\
+ $F1_{av}\,[Without Voids]$ & 0.606 $\pm$ 0.091 & 0.554 $\pm$ 0.065 \\
 \hline
 \end{tabular}
 \caption{Mean values and standard deviations over the F1
-  scores for the 20 best models in each one of the ML algorithms.
+  scores for all models in each one of the ML algorithms.
   The first four rows differentiate the results for each one of the
   environments.
   The fifth row corresponds to the unweighted average over the four
@@ -492,9 +466,7 @@ We compute the F1 for each web environment and its average.
 \end{table}
 
 
-
 \section{Results}\label{sec:results}
-
 
 \subsection{ML algorithm performance}
 
@@ -502,16 +474,7 @@ We compute the F1 for each web environment and its average.
 We start by comparing the performance of the different ML algorithms.
 Figure \ref{fig:methods} shows the average F1 distribution for
 all the classification experiments. 
-The histograms are discriminated into the three ML algorithms.
-The first result that stands out is that SVM shows the worst
-classification results.
-The F1 score is the average F1 over the four web environments.
-
-The mean values of this average F1 score for SVM are around 0.3, while its best
-value is close to 0.5.
-For Classification Trees and Random Forest, the results are notably better.
-The mean value over the distribution is close to 0.5 while their best
-average F1 is close to 0.6.
+The histograms are discriminated into the two ML algorithms.
 From these two models, the results from the Random Forest are
 better; the F1 value distribution is skewed towards higher values than
 the distribution from the Classification Trees.
@@ -520,15 +483,12 @@ emerges as the best ML algorithm.
 We can confirm this result by performing a more detailed analysis by
 taking a look at the results for each cosmic web element separately.
 
-
 Table \ref{table:elements} summarizes the F1 performance split by cosmic
 web element in the first four rows.
-The mean values and standard deviations are computed over all the ML
-experiments. 
-From this table, we confirm that the Random Forest classifier (RF) performs
-consistently better than Classification Trees (CT) and SVM for every web element.
-The F1 scores from RF are always at least 0.15 above SVM.
-The comparison between RF and CT shows that for peaks, filaments and
+The mean values and standard deviations are computed over all the ML experiments. 
+From this table, we confirm that the Random Forest (RF) classifier performs
+consistently better than Classification Trees (CT) for every web element.
+The F1 scores comparison between RF and CT shows that for peaks, filaments and
 sheets the RF produces average F1 scores 0.05 higher. 
 However, for voids the average of the scores is similar. 
 
@@ -538,14 +498,14 @@ Table \ref{table:elements} also shows that some cosmic web elements
 are harder to predict than others.
 Focusing our attention on the RF classifier, the algorithm with the
 best results, we readily observe that filaments is the environment
-with the best mean F1 score (0.71).
-This score is followed by sheets and filaments (0.55 and 0.52,
-respectively) and finally by voids (0.27).
+with the best mean F1 score (0.719).
+This score is followed by sheets and peaks (0.563 and 0.537,
+respectively) and finally by voids (0.294).
 
 Void is the hardest class to predict. 
 The reason behind this result is easy to understand. 
 There are too few galaxies in voids.
-Across all models, less than $0.2\%$ of all galaxies
+Across all models, less than $0.4\%$ of all galaxies
 are classified as void galaxies.
 This has two consequences.
 First, the low number of instances makes it hard for the ML algorithm to
@@ -554,16 +514,16 @@ Second, a small number of void galaxies that are misclassified is translated int
 
 In comparison, Filament is the class with the best score.
 For RF classifiers, the F1 score for filament is the highest of all four
-web elements with an average value of  $0.71$.
+web elements with an average value of  $0.719$.
 Notably, the F1 dispersion across models is also the lowest
-corresponding to $0.06$.
+corresponding to $0.048$.
 Galaxies in filaments are also the most represented,
-approximately $60.8\%$ of all galaxies are classified as filament galaxies.
+approximately $58.6\%$ of all galaxies are classified as filament galaxies.
 This helps to explain that it is easier for the ML algorithm to learn
 the characteristics that make a galaxy sit in a filament.
 Sheet and Peak have intermediate F1 scores between
-those for Void and Filament, with average values of $0.55$ and $0.52$.
-The fraction of galaxies in Sheets and Peaks averages are $19.2\%$ and $19.8\%$, respectively. 
+those for Void and Filament, with average values of $0.563$ and $0.537$.
+The fraction of galaxies in Sheets and Peaks averages are $19.8\%$ and $21.3\%$, respectively. 
 
 The failure to classify voids has to be taken into account at the
 moment of assigning a global score to a model.
@@ -577,55 +537,54 @@ In what follows we keep in mind this distinction in order to provide a
 fairer evaluation for each model.
 
 
-
 \begin{table}
 \centering
-\begin{tabular}{rrrr}
+\begin{tabular}{cccc}
 \hline
-   $\lambda$ &   $\sigma$ &   $M_r$ &   $NE$ \\
+   $\lambda_{th}$ &   $\sigma$ &   $M_r$ &   $NE$ \\
 \hline
-         0.2 &        1.5 &     -14 &     67 \\
-         0.2 &        1.5 &     -14 &     78 \\
-         0.1 &        2   &     -14 &     89 \\
-         0.1 &        2   &     -14 &     78 \\
-         0.1 &        2   &     -14 &    100 \\
-         0.1 &        2   &     -16 &     34 \\
-         0.1 &        2   &     -16 &     45 \\
-         0.1 &        1.5 &     -14 &     34 \\
-         0.1 &        1.5 &     -14 &     67 \\
-         0.1 &        1.5 &     -14 &     56 \\
-         0.1 &        1.5 &     -14 &     45 \\
-         0.1 &        1.5 &     -14 &     23 \\
-         0.1 &        2   &     -16 &     56 \\
+         0.2 &        1.5 &     -16 &     90 \\
+         0.1 &        1.5 &     -12 &     80 \\
+         0.1 &        1.5 &     -14 &     50 \\
+         0.2 &        1.5 &     -14 &     20 \\
+         0.2 &        1.5 &     -14 &     30 \\
+         0.1 &        1.5 &     -14 &     20 \\
+         0.2 &        1.5 &     -14 &     40 \\
+         0.2 &        1.5 &     -14 &     50 \\
+         0.2 &        1.5 &     -14 &    100 \\
+         0.1 &        1.5 &     -14 &     30 \\
+         0.2 &        1.5 &     -14 &     90 \\
+         0.1 &        1.5 &     -14 &     80 \\
          0.1 &        1.5 &     -14 &    100 \\
-         0.1 &        1.5 &     -14 &     78 \\
-         0.1 &        1.5 &     -14 &     89 \\
-         0.1 &        2   &     -16 &     67 \\
-         0.1 &        2   &     -16 &    100 \\
-         0.1 &        2   &     -16 &     78 \\
-         0.1 &        2   &     -16 &     89 \\
+         0.1 &        1.5 &     -14 &     40 \\
+         0.2 &        1.5 &     -14 &     70 \\
+         0.1 &        1.5 &     -14 &     90 \\
+         0.1 &        1.5 &     -14 &     70 \\
+         0.2 &        1.5 &     -14 &     60 \\
+         0.1 &        1.5 &     -14 &     60 \\
+         0.2 &        1.5 &     -14 &     80 \\
 \hline
 \end{tabular}
-\caption{Values of the meta parameters for the best 20 models using Random Forest with the test data when we do not consider the voids in the F1 average score.}
+\caption{Values of the meta parameters for the best 20 models using Random Forest with the validation data when we do not consider the voids in the F1 average score.}
 \label{tab:parameters}
 \end{table}
 
 
 \begin{figure}
 \centering
-    \includegraphics[scale=0.35]{Figs/p_confusion_matrix_valid.pdf}
+    \includegraphics[scale=0.35]{Figs/p_confusion_matrix_test.pdf}
 \caption{Confusion matrix for the model 
       \{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$,
-      $NE$=78\} computed on the test dataset.}
+      $NE$=80\} computed on the test dataset.}
       \label{fig:confusion_matrix}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[scale=0.29]{Figs/p_features_importance_valid.pdf}  
+    \includegraphics[scale=0.29]{Figs/p_features_importance_test.pdf}  
     \caption{
       Feature importance in the Random Forest classifier for the model
       \{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$,
-      $NE$=78\} computed on the test dataset.}
+      $NE$=80\} computed on the test dataset.}
     \label{fig:feature_importance}
 \end{figure}
 
@@ -651,20 +610,18 @@ The upper raw takes voids into account for the F1 average computation,
 while the lower raw does not.
 The panels in each row have the following meaning.
 The first two panels show the T-Web parameters
-$\lambda$ and $\sigma$, the third panel corresponds to the $M_r$
-absolute magnitude cut that impacts the $\beta$-skeleton, the fourth panel is the meta-parameter Number of estimators (NE) in the RF
+$\lambda_{th}$ and $\sigma$, the third panel corresponds to the $M_r$
+absolute magnitude cut that impacts the $\beta$-skeleton, the fourth panel is the meta-parameter Number of estimators ($NE$) in the RF
 classifier and finally the last panel shows the average F1 across classes. 
 
 Excluding the void F1-score or not has a dramatic influence on
 on the preferred valued for $\lambda_{th}$. 
 If the void F1-score is included in the average F1 the preferred value is
 $\lambda_{th}=0.5$. 
-This preferred value drops to $\lambda_{th}=0.1$ if voids are not taken into account in the average score.
+This preferred value drops to $\lambda_{th}=0.1 , 0.2$  if voids are not taken into account in the average score.
 Why is this difference relevant?
 Pushing $\lambda_{th}$ towards high values makes the voids larger.
-That means that more galaxies are included in voids, giving the ML algorithm more instances to train, explaining the rise in the F1 score
-for $\lambda_{th}=0.5$.
-
+That means that more galaxies are included in voids, giving the ML algorithm more instances to train, explaining the rise in the F1 score for $\lambda_{th}=0.5$.
 
 However, the T-Web voids corresponding to $\lambda_{th}=0.5$ are unphysical: they have densities a few times above the mean
 density and are so large that they occupy $60\%$ of the total volume.
@@ -680,18 +637,17 @@ The weighted average score automatically gives less importance to the
 less represented class, which in this case corresponds to voids.
 
 All the other parameters ($\sigma$, $M_r$ and $NE$) give similar results. 
-The best values for $\sigma$ are between 1 and 2, the preferred values
-for $M_r$ are between $-16$ and $-14$ and the best Number of
-Estimators are around $80$.
+The best value for $\sigma$ is 1.5, the preferred values
+for $M_r$ is $-14$ and the best Number of
+Estimators $NE$ is around $80$.
 To decide on the best set of parameters we use the results listed in
 Table \ref{tab:parameters}.
 There we list the 20 parameter combinations that
 produce the highest F1 weighted average values.
 From that list we find that the combination that appears more often is 
 \{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$\} followed by 
-\{$\lambda_{th}=0.1$, $\sigma=2.0$, $M_r=-16$\}.
-For the Number of Estimators, we pick $NE=78$ as it is the most
-repeated value in the list.
+\{$\lambda_{th}=0.1$, $\sigma=2.0$, $M_r=-14$\}.
+For the Number of Estimators, we pick $NE=80$ as it is the most repeated value in the list.
 
 \begin{figure*}
   \centering 
@@ -706,22 +662,20 @@ repeated value in the list.
 \subsection{Confusion Matrix and Feature Importance}
 
 We finalize this section by reporting the results from the model 
-\{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$, $NE=78$\}.
-These results are computed on the reserved $20\%$ test data that has not be used so far.
+\{$\lambda_{th}=0.1$, $\sigma=1.5$, $M_r=-14$, $NE=80$\}.
+These results are computed on the reserved $12.5\%$ test data that has not be used so far.
 
 Figure \ref{fig:confusion_matrix} shows the confusion matrix.
 The numbers correspond to the fraction of objects that correspond to
 the \verb"Truth" class but are classified into the \verb"Prediction"
 class.
 What are the most common misclassifications?
-In first place comes the $88\%$ of void galaxies that are misclassified
+In first place comes the $86\%$ of void galaxies that are misclassified
 as sheet galaxies.  
-In second place we have the $45\%$ of sheets that are misclassified
-as filaments, and finally, the $37\%$ of peaks that are misclassified
-as filaments.
+In second place we have the $44\%$ of sheets that are misclassified
+as filaments, and finally, the $34\%$ of peaks that are misclassified as filaments.
 
-The first misclassification results highlight the difficulty to find
-void galaxies.
+The first misclassification results highlight the difficulty to find void galaxies.
 This turns out to be an almost impossible task for one simple reason:
 there are very few void galaxies.
 The second kind of misclassification shows that the galaxies
@@ -739,26 +693,22 @@ and filaments) and isotropic (peaks) \citep{2015MNRAS.453..497B}.
 The ranking of correct classifications follows the F1 trends
 shown in Table \ref{table:elements}.
 Filaments are the class most correctly classified ($80\%$) followed by
-peaks ($62\%$) and sheets ($54\%$).
-Void galaxies have the worst results, only $6\%$ of void galaxies are
+peaks ($70\%$) and sheets ($60\%$).
+Void galaxies have the worst results, only $10\%$ of void galaxies are
 correctly classified.
 This ranking follows the trend in the fraction of instances belonging to
-filaments ($50.8\%$), peaks($24.0\%$), sheets ($23.2\%$), and voids ($2.0\%$).
+filaments ($51\%$), peaks($25\%$), sheets ($22\%$), and voids ($2\%$).
 A higher number of instances translates into a better chance for the
 algorithm to give a correct classification. 
 
-
 Figure \ref{fig:feature_importance} shows the feature
-importances for the classification.
-In the combination of eight features the four most important ones are:
-$\Delta \delta$ (changes in the average edge length), $\Delta \eta$
-(changes in the average number of connections), $\delta$ (average edge
-length) and $\Delta M_r$ (changes in the average magnitudes).
-The most interesting outcome is that the changes over the graph (the 
-$\Delta$ features) turn out to be crucial for the classification, not
-so much the actual values over the graph.
+importance for the classification.
+In the combination of six features the four most important ones are:
+$\delta$ (average edge
+length), $\varrho$ (pseudo density), $\Delta \delta$ (changes in the average edge length), $\eta$ (number of connections) 
+The most interesting outcome is that the average length and the pseudo-density turn out to be crucial for the classification.
 
-Figure  \ref{fig:prediction} summarizes our results. 
+Figure \ref{fig:prediction} summarizes our results.
 It shows the spatial distribution for the galaxies into the four web
 elements. 
 The left panel correspond to the prediction from the
@@ -771,7 +721,7 @@ A similar trend, although less pronounced is visible for peak
 galaxies, although the predictions seem to have a similar clustering
 as the input truth. 
 On the other hand, sheet galaxies in the prediction appear more
-clustered than they should.
+\textbf{dispersed} than they should.
 Finally, the visual impression for filament galaxies is the most
 similar between truth and prediction, as expected by the quantitative
 results presented here.
@@ -789,10 +739,10 @@ results presented here.
 This Work \end{tabular}}} \\ \hline
 \multicolumn{1}{|c|}{\textbf{Class}}     & \textbf{Score}   &
 \textbf{Tracer \%}   & \textbf{Score}     & \textbf{Tracer \%}  \\ \hline
-\multicolumn{1}{|c|}{\textbf{Peaks}}     & 0.41   & 5.00\%   & 0.62  & 24.00\%   \\ \hline
-\multicolumn{1}{|c|}{\textbf{Filaments}} & 0.62   & 19.90\%  & 0.81  & 50.80\%   \\ \hline
-\multicolumn{1}{|c|}{\textbf{Sheets}}    & 0.64   & 38.80\%  & 0.54  & 23.20\%   \\ \hline
-\multicolumn{1}{|c|}{\textbf{Voids}}     & 0.82   & 36.40\%  & 0.06  & 2.00\%    \\ \hline
+\multicolumn{1}{|c|}{\textbf{Peaks}}     & 0.41   & 5.0\%   & 0.65  & 25.4\%   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Filaments}} & 0.62   & 19.9\%  & 0.81  & 50.5\%   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Sheets}}    & 0.64   & 38.8\%  & 0.56  & 22.3\%   \\ \hline
+\multicolumn{1}{|c|}{\textbf{Voids}}     & 0.82   & 36.4\%  & 0.09  & 1.9\%    \\ \hline
 \end{tabular}
 \caption{Comparison of the diagonal elements of the confusion matrix
   (Scores) between the best models in \citet{Tsizh2019} and our work.
@@ -844,7 +794,6 @@ catalog. Almost a 36.4\% of halos are matched like voids with the
 
 \section{Conclusions}\label{sec:conclusions}
 
-{\b
 In this paper, we presented a method to predict the dark matter cosmic web environment of a galaxy from its neighbor graph information.
 We used the T-Web as the cosmic web definition \citep{Forero-Romero2009} and the $\beta$-skeleton graph \citep{Fang2019} 
 to describe the relative spatial distribution of the galaxies. 
@@ -862,12 +811,12 @@ We also find that the features computed with the $1$-skeleton
 The best classification results are not sensitive to the $r$-band
 magnitude cut, although a cut of $M_r<-14$ gives the best results.
 
-The best algorithm to predict the environment is the random forest followed closely by classification trees. Support Vector Machines provide the worst results. From the random forest, we could determine that the two most important features for the environment classification are the average connection length and the number of connections over the neighbors concerning the average over its first neighbors.
+The best algorithm to predict the environment is the random forest followed by classification trees. From the random forest, we could determine that the two most important features for the environment classification are the average connection length and the pseudo-density of the solid that best fit the first neighbors structure by galaxy.
 
 The environments that are finest predicted are in decreasing order: 
-filaments, peaks, sheets, and voids. This ranking follows the number of galaxies found in each of these environments. Galaxies in voids represent less than $2\%$ of the total number of galaxies and are the hardest class to predict, with $F1$-scores of $\approx0.6$. Motivated by this limitation, in future work, we will present a method to define voids from the $\beta$-skeleton graph. All the results we reported here were obtained using a single snapshot at a redshift $z=0$. 
+filaments, peaks, sheets, and voids. This ranking follows the number of galaxies found in each of these environments. Galaxies in voids represent less than $2\%$ of the total number of galaxies and are the hardest class to predict, with $F1$-scores of $\approx0.3$. Motivated by this limitation, in future work, we will present a method to define voids from the $\beta$-skeleton graph. All the results we reported here were obtained using a single snapshot at a redshift $z=0$. 
 
-A similar methodology proposed in \cite{Tsizh2019} uses dark matter halos and computes network metrics over the distribution of halos. In comparison with this method, our accuracy of $0.68$ has an improvement of $17$ percentual points on their global accuracy. Our methodology is simple and does not need higher computational requirements obtaining a highly certain. Our results provide the baseline for future work that will have to quantify the effect of redshift space distortions and survey incompleteness to predict the DM T-Web form survey data.
+A similar methodology proposed in \cite{Tsizh2019} uses dark matter halos and computes network metrics over the distribution of halos. In comparison with this method, our accuracy of $0.70$ has an improvement of $19$ percentual points on their global accuracy. Our methodology is simple and does not need higher computational requirements obtaining a highly certain. Our results provide the baseline for future work that will have to quantify the effect of redshift space distortions and survey incompleteness to predict the DM T-Web form survey data.
 Nevertheless, the two most interesting features of our method are: a) it does not rely either on binning the galaxy data on a grid and b) it does not require a dark matter density reconstruction.
 
 
@@ -878,7 +827,7 @@ The datasets were derived from sources in the public domain: Illustris-TNG proje
 The data underlying this article were accessed from [name of large-scale facility, include URL and unique identifier for dataset, if available].
 
 The data underlying this article are available in [repository name, e.g. the GenBank Nucleotide Database] at [URL], and can be accessed with [unique identifier, e.g. accession number, deposition number].
-}
+
 
 \section*{Acknowledgements}
 
