@@ -56,9 +56,12 @@ X.-D. Li,$^{3}$
 and J. E. Forero-Romero,$^{1}$
 \\
 % List of institutions
-$^{1}$Departamento de F\'isica, Universidad de los Andes, Cra. 1 No. 18A-10 Edificio Ip, CP 111711, Bogot\'a, Colombia\\
-$^{2}$Departamento de F\'isica, Universidad Nacional de Colombia, Ciudad Universitaria, Bogot\'a, Colombia\\
-$^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297, P.R.China\\
+$^{1}$Departamento de F\'isica, Universidad de los Andes, Cra. 1
+No. 18A-10 Edificio Ip, CP 111711, Bogot\'a, Colombia\\ 
+$^{2}$Departamento de F\'isica, Universidad Nacional de Colombia -
+Sede Bogot\'a, Av. Cra 30 No 45-03, Bogot\'a, Colombia\\ 
+$^{3}$School of Physics and Astronomy, Sun Yat-Sen University,
+Guangzhou 510297, P.R.China\\ 
 }
 
 % These dates will be filled out by the publisher
@@ -76,12 +79,25 @@ $^{3}$School of Physics and Astronomy, Sun Yat-Sen University, Guangzhou 510297,
 % Abstract of the paper
 \begin{abstract}
 
-We show how it is possible to infer the environments of the cosmic web of dark matter using only the information of the spatial distribution of galaxies with a classic machine learning algorithm.
-Handled the set of galaxies as a set of nodes, we applied the $\beta$-skeleton algorithm to extract geometrical information like the number of connections or the average distance by each galaxy.
-Using these properties extracted from the distribution of galaxies was probed the classification trees and random forest machine algorithms under different configurations to find the best set of parameters that makes a usefulness prediction with the lowest confusion. 
-The results show that the average distance between galaxies on $\beta$-graph is the most chief feature for the prediction of the cosmic web environment followed by the local average distance of connections. 
-Our methodology shows a global accuracy of $0.70$, which is an improvement of $19$ percentual points on the total accuracy over methods that predict the T-Web environment from network metrics.
-Our work is a good and simple approximation that will allow us to use these algorithms to make predictions in observational data.
+We show how it is possible to infer the environments of the cosmic web
+of dark matter using only the information of the spatial distribution
+of galaxies with a classic machine learning algorithm. 
+Handled the set of galaxies as a set of nodes, we applied the
+$\beta$-skeleton algorithm to extract geometrical information like the
+number of connections or the average distance by each galaxy. 
+Using these properties extracted from the distribution of galaxies was
+probed the classification trees and random forest machine algorithms
+under different configurations to find the best set of parameters that
+makes a usefulness prediction with the lowest confusion.  
+The results show that the average distance between galaxies on
+$\beta$-graph is the most chief feature for the prediction of the
+cosmic web environment followed by the local average distance of
+connections.  
+Our methodology shows a global accuracy of $0.70$, which is an
+improvement of $19$ percentual points on the total accuracy over
+methods that predict the T-Web environment from network metrics. 
+Our work is a good and simple approximation that will allow us to use
+these algorithms to make predictions in observational data. 
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -96,36 +112,41 @@ large-scale structure of Universe -- dark matter -- methods: miscellaneous
 \section{Introduction}
 The galaxy distribution on large spatial scales follows a structured 
 pattern commonly known as the cosmic web. 
-This web can be described as dense ellipsoidal peaks connected by
-anisotropic filaments and walls woven across vast under-dense voids
-\citep{Bond1996}. 
+This web can be described as dense peaks connected by anisotropic
+filaments and walls woven across vast under-dense voids 
+\citep{Bond1996}.  
 The emergence of this pattern is understood as the evolution of
 initial density fluctuations growing through gravitational instability
-\citep{ZelDovich1970,White1987}.
+\citep{ZelDovich1970,White1987}, a picture that can be followed in
+great detail by with N-body cosmological simulations
+\citep{1999ApJ...526..568S,2014Natur.509..177V}.     
 
-This picture can be followed in great detail by studying N-body
-cosmological simulations.   
-Furthermore, a great variety of methods exist to detect and
-classify the cosmic web from these simulations into four different 
+
+There is a great variety of methods to detect
+the cosmic web in cosmological simulations.
+These methods usually classify the web into four
 elements: peak, filament, sheet, or void \citep{Libeskind2018}.
-Cosmic web detection algorithms that find these four web
-elements using discrete galaxy positions as input are less
-common.
-Most of them focus on some cosmic web elements.
+Most of these methods start by building a well sampled density field
+from the dark matter (DM) simulation particles.
+Only a minority take as an input the discrete  positions that
+represent galaxies or haloes.
+
+Most of the algorithms that use discrete tracers as an input focus on
+the detection of some cosmic web elements, not all of them. 
 For instance, there is a great variety of void-finders
 \citep{Platen2007,Neyrinck2008} and filaments-finders
 \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019}.   
 The algorithms that aim at finding the four cosmic web elements from
-the galaxy positions can be roughly divided into two approaches.
+the galaxy positions can be roughly divided in two types.
 
-The first one interpolates galaxy positions on a grid to process
+The first type interpolates galaxy positions on a grid to process
 this number density field in the same way as a dark matter density
 field \citep{Eardley2015,Alpaslan2016,Tojeiro2017,Shadab2019}.
 This approach has a low computational cost, but it is highly uncertain
 how accurate are these results concerning the expected cosmic
 web dark matter distribution.
 
-The second approach performs a full dark matter density field
+The second typeh performs a full dark matter density field
 reconstruction around the observed galaxies.
 Most of these algorithms use Bayesian statistics coupled with Monte
 Carlo sampling and N-body
@@ -135,7 +156,8 @@ are associated to galaxy groups \citep{Wang2009,2011MNRAS.417.1303M}.
 This generic approach can provide accurate DM distributions but can
 be very expensive from the computational point of view. 
 
-Recently, Machine Learning (ML) methods have been used to solve the intermediate problem of finding the four web elements for dark matter
+Recently, Machine Learning (ML) methods have been used to solve the
+intermediate problem of finding the four web elements for dark matter 
 halos \citep{Hui2018,Tsizh2019}.
 For instance, \citep{Tsizh2019} classified
 dark matter halos into their cosmic web elements. 
@@ -148,10 +170,10 @@ The true environments are computed themselves with five different algorithms.
 This generic procedure avoids the uncertain grid interpolation of
 tracers and the expensive DM density reconstruction. 
 Under this approach of supervised ML classification, 
-the algorithm needs a training dataset (some halo or galaxy
-properties), the classes to classify the dataset (the four cosmic web
-environments) and an algorithm capable to link the galaxy properties
-to the cosmic web environment. 
+the algorithm needs a feature dataset (some halo or galaxy
+properties), the labels to classify the dataset (the four cosmic web
+environments) and an algorithm to link the features to the labels.
+
 
 The work presented here is inscribed into that line of work.
 Here we show to what extent graph properties built on a galaxy
@@ -190,27 +212,37 @@ to finally summarize our conclusions in Section
  \label{fig:beta}
 \end{figure}
 
-The Next Generation (TNG) of the Illustris simulations, or the
+The
 Illustris-TNG project \citep{Nelson2015} is a series of large,
 cosmological magnetohydrodynamical and semi-analytical simulations of galaxy formation. 
 These simulations are based on the cosmological standard model
-$\Lambda$CDM and uses the \texttt{AREPO} code \cite{Springel2011}.  The simulations run start from the cosmology $\Lambda$CDM with the cosmological parameters: cosmological constant $\Omega_{\Lambda,0}$=0.6911, matter density $\Omega_{m,0}$=0.3089,  baryonic density $\Omega_{b,0}$=0.0486, normalization $\sigma_8$=0.8159, spectral index $n_s$=0.9667 and Hubble constant $H_o$= 100$h\,km\,s^{-1}\,Mpc^{-1}$ with $h$=0.6774 consistent with the Planck 2015 results \cite{Ade2016}. 
+$\Lambda$CDM and uses the \texttt{AREPO} code \citep{Springel2011}.
+The simulations run start from the cosmology $\Lambda$CDM with the
+cosmological parameters: cosmological constant
+$\Omega_{\Lambda,0}$=0.6911, matter density $\Omega_{m,0}$=0.3089,
+baryonic density $\Omega_{b,0}$=0.0486, normalization
+$\sigma_8$=0.8159, spectral index $n_s$=0.9667 and Hubble constant
+$H_o$= 100$h\,km\,s^{-1}\,Mpc^{-1}$ with $h$=0.6774 consistent with
+the Planck 2015 results \citep{Ade2016}.  
 
 The Illustris-TNG project simulates different structures in the visible matter like stars, black holes, or diffuse gas jointly with the distribution of DM.
-The project includes simulated galaxies as realistic as possible to make a comparison with the real universe. There are 18 different simulations in this project with boxes of sizes $50$, $100$, and $300$ Mpc that started at $z=127$ and finalized at $z=0$.   
+The project includes simulated galaxies as realistic as possible to
+make a comparison with the real universe. There are 18 different
+simulations in this project with boxes of sizes $50$, $100$, and $300$
+Mpc that started at $z=127$ and finalized at $z=0$.    
 
-In this work we used the TNG300 (~300 Mpc) simulation at $z=0$, this simulation has a volume of 302.6$^3 Mpc^3$. 
-A total of 88$\times 10^{6}$ \Msun of baryonic mass
-and 470$\times 10^{6}$ \Msun/h of Dark Matter mass \cite{Nelson2015}. 
-The number of galaxies in the Illustris-TNG simulation is 14485709 with a total of 711967677 stars simulated. Where for the stellar formation were included the next physical component \cite{Nelson2015, Pillepich2018a}:
-\begin{itemize}
-    \item The stars pass through an AGB phase with a mass range of 1-8\Msun, and supernovae phase between 8 and 100\Msun. 
-    \item Stochastic star formation in dense interstellar medium (ISM) gas above a threshold density criterion. Gas above a star formation density threshold of forms stars stochastically following the empirically defined Kennicutt-Schmidt relation and assuming a Chabrier initial mass function.
-    \item Pressurization from unresolved supernovae is included for star-forming gas using a two-phase, effective equation.
-    \item Stellar populations evolve and return mass and metals to their ambient via supernovae of Type Ia and Type II and asymptotic giant branch (AGB) stars.
-    \item Metal enriched gas radiatively cools in the presence of a redshift-dependent, spatially uniform, ionizing UV background radiation field, with corrections for self-shielding in the dense ISM.
-    \item Feedback associated with star formation is assumed to drive galactic-scale outflows. These outflows are launched directly from star-forming gas.
-\end{itemize}
+In this work we used the TNG300 (~300 Mpc) simulation at $z=0$.
+This simulation has a volume of 302.6$^3 Mpc^3$.  
+A total of 88$\times 10^{6}$ \Msun of baryonic mass and 470$\times
+10^{6}$ \Msun/h of Dark Matter mass \citep{Nelson2015}.  
+The number of galaxies in the Illustris-TNG simulation is 14485709 
+with a total of 711967677 stars simulated. 
+Where for the stellar formation were included the next physical
+component 
+The simulation includes sub-grid stellar and black hole evolution
+process together with its associated 
+feedback processes \citep{Nelson2015,Pillepich2018a}..
+
 
 In the TNG300 simulation, the galaxies are called subhalos and
 are defined as any gravitationally
@@ -261,7 +293,8 @@ mass particles with a Cloud-In-Cell  (CIC) scheme over a grid to
 obtain the density, 2) smooth it with an isotropic Gaussian filter,
 3) compute the overdensity, 4) find the normalized potential with Fast
 Fourier Transform  methods, 5) compute the deformation tensor using
-finite differences, 6) find the eigenvalues, and finally 7) count the number of eigenvalues larger than the threshold $\lambda_{th}$. 
+finite differences, 6) find the eigenvalues, and finally 7) count the
+number of eigenvalues larger than the threshold $\lambda_{th}$.  
 
 
 \begin{figure*}
@@ -447,12 +480,12 @@ We compute the F1 for each web environment and its average.
                             & Forest                 &   
                             Trees \\
 \hline
- $F1_{peaks}$               & 0.537 $\pm$ 0.268 & 0.52 $\pm$ 0.184  \\
- $F1_{filaments}$           & 0.719 $\pm$ 0.048 & 0.643 $\pm$ 0.07  \\
- $F1_{sheets}$              & 0.563 $\pm$ 0.069 & 0.498 $\pm$ 0.061 \\
- $F1_{voids}$               & 0.294 $\pm$ 0.182 & 0.283 $\pm$ 0.142 \\
- $F1_{av}\,[With Voids]$    & 0.528 $\pm$ 0.092 & 0.486 $\pm$ 0.065 \\
- $F1_{av}\,[Without Voids]$ & 0.606 $\pm$ 0.091 & 0.554 $\pm$ 0.065 \\
+ $F1_{\rm peaks}$               & 0.53 $\pm$ 0.26 & 0.52 $\pm$ 0.18  \\
+ $F1_{\rm filaments}$           & 0.71 $\pm$ 0.04 & 0.64 $\pm$ 0.07  \\
+ $F1_{\rm sheets}$              & 0.56 $\pm$ 0.06 & 0.49 $\pm$ 0.06 \\
+ $F1_{\rm voids}$               & 0.29 $\pm$ 0.18 & 0.28 $\pm$ 0.14 \\
+ ${F1}_{\rm avg}$ including Voids    & 0.52 $\pm$ 0.09 & 0.48 $\pm$ 0.06 \\
+ ${F1}_{\rm avg}$ excluding Voids & 0.60 $\pm$ 0.09 & 0.55 $\pm$ 0.06 \\
 \hline
 \end{tabular}
 \caption{Mean values and standard deviations over the F1
