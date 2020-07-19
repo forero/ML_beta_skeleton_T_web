@@ -78,13 +78,13 @@ Guangzhou 510297, P.R.China\\
 
 % Abstract of the paper
 \begin{abstract}
-
-We present an approach to infer the underlying dark matter cosmic web environment of a galaxy distribution from its spatial $\beta$-skeleton graph.
+We present a Machine Learning based approach to infer the underlying dark matter cosmic web environment of a galaxy distribution from its spatial $\beta$-skeleton graph.
 We find that the a random forest algorithm can use the graph properties to classify a galaxy as belonging to a peak, filament, sheet or void as defined by the T-web classification algorithm.
 We develop and test our methodology using cosmological simulations at $z=0$.
-We find that the best match between the galaxies and the dark matter web corresponds to a density field smoothed over scales of $1.5$ \Mpch, a threshold over the eigenvalues of dimensionless tidal tensor in the range of $0.1-0.2$, and galaxies with an r-band absolute magnitude cut of $M_r\geq-14$.
-This methodology results on a global accuracy of $70\%$, which represents an improvement of $19\%$ over similar work that report results on the T-Web prediction from network metrics compupted on dark matter halo.
-More extensive tests that take into account incompleteness effects and redshift space distortions are left for future work.
+We find that the best match between the galaxies and the dark matter web corresponds to a density field smoothed over scales of $1.5$ \Mpch, a threshold over the eigenvalues of the dimensionless tidal tensor in the range of $0.1-0.2$, and galaxies with an r-band absolute magnitude cut of $M_r\geq-14$.
+This methodology results on a global accuracy of $70\%$, which represents an improvement of $19\%$ over similar work that report results on the T-Web prediction from network metrics computed on dark matter haloes.
+We also measured how the accuracy changes over filaments ($80\%$), peaks ($65\%$), sheets ($56\%$), and voids ($9\%$).
+More extensive tests that take into account observational effects such as incompleteness and redshift space distortions are left for future work.
 The best random forest model is left on a public repository for future reference and reuse. 
 \end{abstract}
 
@@ -791,26 +791,33 @@ catalog. Almost a 36.4\% of halos are matched like voids with the
 In this paper, we presented a method to predict the dark matter cosmic web environment of a galaxy from its neighbor graph information.
 We used the T-Web as the cosmic web definition \citep{Forero-Romero2009} and the $\beta$-skeleton graph \citep{Fang2019} 
 to describe the relative spatial distribution of the galaxies. 
-The link between the T-Web and the graph is done through two different
+The link between the T-Web and the graph was done through two different
 machine learning algorithms: Classification Trees and Random Forest.
+We tested our method using data from the Illustris-TNG simulation \citep{Nelson2019} at $z=0$. 
 
-We test our method using data from the Illustris-TNG simulation \citep{Nelson2019}. The T-Web is computed on a grid of cell size $0.8$\Mpch and a Gaussian smoothing scale $\sigma$ with an eigenvalue threshold $\lambda_{th}$. The $\beta$-skeleton is computed over galaxies brighter than an $r$-band absolute magnitude cut $M_{r}$.
-For the Illustris-TNG simulated box, we build the $\beta$-skeleton and computed by each galaxy features such as the number of connections, the average connection length, the pseudo-density, and the difference of these quantities concerning the average over first-neighbors.
+We first found that the Random Forest algorithm provides the best results.
+Then we showed that the most accurate predictions between the graph properties and the T-Web environment are provided for a dark matter density field smoothed over a scales $1.5$\Mpch, an eigenvalue threshold in the range $\lambda_{th}=0.1-0.2$ and galaxies brighter than an r-band absolute magnitude cut of $M_r\geq-14$. 
 
-We find that the T-Web environment that is finest predicted has a smoothing scale of $\approx1.5$\Mpch and a threshold $\lambda_{th}=0.1$. 
-This result turns out to be the ballpark range favored in previous publications for T-Web studies for the resulting classification to match the visual impression of the cosmic web \citep{Forero-Romero2009}.
+The preferred eigenvalue threshold turns out to be the ballpark range favored in previous publications for T-Web studies for the resulting classification to match the visual impression of the cosmic web \citep{Forero-Romero2009}.
 
-We also find that the features computed with the $1$-skeleton 
-(Gabriel Graph) are enough to obtain usefulness predictions. 
-The best classification results are not sensitive to the $r$-band magnitude cut, although a cut of $M_r<-14$ gives the best results.
+The overall prediction accuracy is of $70\%$.
+Although the environments represented with a larger number of galaxies present a higher accuracy.
+The environments ranked from higher to lower accuracy are filaments ($80\%$), peaks ($65\%$), sheets ($56\%$), and voids ($9\%$). 
+Motivated by the limitation to classify void galaxies we will present in future work a method to define voids from the $\beta$-skeleton graph. 
 
-The best algorithm to predict the environment is the Random Forest followed by Classification Trees. From the Random Forest, we could determine that the most important feature for the environment classification is the average connection length.
+We compared our results against a similar methodology proposed by \cite{Tsizh2019}.
+They used dark matter halos and  network metrics to predict the T-web environment. 
+They achieve a $51\%$ accuracy, which means that our method achieves a improvement of $19$ percent points.
+This improvement can be explained by the thorough exploration we made over the parameter space to find the best values for
+the smoothing length, eigenvalue threshold and absolute magnitude cut. 
 
-The environments that are finest predicted are in decreasing order: 
-filaments, peaks, sheets, and voids. This ranking follows the number of galaxies found in each of these environments. Galaxies in voids represent less than $2\%$ of the total number of galaxies and are the hardest class to predict, with $F1$-scores of $\approx0.3$. Motivated by this limitation, in future work, we will present a method to define voids from the $\beta$-skeleton graph. All the results we reported here were obtained using a single snapshot at a redshift $z=0$. 
+The best model in \cite{Tsizh2019} predicts the cosmic web environment computed with the CLASSIC algorithm using and extreme gradient boosting decision trees method. 
+It achieves a $70\%$ accuracy, the same accuracy we achieve with our method. 
+However, we showed how a direct comparison is unfair given the radically different results from the CLASSIC and T-web environment classification methods.
 
-A similar methodology proposed in \citep{Tsizh2019} uses dark matter halos and computes network metrics over the distribution of halos. In comparison with this method, our accuracy of $0.70$ has an improvement of $19$ percentual points on their global accuracy. Our methodology is simple and does not need higher computational requirements obtaining a highly certain. Our results provide the baseline for future work that will have to quantify the effect of redshift space distortions and survey incompleteness to predict the dark matter T-Web form survey data.
-Nevertheless, the two most interesting features of our method are: a) it does not rely either on binning the galaxy data on a grid and b) it does not require a dark matter density reconstruction.
+Our results provide the baseline for future work that will have to quantify the effect of redshift space distortions and survey incompleteness to predict the dark matter T-Web form survey data.
+In order to facilitate future comparison and reuse of our results we make our best trained model public, together with the test data in this paper.
+The model and the dataset can be found at \url{https://github.com/jsuarez314/cosmicweb_bsk}. 
 
 \section*{Data Availability}
 
