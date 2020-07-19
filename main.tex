@@ -79,23 +79,13 @@ Guangzhou 510297, P.R.China\\
 % Abstract of the paper
 \begin{abstract}
 
-We show how it is possible to infer the environments of the cosmic web
-of dark matter using the information of the spatial distribution
-of galaxies jointly with a classic machine learning algorithm. Handled the set of galaxies as a set of nodes, we applied the
-$\beta$-skeleton graph algorithm to extract geometrical information like the
-number of connections or the average distance by each galaxy. 
-Using these properties extracted from the distribution of galaxies was
-probed the classification trees and random forest machine learning algorithms
-under different configurations to find the best set of parameters that
-makes a usefulness prediction with the lowest confusion.  
-The results show that the average distance between galaxies on
-$\beta$-graph is the most chief feature for the prediction of the
-cosmic web environment.
-Our methodology shows a global accuracy of $0.70$, which is an
-improvement of $19$ percentual points on the total accuracy over 
-other methods that predict the T-Web environment from network metrics.
-Our work is a useful and simple approximation that will allow us to use
-these algorithms to make predictions in observational data.
+We present an approach to infer the underlying dark matter cosmic web environment of a galaxy distribution from its spatial $\beta$-skeleton graph.
+We find that the a random forest algorithm can use the graph properties to classify a galaxy as belonging to a peak, filament, sheet or void as defined by the T-web classification algorithm.
+We develop and test our methodology using cosmological simulations at $z=0$.
+We find that the best match between the galaxies and the dark matter web corresponds to a density field smoothed over scales of $1.5$ \Mpch, a threshold over the eigenvalues of dimensionless tidal tensor in the range of $0.1-0.2$, and galaxies with an r-band absolute magnitude cut of $M_r\geq-14$.
+This methodology results on a global accuracy of $70\%$, which represents an improvement of $19\%$ over similar work that report results on the T-Web prediction from network metrics compupted on dark matter halo.
+More extensive tests that take into account incompleteness effects and redshift space distortions are left for future work.
+The best random forest model is left on a public repository for future reference and reuse. 
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -825,8 +815,7 @@ Nevertheless, the two most interesting features of our method are: a) it does no
 \section*{Data Availability}
 
 The datasets were derived from sources in the public domain: Illustris-TNG project, \url{https://www.tng-project.org/}.
-
-An example dataset to prove the final model, the result of this article, is available in \texttt{Cosmic Web} at \url{https://github.com/jsuarez314/cosmicweb_bsk}.
+The test dataset and the best model presented in this paper is available at \url{https://github.com/jsuarez314/cosmicweb_bsk}.
 
 \section*{Acknowledgements}
 
