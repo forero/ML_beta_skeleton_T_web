@@ -353,24 +353,25 @@ But the results were so much inferior from the CT and RF results that we did not
 
 \subsection{Model evaluation}
 
-After computing the features, we divided the full simulated box into eight boxes with the same volume, 150$^3$ $Mpc^3$. Then, we discard the galaxies located within 5 Mpc away from the boxes limits to avoid boundary effects coming from incomplete $\beta$-skeleton information.  
-From this dataset, we selected the galaxies allocated in four boxes that represent a $50\%$ of the full volume, this selection is used to train the ML algorithms.
-We use other two boxes, i.e. a $25\%$ volume, as validation to find the best algorithm and ML
-meta-parameters together with the best matching T-Web and
-$\beta$-skeleton parameters.   
-Finally, we use one other box, a $12.5\%$ of volume, as test to report
-on the expected confusion matrix and feature importance for the classification. The remaining box was published in the repository of the project on \href{https://github.com/jsuarez314/cosmicweb_bsk}{github}. It is a mock example to evaluate the best model.
+We split the simulation box into eight cubic sub-boxes of 150 Mpc on a side.
+We use four boxes that only touch on one vertex as a \emph{training} dataset.
+We use two more sub-boxes as \emph{evaluation} dataset to select what T-Web parameters and algorithm meta-parameters provide the best results.
+Once those free parameters and meta-parameters are fixed we use one sub-boxes as \emph{test} dataset to report the final scores and confusion matrix.
+The remaining sub-box is not used in this paper, but is made available in a public repository \footnote{\url{https://github.com/jsuarez314/cosmicweb_bsk}} together with the best ML model. 
 
-As performance metrics, we compute the precision, recall and the F1
+For each sub-box we compute the $\beta$-skeleton and the related feature parameters. 
+Afterwards, we discard the galaxies located within 5 Mpc away from the sub-box limits to avoid boundary effects coming from incomplete $\beta$-skeleton information.
+The T-Web information comes from the computation over the full box.
+
+As performance metrics we compute the precision, recall and the F1
 score (harmonic mean between precision and recall).  
-We compute the F1 for each web environment and its average.
-
+We compute the F1 score separately for each web environment.
+In the Discussion section we also use the accuracy in order to compare against the results by \citep{Tsizh2019}.
 
 \begin{figure}
     \includegraphics[scale=0.55]{Figs/p_hist_f1.pdf}
     \caption{Histograms of the average F1 for the two machine
-      learning algorithms, Random Forest (RF) and Classification Trees (CT).
-      The average F1 changes as the parameter and meta-parameter are changed.}
+      learning algorithms, Random Forest (RF) and Classification Trees (CT) over all the runs with different free parameters and meta-parameters.}
     \label{fig:methods}
 \end{figure}
 
