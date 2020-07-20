@@ -78,14 +78,15 @@ Guangzhou 510297, P.R.China\\
 
 % Abstract of the paper
 \begin{abstract}
-We present a Machine Learning based approach to infer the underlying dark matter cosmic web environment of a galaxy distribution from its spatial $\beta$-skeleton graph.
-We find that the a random forest algorithm can use the graph properties to classify a galaxy as belonging to a peak, filament, sheet or void as defined by the T-web classification algorithm.
-We develop and test our methodology using the cosmological magnetohydrodynamic simulation IllustrisTNG at $z=0$.
+We present a Machine Learning-based approach to infer the underlying dark matter cosmic web environment of a galaxy distribution from its $\beta$-skeleton graph.
+We find that a random forest algorithm can use the graph properties to classify a galaxy as belonging to a peak, filament, sheet, or void as defined by the T-Web classification algorithm.
+We develop and test our methodology using the cosmological magnetohydrodynamic simulation Illustris-TNG at $z=0$.
 We find that the best match between the galaxies and the dark matter web corresponds to a density field smoothed over scales of $1.5$ \Mpch, a threshold over the eigenvalues of the dimensionless tidal tensor in the range of $0.1$-$0.2$, and galaxies with an r-band absolute magnitude cut of $M_r\geq-14$.
-This methodology results on a global accuracy of $70\%$, which represents an improvement of $19\%$ over similar work that report results on the T-Web prediction from network metrics computed on dark matter haloes.
-We also measured how the accuracy changes over filaments ($80\%$), peaks ($65\%$), sheets ($56\%$), and voids ($9\%$).
+This methodology results on a global accuracy of $70\%$, which represents an improvement of $19$ percent points over previous work that predicts the T-Web environment from network metrics computed on dark matter haloes.
+We also find that the accuracy changes over filaments ($80\%$), peaks ($65\%$), sheets ($56\%$), and voids ($9\%$).
+Higher accuracy correlates with the fraction of galaxies in each environment.
 More extensive tests that take into account observational effects such as incompleteness and redshift space distortions are left for future work.
-The best random forest model is left on a public repository for future reference and reuse. 
+We make the best random forest model available on a public repository for future reference and reuse.
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -117,7 +118,7 @@ elements: peak, filament, sheet, or void \citep{Libeskind2018}.
 Most of these methods start by building a well-sampled density field
 from the dark matter simulation particles.
 Only a minority take as an input the discrete positions that
-represent galaxies or halos.
+represent galaxies or haloes.
 
 Most of the algorithms that use discrete tracers as an input focus on
 the detection of some cosmic web elements, not all of them. 
@@ -139,18 +140,18 @@ reconstruction around the observed galaxies.
 Most of these algorithms use Bayesian statistics coupled with Monte
 Carlo sampling and N-body
 simulations \citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020}. 
-Some others are based on the density distribution around halos that
+Some others are based on the density distribution around haloes that
 are associated to galaxy groups \citep{Wang2009,Munoz-Cuartas2011}.
 This generic approach can provide accurate dark matter distributions but can
 be very expensive from the computational point of view.
 
 Recently, Machine Learning (ML) methods 
 have been applied to solve the middle problem 
-of finding the four web elements using dark matter halos \citep{Hui2018, Tsizh2019}.
+of finding the four web elements using dark matter haloes \citep{Hui2018, Tsizh2019}.
 For instance, 
-\citep{Tsizh2019} classified dark matter halos 
+\citep{Tsizh2019} classified dark matter haloes 
 into their cosmic web elements. 
-They built networks by linking halos within a fixed linking length. 
+They built networks by linking haloes within a fixed linking length. 
 From these graphs, 
 they computed twelve different network metrics 
 to feed four different ML algorithms and predict the cosmic web. The truth environments are quantified themselves over five different cosmic web classifications.
@@ -214,7 +215,7 @@ with a total of 711M stars simulated.
 The simulation includes sub-grid stellar and black hole evolution process together with its associated 
 feedback processes \citep{Nelson2019,Pillepich2018a,Springel2018}.
 
-In the TNG300-1 simulation, the galaxies are called subhalos and are defined as any gravitationally
+In the TNG300-1 simulation, the galaxies are called subhaloes and are defined as any gravitationally
 bound object with a nonzero
 stellar component.
 To identify galaxies in the simulation,
@@ -255,7 +256,6 @@ Locations with three eigenvalues larger than $\lambda_{th}$ correspond
 to a peak, two to a filament, one to a sheet, and zero to a void.
 
 
- 
 \begin{figure*}
 \centering
  \includegraphics[scale=0.3]{Figs/p_Fig1_.png}%Figs/p_TWeb_bsk.pdf}
@@ -748,13 +748,13 @@ This Work \end{tabular}}} \\ \hline
 
 A similar methodology proposed in \citep{Tsizh2019} combines a complex
 network analysis with ML to predict the environments in the cosmic
-web. In that paper, the nodes are represented by dark matter halos in
+web. In that paper, the nodes are represented by dark matter haloes in
 a box with length of 290 Mpc extracted from the \texttt{GADGET-2}
-cosmological simulation \citep{Springel2005}. The halos in the
+cosmological simulation \citep{Springel2005}. The haloes in the
 simulation were identified by a friends-of-friends algorithm to create
 a catalog \citep{Libeskind2018}. The catalog has a total of 281465
-halos with mass range from 10$^{11}h^{-1}$ to
-10$^{15}h^{-1}$\Msun. Over the distribution of halos was computed 10
+haloes with mass range from 10$^{11}h^{-1}$ to
+10$^{15}h^{-1}$\Msun. Over the distribution of haloes was computed 10
 network metrics by node. To compute these metrics was created a graph
 from the position of the nodes and a linking length
 $l=$2$Mpch/h^{-1}$. The metrics together with the mass and the
@@ -782,52 +782,46 @@ ours. The voids are the best-predicted environment with a score of
 compare the results of the network metrics paper with ours including
 the population by class in each case. The good result predicting voids
 in \citep{Tsizh2019} is due to the population of them in its
-catalog. Almost a 36.4\% of halos are matched like voids with the
+catalog. Almost a 36.4\% of haloes are matched like voids with the
 \texttt{Classic} algorithm.  
 
 
 \section{Conclusions}\label{sec:conclusions}
 
 In this paper, we presented a method to predict the dark matter cosmic web environment of a galaxy from its neighbor graph information.
-We used the T-Web as the cosmic web definition \citep{Forero-Romero2009} and the $\beta$-skeleton graph \citep{Fang2019} 
-to describe the relative spatial distribution of the galaxies. 
-The link between the T-Web and the graph was done through two different
-machine learning algorithms: Classification Trees and Random Forest.
+
+We used the T-Web as the cosmic web definition \citep{Forero-Romero2009} and the $\beta$-skeleton graph \citep{Fang2019} to describe the relative spatial distribution of the galaxies. 
+The link between the T-Web and the $\beta$-graph was done through two different machine-learning algorithms: Classification Trees and Random Forest.
 We tested our method using data from the Illustris-TNG simulation \citep{Nelson2019} at $z=0$. 
 
-We first found that the Random Forest algorithm provides the best results.
-Then we showed that the most accurate predictions between the graph properties and the T-Web environment are provided for a dark matter density field smoothed over a scales $1.5$\Mpch, an eigenvalue threshold in the range $\lambda_{th}=0.1-0.2$ and galaxies brighter than an r-band absolute magnitude cut of $M_r\geq-14$. 
+We first found that the Random Forest algorithm provides the best results. Then, we showed that the most accurate predictions between the graph properties and the T-Web environment are provided for a dark matter density field smoothed over a scales $1.5$\Mpch, an eigenvalue threshold in the range $\lambda_{th}=0.1-0.2$ and galaxies brighter than an r-band absolute magnitude cut of $M_r\geq-14$. 
 
 The preferred eigenvalue threshold turns out to be the ballpark range favored in previous publications for T-Web studies for the resulting classification to match the visual impression of the cosmic web \citep{Forero-Romero2009}.
 
-The overall prediction accuracy is of $70\%$.
-Although the environments represented with a larger number of galaxies present a higher accuracy.
-The environments ranked from higher to lower accuracy are filaments ($80\%$), peaks ($65\%$), sheets ($56\%$), and voids ($9\%$). 
-Motivated by the limitation to classify void galaxies we will present in future work a method to define voids from the $\beta$-skeleton graph. 
+The overall prediction accuracy is of $70\%$. Although the environments represented with a larger number of galaxies present a higher accuracy. The environments ranked from higher to lower accuracy are filaments ($80\%$), peaks ($65\%$), sheets ($56\%$), and voids ($9\%$).  Motivated by the limitation to classify void galaxies we will present in future work a method to define voids from the $\beta$-skeleton graph. 
 
-We compared our results against a similar methodology proposed by \cite{Tsizh2019}.
-They used dark matter halos and  network metrics to predict the T-web environment. 
-They achieve a $51\%$ accuracy, which means that our method achieves a improvement of $19$ percent points.
-This improvement can be explained by the thorough exploration we made over the parameter space to find the best values for
-the smoothing length, eigenvalue threshold and absolute magnitude cut. 
+We compared our results against a similar methodology proposed by \cite{Tsizh2019}. They used dark matter haloes and network metrics to predict the T-Web environment.  They achieve a $51\%$ accuracy, which means that our method accomplishes an improvement of $19$ percent points.
+This improvement can be explained by the through exploration we made over the parameter space to find the best values for
+the smoothing length, eigenvalue threshold, and absolute magnitude cut.
 
-The best model in \cite{Tsizh2019} predicts the cosmic web environment computed with the CLASSIC algorithm using and extreme gradient boosting decision trees method. 
-It achieves a $70\%$ accuracy, the same accuracy we achieve with our method. 
-However, we showed how a direct comparison is unfair given the radically different results from the CLASSIC and T-web environment classification methods.
+The best model in \cite{Tsizh2019} predicts the cosmic web environment computed with the CLASSIC algorithm using an extreme gradient boosting decision trees method. 
+It achieves a $70\%$ accuracy, the same accuracy we reach with our method. 
+However, we showed how a direct comparison is unfair given the radically different results from the CLASSIC and T-Web environment classification methods.
 
 Our results provide the baseline for future work that will have to quantify the effect of redshift space distortions and survey incompleteness to predict the dark matter T-Web form survey data.
-In order to facilitate future comparison and reuse of our results we make our best trained model public, together with the test data in this paper.
-The model and the dataset can be found at \url{https://github.com/jsuarez314/cosmicweb_bsk}. 
+In order to facilitate future comparison and reuse of our results, we make our best-trained model public, together with the test data in this paper.
+The model and the dataset can be found at \url{https://github.com/jsuarez314/cosmicweb_bsk}.
 
 \section*{Data Availability}
 
 The datasets were derived from sources in the public domain: Illustris-TNG project, \url{https://www.tng-project.org/}.
+
 The test dataset and the best model presented in this paper is available at \url{https://github.com/jsuarez314/cosmicweb_bsk}.
 
 \section*{Acknowledgements}
 
 We are thankful to the community developing and maintaining open source packages fundamental to our work: numpy
-\&  scipy  (Walt  et  al.  2011),  the  Jupyter  notebook  (P\'erez \& Granger 2007; Kluyver et al. 2016), matplotlib (Hunter2007) and  scikit-learn (Pedregosa et al. 2011).
+\&  scipy  \citep{VanDerWalt2011},  the  Jupyter  notebook  \citep{Kluyver2016}, matplotlib \citep{Hunter2007} and  scikit-learn \citep{Pedregosa2011}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%
