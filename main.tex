@@ -43,7 +43,7 @@
 \newcommand{\kpc}{\,{\rm kpc}\,}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title[Cosmic web elements and the $\beta$-skeleton]{Predicting the four cosmic web
+\title[Cosmic web elements from the $\beta$-skeleton]{The four cosmic web
   elements from the $\beta$-skeleton}
 
 
@@ -117,19 +117,19 @@ These methods usually classify the web into four
 elements: peak, filament, sheet, or void \citep{Libeskind2018}.
 Most of these methods start by building a well-sampled density field from the dark matter simulation particles.
 
-Only a minority take as an input the discrete positions that
+Only a minority of methods take as an input the discrete positions that
 represent galaxies or haloes.
 Most of the algorithms that use discrete tracers as an input focus on the detection of some, not all, cosmic web elements.
 An example is the diversity of void-finders
 \citep{Platen2007,Neyrinck2008} and filaments-finders
 \citep{Novikov2003,Zhang2009,Sousbie2010,Chen2015,Luber2019}.   
 
-The algorithms that aim at finding the four cosmic web elements from the galaxy positions can be roughly divided into two types.
+The portion of algorithms that aim at finding the four cosmic web elements from the galaxy positions can be roughly divided into two types.
 The first type interpolates galaxy positions on a grid to process this number density field in the same way as a dark matter density field \citep{Eardley2015,Alpaslan2016,Tojeiro2017,Shadab2019}.
 This approach has a low computational cost, but it is uncertain 
 how accurate are their results with respect to the expected cosmic web dark matter distribution.
 
-A second type of algorithm performs first a full dark matter density field reconstruction on the observed galaxy distribution.
+A second type of algorithm first performs a full dark matter density field reconstruction on the observed galaxy distribution.
 Most of these algorithms use Bayesian statistics coupled with Monte
 Carlo sampling and N-body
 simulations \citep{Jasche2010,Jasche2013a,Bos2014,LeclercqJasche2015,Horowitz2019,Burchett2020};
@@ -138,8 +138,8 @@ This generic approach can provide accurate dark matter distributions but can
 be very expensive from the computational point of view.
 
 Recently, Machine Learning (ML) methods 
-have been applied to solve and intermediate problem.
-Namely, finding the four web elements starting from dark matter halo distribution \citep{Hui2018, Tsizh2019}.
+have been applied to this problem of finding the four web elements
+starting from the dark matter halo distribution \citep{Hui2018, Tsizh2019}.
 For instance, 
 \citep{Tsizh2019} built networks by linking haloes within a fixed linking length. 
 From these graphs, they computed twelve different network metrics  to feed different ML algorithms and predict the cosmic web for each halo. The true cosmic web environments were quantified using five different cosmic web classifications.
@@ -151,7 +151,7 @@ the algorithm needs a feature dataset (some halo or galaxy
 properties), the labels to classify the dataset (the four cosmic web
 environments) and an algorithm to link the features to the classes.
 
-The work we present here contributes to that new line of work.
+The work we present here contributes to this new line of work.
 Here we explore to what extent the $\beta$-skeleton graph \citep{Fang2019} can be used to predict the T-Web \citep{Forero-Romero2009} environment classification.
 We test two different supervised ML
 algorithms (Classification Trees and Random Forests) 
@@ -166,46 +166,33 @@ In Section \ref{sec:link} we describe the mechanism to link the
 $\beta$-skeleton to the T-Web using machine learning algorithms.
 There we explain the features and meta-parameters we use, the
 classification algorithms and the metrics for model evaluation.  
-In the Section \ref{sec:results} we present our results. In the Section \ref{sec:discussion} we explore a brief discussion comparing our results against \citep{Tsizh2019} to finally summarize our conclusions in Section \ref{sec:conclusions}.
+In Section \ref{sec:results} we present our results. In Section \ref{sec:discussion} we explore a brief discussion comparing our results against \citep{Tsizh2019} to finally summarize our conclusions in Section \ref{sec:conclusions}.
 
-\section{Initial Algorithms and Simulations}\label{sec:init}
+\section{Simulations and Algorithms}\label{sec:init}
 
 \subsection{Illustris-TNG}
 
-The
-Illustris-TNG project \citep{Nelson2019} is a series of large,
-cosmological gravo-magnetohydrodynamical and semi-analytical simulations of galaxy formation. 
+We test our algorithms on a simulation from the Illustris-TNG project.
+This project \citep{Nelson2019} is a series of large,
+cosmological gravo-magnetohydrodynamical simulation of galaxy formation. 
 These simulations are based on the cosmological standard model
 $\Lambda$CDM and uses the \texttt{AREPO} code \citep{Springel2011}.
-The simulations run start from the cosmology $\Lambda$CDM with the
+The simulations start from the cosmology $\Lambda$CDM with the
 cosmological parameters: cosmological constant
 $\Omega_{\Lambda,0}$=0.6911, matter density $\Omega_{m,0}$=0.3089,
 baryonic density $\Omega_{b,0}$=0.0486, normalization
 $\sigma_8$=0.8159, spectral index $n_s$=0.9667 and Hubble constant
-$H_o$= 100$h\,km\,s^{-1}\,Mpc^{-1}$ with $h$=0.6774 consistent with
+$H_o$= 100$h$ km s$^{-1}$ Mpc$^{-1}$ with $h$=0.6774, consistent with
 the Planck 2015 results \citep{Ade2016}.  
 
-The Illustris-TNG project simulates different structures in the visible matter like stars, black holes, or diffuse gas jointly with the distribution of dark matter.
-The project includes simulated galaxies as realistic as possible to
-make a comparison with the real universe. There are 18 different
-simulations with boxes of sizes $50$ Mpc, $100$ Mpc, and $300$ Mpc that started at $z=127$ and finalized at $z=0$.    
-
-In this work we used the TNG300-1\footnote{TNG300 has 3 different resolutions, 1 is refer to the highest resolution.}  (~300 Mpc) simulation at $z=0$.
-This simulation has a volume of 302.6$^3 cMpc^3$, with a baryonic mass resolution of 88$\times 10^{6}$ \Msun  and dark matter mass resolution of 470$\times  10^{6}$ \Msun \citep{Nelson2019}.
-The number of galaxies in TNG300-1 at $z=0$ is 14M 
-with a total of 711M stars simulated. 
-The simulation includes sub-grid stellar and black hole evolution process together with its associated 
-feedback processes \citep{Nelson2019,Pillepich2018a,Springel2018}.
-
-In the TNG300-1 simulation, the galaxies are called subhaloes and are defined as any gravitationally
-bound object with a nonzero
-stellar component.
-To identify galaxies in the simulation,
-first, a friends-of-friends group finder is run
-in order to identify FOF haloes with
-a linking length $l=$ 0.2,
-within which gravitationally bound substructures
-are then located and classified hierarchically \citep{Pillepich2018a}.
+The Illustris-TNG project simulations follows the formation and evolution of stars, black holes jointly with the dark matter and gaseous cosmic web evolution. 
+The simulation includes sub-grid algorithms to follow the stellar and black hole evolution together with its associated feedback processes \citep{Nelson2019,Springel2018}.
+There are 18 different simulations with boxes of sizes $50$ Mpc, $100$ Mpc, and $300$ Mpc that started at $z=127$ and finalized at $z=0$.    
+In this work we use the $z=0$ catalog from the largest box at the highest possible resolution: TNG300-1.
+This simulation has a volume of 302.6$^3$ Mpc$^3$, with a baryonic mass resolution of $8.8\times 10^{7}$ \Msun and a dark matter mass resolution of $4.7\times  10^{8}$ \Msun \citep{Nelson2019}.
+The are approximately 14 millon galaxies at $z=0$ in that simulation.
+We use the galaxy catalogs from the public release of the TNG300-1 simulation \citep{Pillepich2018a} to build the $\beta$-skeleton graph.
+We use the dark matter particles at $z=0$ to obtain the DM T-web classification. 
  
 \subsection{T-Web Classification}
 
@@ -220,7 +207,7 @@ The tidal web (T-Web) method \citep{Hahn2007, Forero-Romero2009}
 classifies the large scale structure into four web types: voids,
 sheets, filaments, and peaks.   
 This classification is based on the eigenvalues of the deformation
-tensor $T_{\alpha\beta}$, the Hessian of the gravitational potential 
+tensor $T_{\alpha\beta}$ computed as the Hessian of the gravitational potential 
 \begin{equation}
 T_{\alpha\beta}=\frac{\partial^2\psi}{\partial r_{\alpha}r_{\beta}},
 \end{equation}
@@ -268,75 +255,56 @@ number of eigenvalues larger than the threshold $\lambda_{th}$.
 \subsection{The $\beta$-skeleton algorithm}
 
 
-The $\beta$-skeleton is an algorithm that computes a graph over a
-distribution of nodes \citep{Kirkpatrick1985, Fang2019}.  
+$\beta$-skeleton is an algorithm that computes a graph over a
+distribution of nodes \citep{Kirkpatrick1985}.  
 This algorithm depends on a positive and continuous parameter $\beta$
 that defines an exclusion region between two nodes.
+Here we use the Lune-based definition for the exclusion region.
 
-Defining $d$ as the distance between two nodes, they are connected by
-an edge if any other point is allocated in the various exclusion
-regions shown in Figure \ref{fig:beta}.  
-
-For $\beta<1$, the exclusion region is the intersection of all the 
-spheres with diameter $d/\beta$ that pass through the nodes. In the
-case, $\beta=1$, the exclusion region is a sphere with a diameter $d$.
-As $\beta$ increases, $\beta>1$, the exclusion region is larger and it
-is the intersection of all the spheres with diameter $d\beta$ having
-the nodes in their boundary.  
-
-This makes that for low values of $\beta$ the graph is dense and for
-large values of $\beta$ the graph become sparse. 
-The $1$-skeleton also receives the name of Gabriel Graph.  
-The $2$-skeleton is also known as the Relative Neighbor Graph (RNG).
-
-In our case, the galaxies represent a node in the graph.
-From this graph, we compute a variety of features to be used as an input for the classification task.
+Two nodes separated a distance $d$ are connected by an edge if and only the exclusion regions defined between the two points is empty.
+This exclusion region is a function of $\beta$.
+For $\beta<1$, the exclusion region is the intersection of the two  
+congruent spheres with diameter $d/\beta$ constructed as shown in Figure \ref{fig:beta}.
+For  $\beta=1$, the exclusion region is a sphere with a diameter $d$ and for $\beta>1$ the spheres have diameter $d\beta$.
+The $1$-skeleton also receives the name of Gabriel Graph, while the
+ $2$-skeleton is also known as the Relative Neighbor Graph (RNG).
+More details on the properties of the $\beta$-skeleton as applied to large scale structure data can be found in \cite{Fang2019}.
 
 \section{Linking the $\beta$-skeleton to the T-Web}\label{sec:link}
 
-Figure \ref{fig:TWebBsk} shows the correlation between the dark matter overdensity
-and the $\beta$-skeleton graph computed over the corresponding galaxy
-distribution. 
+Figure \ref{fig:TWebBsk} illustrates the correlation between the dark matter overdensity field and the $\beta$-skeleton graph computed over the corresponding galaxy distribution. 
 This spatial correlation suggests that graph derived features might have
 a good chance to predict the dark matter web environment. 
-However, there is a number of free parameters that have to be explored
-to find the best match between the $\beta$-skeleton and the cosmic web.
+However, there is a variety of free parameters combinations that have to be explored to find the best match between the $\beta$-skeleton and the T-Web.
 
 \subsection{T-Web and $\beta$-skeleton free parameters}
 
-For a start, the influence of the $\beta$ parameter has to be explored.
-Additionally, the classification provided by the T-Web algorithm
-depends on the smoothing scale, $\sigma$, used to compute the Hessian and the
-threshold parameter $\lambda_{th}$ used to define the web elements.
-The tracers we use from the simulation can also change. 
-We use a simple magnitude cut $M_{r}$ on the $r$-band absolute magnitudes
-to define the galaxy sample. 
-Different values for that threshold naturally produce different galaxy
-distributions and thus different $\beta$-skeletons. 
+The T-Web classification depends on the smoothing scale, $\sigma$, and the threshold parameter, $\lambda_{th}$.
+The $\beta$-skeleton changes with $\beta$.
+The tracers we use to build the $\beta$-skeleton can also change if one has some kind of selection function.
 
-The T-Web computation is performed over a cubic grid with $256^3$
+We peform the T-Web computation over a cubic grid with $256^3$
 cells. 
-This corresponds to a cell size of $1.17$Mpc.
-For the smoothing parameter, we take five different values of $\sigma =
-0.5$, $1.0$, $1.5$, $2.0$ and $2.5$, expressed in units of the cell size on a side.
-In turn, for each smoothing length we take six different values for
+This corresponds to a cell size of $1.17$ Mpc.
+We explore five different values for the smoothing parameter $\sigma =
+0.5$, $1.0$, $1.5$, $2.0$ and $2.5$, expressed in units of the cell size.
+For each smoothing length we take six different values for
 the eigenvalue threshold
 $\lambda_{th}=0.0, 0.1, 0.2, 0.3, 0.4$ and $0.5$. 
-We use four different values for the limiting $r$-band magnitude
-$M_{r}$, we use  $-18, -16, -14$ and $-12$.
+For the galaxy selection function we use a simple magnitude cut ($M_{r}<M_{r\rm{lim}}$) on the $r$-band absolute magnitude.
+We use four different values for $M_{r\rm{lim}}$: $-18$, $-16$, $-14$ and $-12$. 
 From these galaxies, we compute the skeleton using values of $\beta$ in
-the range $1\leq \beta \leq 2$ to find that the best results are
-obtained for $\beta=1$.
-Therefore we keep this value fixed for the results reported here.
+the range $1\leq \beta \leq 2$.
+We found that the $\beta$ skeleton features for $\beta=1$ are sufficient to make the T-Web environment prediction, i.e. adding features computed for different values of $\beta$ do not significantly improve the results.
+Therefore, we keep this value fixed for the results reported in this Paper.
 
 Once these four different parameters ($\beta$,
-$\sigma$, $\lambda_{th}$ and $M_{r}$) are fixed the $\beta$-skeleton and the
-T-Web are fixed.  
-Next, we define what features used to predict the four cosmic web elements.
+$\sigma$, $\lambda_{th}$ and $M_{r\rm{lim}}$) are chosen the $\beta$-skeleton and the T-Web are fixed.  
+Next, we define the input features to predict the four cosmic web elements.
 
 \subsection{Galaxy Features}
-We use six features for each galaxy in the $\beta$-skeleton to train the classifiers. 
 
+We use six features for each galaxy to train the ML algorithm:
 \begin{enumerate}
 \item[1)]
 The number of connections minus the global median number of
@@ -347,7 +315,7 @@ normalized by the global average edge length, $\delta=D_{av}/\bar{D}_{av}$.
 \item[3)] 
 The logarithm of the pseudo-density over the graph,
   $\varrho=\log_{10}\rho$.   
-This pseudo density $\rho$ is defined as the inverse of the volume
+Where the pseudo-density $\rho$ is defined as the inverse of the volume
 computed from the ellipsoid that best fits the distribution of first
 neighbors over the graph. 
 If a galaxy has less than three neighbors its volume is fixed to be $10^{-4}$.
@@ -366,30 +334,22 @@ They can be loosely interpreted as a first derivative computed over the graph.
 
 Figure \ref{fig:features} shows the correlations among all features.
 The diagonal panels present the distribution of a given parameter.
-The strongest correlations are present for the average number of
-connections $\eta$, the connection length $\delta$ and the
-pseudo-density $\varrho$ with their
-corresponding $\Delta$ features.
+
 
 
 \subsection{Classification Algorithms}
 
-We explore two different supervised machine learning algorithms to
-predict the cosmic web environment from the features we have just presented.
-For each algorithm, the most relevant meta parameters driving their
-performance.
+We present results form two different supervised machine learning algorithms:
 
 \begin{itemize}
-    \item Classification Trees (CT):
-      \begin{itemize}
-      \item Maximum tree depth: From 1 to 30.
-      \end{itemize}
-    \item Random Forest (RF):
-        \begin{itemize}
-            \item Maximum tree depth: 10.
-            \item Number of estimators: From 1 to 100.
-        \end{itemize}
+    \item Classification Trees (CT). Changing the maximum tree depth: From 1 to 30.
+    \item Random Forest (RF). With a fixed maximum tree depth of 10.
+            and changing the Number of estimators from 1 to 100.
 \end{itemize}
+
+For some of the T-Web free parameters we also explored a Support Vector Machine (SVM) classifier. 
+But the results were so much inferior from the CT and RF results that we did not pursue a full parameter space exploration with that algorithm.
+
 
 \subsection{Model evaluation}
 
