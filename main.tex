@@ -85,8 +85,8 @@ and galaxy number densities in the range $0.018$-$0.058$ Mpc$^{-3}$.
 This methodology results on a global accuracy of $69\%$, which represents an improvement of $18$ percent points over previous work that predicts the T-Web environment from network metrics computed on dark matter haloes.
 The completeness changes over filaments ($80\%$), peaks ($63\%$), sheets ($59\%$), and voids ($6\%$).
 Higher completeness values are found for environments with a larger number of galaxies.
-More extensive tests that take into account observational effects such as lightcone effects, incompleteness and redshift space distortions are left for future work.
-We make the best random forest model available on a public repository for future reference and reuse.
+More extensive tests that take into account lightcone effects and redshift space distortions are left for future work.
+We make one of our highest ranking random forest models available on a public repository for future reference and reuse.
 \end{abstract}
 
 % Select between one and six entries from the list of approved keywords.
@@ -354,7 +354,7 @@ For that reason we do not pursue a full parameter space exploration with SVM and
 We partition the simulation box into eight cubic sub-boxes of equal volume.
 For each sub-box we compute the $\beta$-skeleton and the related feature parameters.
 Afterwards, we discard the galaxies located within 5 Mpc away from the sub-box limits to avoid boundary effects coming from incomplete $\beta$-skeleton information.
-The T-Web information comes from the computation over the full box.
+The T-Web information comes from the computation over the full box to take advantage of the periodic boundary conditions.
 
 As the \emph{training} dataset we use the features from four sub-boxes that only touch on one vertex.
 The \emph{evaluation} dataset is composed by the features from two more sub-boxes.
@@ -558,28 +558,27 @@ The second kind of misclassification shows that the galaxies classified as belon
 environments: sheets and peaks.
 
 This misclassification can also be understood in terms of the topological properties of the cosmic web elements. 
-Voids are surrounded by sheets, sheets have filaments inside them and
-filaments in turn have peaks inside them \citep{Cautun2014}. 
+Voids are surrounded by sheets (hence the misclassification between the two), sheets have filaments inside them and
+filaments in turn have peaks inside them \citep{Cautun2014} (explaning the missclassification of peaks and sheets into filaments). 
 In this progression the average density increases and the tidal field
 anisotropy goes from being isotropic (voids) to anisotropic (sheets
 and filaments) and isotropic (peaks) \citep{Bustamante2015}.
 
-The ranking of correct classifications follows the F1 trends shown in Table \ref{table:elements}.
+
+The ranking of correct classifications (the diagonal over the confusion matrix, which also correspond to the completeness) naturally follows the F1 trends shown in Table \ref{table:elements}.
 Filaments are the class most correctly classified ($80\%$) followed by
 peaks ($63\%$) and sheets ($59\%$).
-Void galaxies have the worst results, only $6\%$ of void galaxies are
-correctly classified.
-This ranking follows the trend in the fraction of instances belonging to
+Void galaxies have the worst results, with only $6\%$ of correct classifications.
+This ranking also follows the trend in the fraction of instances belonging to
 filaments ($51\%$), peaks ($25\%$), sheets ($22\%$), and voids ($2\%$).
 A higher number of instances translates into a better chance for the
 algorithm to give a correct classification. 
 
 Figure \ref{fig:feature_importance} shows the feature
 importance for the classification.
-In the combination of six features the four most important ones are:
-$\delta$ (average edge
-length), $\varrho$ (pseudo density), $\Delta \delta$ (changes in the average edge length), $\eta$ (number of connections) 
-At it could probably be expected, the average connection length and the pseudo-density turn out to be crucial for the classification.
+As it could probably be expected, the average connection length ($\delta$) and the pseudo-density ($\varrho$) turn out to be crucial for the classification.
+The other feature with importance similar to the pseudo-density is  $\Delta \delta$, the change in the average edge length.
+
 
 Figure \ref{fig:prediction} summarizes our results in a qualitative fashion.
 It shows the spatial distribution for the galaxies into the four web
@@ -596,83 +595,89 @@ The failure in the void classification is clearly visible as galaxy deficit in t
 
 \section{Discussion}\label{sec:discussion}
 
-\begin{table}
+\begin{table*}
 \centering
 \begin{tabular}{c|c|c|c|c|}
 \cline{2-5} &
-\multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Best
-      Model\\ Tsizh et al. (2020) \end{tabular}}} &
-\multicolumn{2}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Best Model\\ 
-This Work \end{tabular}}} \\ \hline
-\multicolumn{1}{|c|}{\textbf{Class}}     & \textbf{Score}   &
-\textbf{Tracer \%}   & \textbf{Score}     & \textbf{Tracer \%}  \\ \hline
+\multicolumn{2}{c|}{{\begin{tabular}[c]{@{}c@{}}Best
+      Model (Tsizh et al. 2020) \end{tabular}}} &
+\multicolumn{2}{c|}{{\begin{tabular}[c]{@{}c@{}}Best Model
+(This Work) \end{tabular}}} \\ \hline
+\multicolumn{1}{|c|}{}     & Completeness   &
+Tracer \%   & Completeness    & Tracer \%  \\ \hline
 \multicolumn{1}{|c|}{Peaks}     & 0.41   & 5.0   & 0.63  & 25.4   \\ 
-\multicolumn{1}{|c|}{{Filaments}} & 0.62   & 19.9  & 0.80  & 50.5   \\ 
+\multicolumn{1}{|c|}{{Filaments}} & 0.62   & 19.9  & 0.80  & 50.4   \\ 
 \multicolumn{1}{|c|}{{Sheets}}    & 0.64   & 38.8  & 0.59  & 22.3   \\ 
-\multicolumn{1}{|c|}{{Voids}}     & 0.82   & 36.4  & 0.06  & 1.9    \\ 
-\multicolumn{1}{|c|}{{All Classes}}     & 0.70   & 100  & 0.69  & 100    \\ \hline
+\multicolumn{1}{|c|}{{Voids}}     & 0.82   & 36.3  & 0.06  & 1.9    \\\hline 
 \end{tabular}
-\caption{Comparison of the diagonal elements of the confusion matrix
-  (Scores) between the best model in \citep{Tsizh2019} and our work.
-  Comparing each class in the two classifications we see that a higher
-  score correspond to a higher tracer percentage.  The difference is in the cosmic web classifier used in each model.}
+\caption{Completeness (diagonal elements of the confusion matrix) results from the best model in \citet{Tsizh2019} and our work.
+Although the global accuracy in both cases is close to $0.70$, the completeness across web elements are different.
+This difference is explained by the distinct results from each web environment classification.}
 \label{tab:tsizh}
-\end{table}
+\end{table*}
 
-We focus our discussion in comparing our results against the results from the similar methodology proposed by \citep{Tsizh2019}.
-Their work combines network analysis with ML to predict the environments in the cosmic
-web. 
+We focus the following discussion on the comparison  against the results from the similar methodology proposed by \citep{Tsizh2019}.
+Their work combines network analysis with ML to predict the environments in the cosmic web. 
 In that paper, the nodes are represented by dark matter haloes in a box with length of 290 Mpc extracted from the \texttt{GADGET-2} cosmological simulation \citep{Springel2005}. 
 The haloes in the simulation were identified by a friends-of-friends algorithm \citep{Libeskind2018}. 
-Their catalog has a total of 281465 haloes with mass range from 10$^{11}h^{-1}$ to 10$^{15}h^{-1}$\Msun. 
-
+Their catalog has a total of 281465 haloes with mass range from 10$^{11}h^{-1}$ to 10$^{15}h^{-1}$\Msun, this corresponds to a similar number density in our models with $M_{r\rm lim}=-12$.
 
 They built a networks with different linking lengths in the range $l=2$-$4$ \Mpch.
-From the networks they computed 10 different metrics, which  together with the mass and the
-peculiar velocity make up the features for the ML algorithms. 
-They also explore five different cosmic web classification algorithms.
-As a score metric they use the accuracy (the ratio of correct prediction to total number of instances).
-With that setup they found that the best results were provided by the ML algorithm extreme gradient boosting decision trees (\texttt{xgboost}) on the Classic classification method.
+From the networks they computed 10 different metrics, which, together with the mass and the
+peculiar velocity, made up the features for the ML algorithms. 
+They also explored five different cosmic web classification algorithms.
+As a score metric they use the global accuracy (the ratio of correct predictions to total number of instances).
+With that setup they found that the best results were provided by extreme gradient boosting decision trees (\texttt{xgboost}) on the Classic classification method.
 
 In Table \ref{tab:tsizh} we compare the results of their best model against ours.
-The global score is the same in both cases.
-For each cosmic web element the results change.
-Our model gives better results for Peaks and Filaments, while their gives better results from Sheets and Voids.
+The completeness is extracted from their reported confusion matrix.
+We see that our model gives better results for Peaks and Filaments, while theirs gives better results from Sheets and Voids.
 
-This trend is easy to explain after inspecting the number of tracers in each environment for each model.
+This trend is easy to explain after inspecting the fraction of tracers in each environment for each model.
 \cite{Tsizh2019} have $36.4\%$ and $38.8\%$ of halos in voids and sheets, respectively. 
-This makes those two environments the most represented, giving the highest scores.
-In our case the most represented environments are Peaks and Filaments, which also translates into the highest scores in our classification.
-Summarizing, the two models have a different cosmic web classifier, resulting in different abundances for the tracers in each cosmic web element.
+This makes those two environments the most populated, giving the highest completeness.
+In our case the most populated environments are Peaks and Filaments, which also translates into the highest completeness in our classification.
+The reason for the contrast in populations across environments is that these results come from two different cosmic web classifiers.
+
 
 To provide a fair comparison against their results, we take a look instead at their T-Web environment predictions, which is the same cosmic web classifier we use.
-\cite{Tsizh2019} find a score of 0.51 (T-Web was the worst predicted tracer) while we have a higher score of 0.69.
-One likely explanation for the better performance in our model is that we make a thorough exploration in parameter space to find what T-Web parameters are the best matched to the graph features.
+\cite{Tsizh2019} found a global accuracy of 0.51 (T-Web was the worst predicted method) while we have a higher score of 0.69.
+Unfortunately \cite{Tsizh2019} did not report the confusion matrix for T-Web classifications, only the global accuracy is listed in their results.
+
+There are three differences that might explain the better performance of the method presented here. 
+First, we make a thorough exploration in parameter space to find what T-Web parameters are the best matched to the graph features.
+Second, we have a simulation that allows us  to explore higher number densities, which seems to be required to have a good match with the T-Web environment.
+Third, the $\beta$-skeleton, due to its adaptive nature, could provide a better graph representation than a network with a fixed linking length.
+However, finding a definite answer on the weight of these three methodological aspects to explain the performance improvement is beyond the scope of this paper.
+
 
 
 \section{Conclusions}\label{sec:conclusions}
 
 In this paper, we presented a method to predict the dark matter cosmic web environment of a galaxy from its neighbor graph information.
-
 We used the T-Web as the cosmic web definition \citep{Forero-Romero2009} and the $\beta$-skeleton graph \citep{Fang2019} to describe the relative spatial distribution of the galaxies. 
 The link between the T-Web and the $\beta$-graph was done through two different machine-learning algorithms: Classification Trees and Random Forest.
 We tested our method using data from the Illustris-TNG simulation \citep{Nelson2019} at $z=0$. 
 
-Using the F1-score as a benchmark, we first found that the Random Forest algorithm provides the best results. Then, we showed that the most accurate predictions between the graph properties and the T-Web environment are provided for a dark matter density field smoothed over a scales $1.5$\Mpch, an eigenvalue threshold $\lambda_{th}=0.1$ and galaxies brighter than an r-band absolute magnitude cut of $M_r\geq-16$. 
-
+Using the F1-score as a benchmark, we first found that the Random Forest algorithm provides the best results. Then, we showed that the most accurate predictions between the graph properties and the T-Web environment are provided for a dark matter density field smoothed over a scales $1.5$\Mpch, an eigenvalue threshold $\lambda_{th}=0.1$.
 The preferred eigenvalue threshold turns out to be the ballpark range favored in previous publications for T-Web studies for the resulting classification to match the visual impression of the cosmic web \citep{Forero-Romero2009}.
 
-The overall prediction accuracy is of $69\%$. Although the environments represented with a larger number of galaxies present a higher accuracy. The environments ranked from higher to lower completeness are filaments ($80\%$), peaks ($63\%$), sheets ($59\%$), and voids ($6\%$).
-We showed that higher completeness and F1-scores correlate with the number of instances in each class. 
-A larger number of instances make it easier for the algorithm to find the relevant features for its correct classification.
+The accuracy of the best model is $69\%$. Although the environments represented with a larger number of galaxies present a higher completeness. 
+The environments ranked from higher to lower completeness are filaments ($80\%$), peaks ($63\%$), sheets ($59\%$), and voids ($6\%$).
+We showed that higher completeness and F1 scores correlate with the number of instances in each class. 
+A larger number of instances make it easier for the algorithm to find the relevant features for its correct classification, boosting the F1 score.
 
-We compared our results against a similar methodology proposed by \cite{Tsizh2019}. They used dark matter haloes and network metrics to predict the T-Web environment.  They achieve a $51\%$ accuracy, which means that our method accomplishes an improvement of $18$ percent points.
-This improvement could be explained by the through exploration we made over the parameter space to find the best values for
+We compared our results against a similar methodology proposed by \cite{Tsizh2019}. 
+They used dark matter haloes and fixed linking length network metrics to predict the web environment.
+Their best model achieved a $70\%$ accuracy predicting the cosmic web environment computed with the CLASSIC algorithm using an extreme gradient boosting decision trees method. 
+However, we showed how a direct comparison against our method is unfair given the radically different results from the CLASSIC and T-Web environment classification algorithms.
+
+\cite{Tsizh2019} also tried to predict the T-web environment achieving only a $51\%$ accuracy.
+This means that our method achieves $18$ percent points more 
+in the prediction of the same kind of web environment.
+This result could be explained by the through exploration we made over the parameter space to find the best values for
 the smoothing length, eigenvalue threshold, and absolute magnitude cut.
-
-The best model in \cite{Tsizh2019} predicts the cosmic web environment computed with the CLASSIC algorithm using an extreme gradient boosting decision trees method. 
-It achieves a $70\%$ accuracy, one percentual point more of the accuracy we reach with our method. 
-However, we showed how a direct comparison is unfair given the radically different results from the CLASSIC and T-Web environment classification methods.
+But also  by the higher number densities of tracers we have access to, or the use of the $\beta$-skeleton compared to a fixed linking length network.
 
 Our results provide the baseline for future work that will have to quantify the effect of redshift space distortions and survey incompleteness to predict the dark matter T-Web form survey data.
 In order to facilitate future comparison and reuse of our results, we make our best-trained model public, together with the test data in this paper.
